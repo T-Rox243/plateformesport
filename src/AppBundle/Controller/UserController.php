@@ -4,15 +4,16 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends Controller
 {
     /**
-     * @Route("userTest")
+     * @Route("/userTest")
      */
     public function indexAction()
     {
-        return $this->render('AppBundle:User:index.html.twig', array(
+        return $this->render('user/index.html.twig', array(
             // ...
         ));
     }
@@ -22,7 +23,7 @@ class UserController extends Controller
      */
     public function signInAction()
     {
-        return $this->render('AppBundle:User:sign_in.html.twig', array(
+        return $this->render('user/sign_in.html.twig', array(
             // ...
         ));
     }
@@ -32,7 +33,7 @@ class UserController extends Controller
      */
     public function signUpAction()
     {
-        return $this->render('AppBundle:User:sign_up.html.twig', array(
+        return $this->render('user/sign_up.html.twig', array(
             // ...
         ));
     }
