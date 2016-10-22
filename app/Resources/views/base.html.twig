@@ -8,20 +8,87 @@
         <meta http-equiv="X-UA-Compatible" content="IE=8" />
         <meta charset="utf-8">
         <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet" media="screen">
-        <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" media="screen">
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}
-        
+        <header>
+            <div class="navbar navbar-inverse reseaux-sociaux">
 
+                <a class="navbar-brand" href="#">Brand</a>
 
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" title="Google +"><i class="fa fa-google-plus-square"></i></a></li>
+                    <li><a href="#" title="Twitter"><i class="fa fa-twitter-square"></i></a></li>
+                    <li><a href="#" title="Facebook"><i class="fa fa-facebook-square"></i></a></li>
+                </ul>
+            </div>
 
-        {% block javascripts %}
+            <!--Menu-->
+            <nav class="navbar navbar-default">
+              <div class="container-fluid">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav">
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Trouver un sport</a></li>
+                    <li><a href="#">Trouver un club</a></li>
+                    <li><a href="#">Evenements</a></li>
+                    <li><a href="#">Blog</a></li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+        </header>
+
+        <div class="container col-md-12" >
+
+            <!---start-content---->
+            {% block body %}{% endblock %}
+            <!---//End-content---->
+
+        </div>
+
+        <div class="navbar navbar-default navbar-fixed-bottom footer">
+            <div class="container">
+                <p class="navbar-text col-md-12">© 2016 - Plateforme de sport tous droits résérvés</p>
+            </div>
+        </div>
+
+        <style>
+            .navbar-brand{
+                display: block;
+                font-size: 30px;
+            }
+
+            .reseaux-sociaux .navbar-right{
+                margin: 0;
+            }
+
+            .reseaux-sociaux i{
+                font-size: 30px;
+            }
+
+            .navbar{
+                border-radius: 0;
+                margin:0;
+            }
+
+            .footer{
+                text-align: center;
+            }
+        </style>
+
         <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script> 
         <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
-        {% endblock %}
-
-        {% endblock %}
     </body>
 </html>
