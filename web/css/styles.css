@@ -1,0 +1,29 @@
+.navbar-brand{
+    display: block;
+    font-size: 30px;
+}
+
+.reseaux-sociaux .navbar-right, .footer .navbar-right{
+    margin: 0;
+}
+
+.reseaux-sociaux i{
+    font-size: 25px;
+}
+
+.navbar{
+    border-radius: 0;
+    margin:0;
+}
+
+.container{
+    padding:0;
+}
+
+.footer{
+    text-align: center;
+}
+
+.footer i{
+    font-size: 20px; 
+}
