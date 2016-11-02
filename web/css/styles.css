@@ -27,3 +27,13 @@
 .footer i{
     font-size: 20px; 
 }
+
+#leftPanel{
+    background-color:#18bc9c;
+    color:#fff;
+    text-align: center;
+}
+
+#rightPanel{
+    min-height:415px;
+}
