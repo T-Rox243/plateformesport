@@ -2,16 +2,59 @@
 
 {% block body %}
     <div id="wrapper">
-        <div class="jumbotron">
-          <div class="container">
-            <h1>Hello, world!</h1>
-            <form class="navbar-form navbar-right" role="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Search">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
+        
+        <div class="jumbotron searchFond">
+
+                <div class="fond-blanc"></div>
+                <h1>Avec PlateformeSport, trouver un sport ou un club près de chez vous !</h1><br>
+
+                <div id="custom-search-input">
+                          <div class="input-group col-md-10 searchBar">
+                              <input type="text" class="  search-query form-control" placeholder="Rechercher un sport, un club..." />
+                              <span class="input-group-btn">
+                                <button class="btn btn-search" type="button">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </span>
+                          </div>
+                      </div>
+            </div>
+
+        <div class="container">
+
+          <div class="row derniersSports">
+
+              <h2>Derniers sports ajoutés</h2>
+
+              <div class="col-sm-6 col-md-4">
+                  <div class="thumbnail">
+                    <div class="caption">
+                      <h3>Nom du sport</h3>
+                      <p>Petite description rapide de ce qu'est le sport, en quoi il consiste...</p>
+                      <p><a href="#" class="btn btn-primary" role="button">Voir > </a></p>
+                    </div>
+                  </div>
+              </div>
+
           </div>
+
+          <div class="row derniersEvenements">
+
+              <h2>Derniers évènements ajoutés</h2>
+
+              <div class="col-sm-6 col-md-4">
+                  <div class="thumbnail">
+                    <div class="caption">
+                      <h3>Nom de l'évènement</h3>
+                      <p>Petite description rapide de ce qu'est l'évènement, en quoi il consiste...</p>
+                      <p><a href="#" class="btn btn-primary" role="button">Voir > </a></p>
+                    </div>
+                  </div>
+              </div>
+
+          </div>
+
+
         </div>
     </div>
 {% endblock %}
