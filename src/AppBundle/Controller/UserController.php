@@ -4,27 +4,55 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
-class UserController extends Controller{
+class UserController extends Controller
+{
     /**
-     * @Route("/user/")
+     * @Route("/user/{idUser}", requirements={"idUser" = "\d+"}, name="infoUser")
      */
-    public function userHomePage(){
-        return $this->render('user/user.html.twig', array());
+    public function userAction($idUser)
+    {
+        return $this->render('user/user.html.twig', array(
+            "idUser" => $idUser
+        ));
     }
 
     /**
-     * @Route("/user/sign_in/")
+     * @Route("/destroyUser/{idUser}", requirements={"idUser" = "\d+"}, name="destroyUser")
      */
-    public function userSignIn(){
-        return $this->render('user/signIn.html.twig', array());
+    public function destroyUserAction($idUser)
+    {
+        return $this->render('user/destroy_user.html.twig', array(
+            "idUser" => $idUser
+        ));
     }
 
     /**
-     * @Route("/user/sign_up/")
+     * @Route("/signIn", name="signInUSer")
      */
-    public function userSignUp(){
-        return $this->render('user/signUp.html.twig', array());
+    public function signInAction()
+    {
+        return $this->render('user/sign_in.html.twig', array(
+        ));
     }
+
+    /**
+     * @Route("/signUp", name="signUpUser")
+     */
+    public function signUpAction()
+    {
+        return $this->render('user/sign_up.html.twig', array(
+        ));
+    }
+
+    /**
+     * @Route("/signOut", name="signOutUser")
+     */
+    public function signOutAction()
+    {
+        return $this->render('user/sign_out.html.twig', array(
+        ));
+    }
+
 }
