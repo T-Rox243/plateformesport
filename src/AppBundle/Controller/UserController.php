@@ -9,32 +9,49 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * @Route("/userTest")
+     * @Route("/user/{idUser}", requirements={"idUser" = "\d+"}, name="infoUser")
      */
-    public function indexAction()
+    public function userAction($idUser)
     {
-        return $this->render('user/index.html.twig', array(
-            // ...
+        return $this->render('user/user.html.twig', array(
+            "idUser" => $idUser
         ));
     }
 
     /**
-     * @Route("/signIn")
+     * @Route("/destroyUser/{idUser}", requirements={"idUser" = "\d+"}, name="destroyUser")
+     */
+    public function destroyUserAction($idUser)
+    {
+        return $this->render('user/destroy_user.html.twig', array(
+            "idUser" => $idUser
+        ));
+    }
+
+    /**
+     * @Route("/signIn", name="signInUSer")
      */
     public function signInAction()
     {
         return $this->render('user/sign_in.html.twig', array(
-            // ...
         ));
     }
 
     /**
-     * @Route("/signUp")
+     * @Route("/signUp", name="signUpUser")
      */
     public function signUpAction()
     {
         return $this->render('user/sign_up.html.twig', array(
-            // ...
+        ));
+    }
+
+    /**
+     * @Route("/signOut", name="signOutUser")
+     */
+    public function signOutAction()
+    {
+        return $this->render('user/sign_out.html.twig', array(
         ));
     }
 
