@@ -1,7 +1,65 @@
-{% extends "::base.html.twig" %}
-
-{% block title %}AppBundle:User:User{% endblock %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>Welcome to the User:User number {{ idUser }} page</h1>
+    <div id="wrapper">
+        <div class="container">
+<br>
+<br>
+    <div class="row" id="main">
+        <div class="col-md-4 well" id="leftPanel">
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+                        <img src="http://lorempixel.com/200/200/abstract/1/" alt="Texto Alternativo" class="img-circle img-thumbnail">
+                        <h2>John DOE</h2><br>
+                        <div ><a href="#" class="btn btn-default btn-block btn-lg">Changer l'image</a></div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        <div class="col-md-8 well" id="rightPanel">
+            <div class="row">
+                <div class="col-md-12">
+                    <form role="form">
+                        <h2>Editer votre profil</h2>
+                        <hr>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <input type="text" name="first_name" id="first_name" class="form-control input-lg" placeholder="Prénom" tabindex="1">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <input type="text" name="last_name" id="last_name" class="form-control input-lg" placeholder="Nom" tabindex="2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email" tabindex="4">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Mot de passe" tabindex="5">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-lg" placeholder="Confirmation de mot de passe" tabindex="6">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6"></div>
+                            <div class="col-xs-12 col-md-6"><a href="#" class="btn btn-success btn-block btn-lg">Enregistrer</a></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+     </div>       
+</div>
+    </div> 
 {% endblock %}

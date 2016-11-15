@@ -1,0 +1,86 @@
+/* GLOBAL */
+body, html{
+    background-image: url('../images/Texture.png');
+    background-repeat: repeat;
+}
+
+.navbar-brand{
+    display: block;
+    font-size: 30px;
+}
+
+.reseaux-sociaux .navbar-right, .footer .navbar-right{
+    margin: 0;
+}
+
+.reseaux-sociaux i{
+    font-size: 25px;
+}
+
+.navbar{
+    border-radius: 0;
+    margin:0;
+}
+
+.container-global{
+    padding:0;
+    width:100%;
+}
+
+.footer{
+    text-align: center;
+}
+
+.footer i{
+    font-size: 20px; 
+}
+
+#leftPanel{
+    background-color:#18bc9c;
+    color:#fff;
+    text-align: center;
+}
+
+#rightPanel{
+    min-height:415px;
+}
+
+.copy{
+    color:#ffffff;
+    margin: 0;
+    padding-top: 18px;
+}
+
+/* PAGE ACCUEIL */
+.searchFond {
+    background-image: url('../images/FondSearch.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 0 !important;
+    padding-bottom: 90px !important;
+}
+
+h1{
+    text-align: center;
+    font-size: 40px !important;
+    z-index: 1;
+}
+
+.searchBar{
+    margin: auto;
+}
+
+.btn-search{
+    height:45px;
+}
+
+/* PAGE DE CONNEXION */
+.signIn{
+    margin-top:10% !important;
+}
+
+/* PAGE D'INSCRIPTION' */
+.signUp{
+    margin-top:5% !important;
+}
+

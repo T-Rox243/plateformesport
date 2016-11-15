@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AppBundle:Default:CONTACT{% endblock %}
+
+{% block body %}
+
+    <div id="wrapper">
+        <div class="container">
+		<div class="row">
+		        <h1>Contactez-nous</h1>
+		        <p class="lead">Vous avez une question ou besoin d'informations ? Laissez-nous un message !</p>
+		        
+		        <p>Nous vous répondrons aussi vite que possible.</p> <br> 
+		         
+		        <!-- BEGIN DOWNLOAD PANEL -->
+		        <div class="panel panel-default well">
+		          <div class="panel-body">
+		            <form action="" class="form-horizontal track-event-form bv-form" data-goaltype="”General”" data-formname="”ContactUs”" method="post" id="contact-us-all" novalidate="novalidate">
+
+		              <div class="form-group">               
+		                <div class="col-sm-6">
+		                  <div class="input-group">
+		                    <div class="input-group-addon">
+		                      <i class="fa fa-user"></i>
+		                            </div>
+		                    <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Votre nom" name="C_FirstName" data-bv-field="C_FirstName">
+		                        </div>
+		                    <small data-bv-validator="notEmpty" data-bv-validator-for="C_FirstName" class="help-block" style="display: none;">Required</small></div>                
+		                <div class="col-sm-6">
+		                  <div class="input-group">
+		                    <div class="input-group-addon">
+		                      <i class="fa fa-user"></i>
+		                            </div>
+		                    <input type="text" class="form-control" id="exampleInputLastName" placeholder="Votre adresse email" name="C_LastName" data-bv-field="C_LastName"></div>
+		                        <small data-bv-validator="notEmpty" data-bv-validator-for="C_LastName" class="help-block" style="display: none;">Required</small></div>
+		                        </div>
+
+		                      <div class="form-group">
+		                        <div class="col-sm-12">
+		                  <div class="input-group">
+		                    <div class="input-group-addon">
+		                      <i class="fa fa-comment fa-2"></i>                
+		                    </div>                  
+		                    <textarea class="form-control" name="Comments" id="Comments" rows="5" style="width:99.9%" placeholder="Enter your message here"></textarea>
+		                  </div>                                    
+		                </div>
+		                      </div>
+		                      
+		                      <div class="form-group">
+		                        <div class="col-sm-12">
+		                  <button id="contacts-submit" type="submit" class="btn btn-default btn-lg btn-success">Envoyer</button>
+		                        </div>
+		                      </div>
+		            <input type="hidden" value=""></form>
+		          </div><!-- end panel-body -->
+		        </div><!-- end panel -->
+		        </div>
+		</div>
+</div>
+</div>
+{% endblock %}
+

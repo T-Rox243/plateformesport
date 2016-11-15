@@ -1,7 +1,46 @@
-{% extends "::base.html.twig" %}
-
-{% block title %}AppBundle:User:signUp{% endblock %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>Welcome to the User:signUp page</h1>
+    <div id="wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 signUp">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h1 class="panel-title">Inscription</h1>
+                        </div>
+                        <div class="panel-body">
+                            <form accept-charset="UTF-8" role="form">
+                            <fieldset>
+                                
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Prénom" name="first_name" type="text">
+                                </div>
+
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Nom" name="name" type="text">
+                                </div>
+
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="E-mail" name="email" type="text">
+                                </div>
+
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Mot de passe" name="password" type="password" value="">
+                                </div>
+
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Confirmation du mot de passe" name="password-conf" type="password" value="">
+                                </div>
+
+                                <input class="btn btn-lg btn-success btn-block" type="submit" value="Inscription">
+
+                            </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
