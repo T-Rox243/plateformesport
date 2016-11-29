@@ -94,4 +94,3 @@ class MediasSport
         return $this->idMedia;
     }
 }
-

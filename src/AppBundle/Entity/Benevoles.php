@@ -94,4 +94,3 @@ class Benevoles
         return $this->idEvent;
     }
 }
-

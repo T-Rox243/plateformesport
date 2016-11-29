@@ -29,19 +29,21 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/signIn", name="signInUSer")
+     * @Route("/oldsignIn", name="signInUSer")
      */
     public function signInAction()
     {
+        //TODO FORM + VERIFICATION
         return $this->render('user/sign_in.html.twig', array(
         ));
     }
 
     /**
-     * @Route("/signUp", name="signUpUser")
+     * @Route("/oldsignUp", name="signUpUser")
      */
     public function signUpAction()
     {
+        //TODO FORM + ENREGISTREMENT BDD
         return $this->render('user/sign_up.html.twig', array(
         ));
     }
