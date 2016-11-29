@@ -218,4 +218,3 @@ class Adresse
         return $this->idUser;
     }
 }
-

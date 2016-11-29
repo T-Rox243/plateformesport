@@ -94,4 +94,3 @@ class MediasUser
         return $this->idMedia;
     }
 }
-

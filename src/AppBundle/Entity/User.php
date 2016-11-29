@@ -2,15 +2,38 @@
 
 namespace AppBundle\Entity;
 
+use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping\AttributeOverrides;
+use Doctrine\ORM\Mapping\AttributeOverride;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ *
+ * @AttributeOverrides({
+ *     @AttributeOverride(name="username",
+ *         column=@ORM\Column(
+ *             name="username",
+ *             type="string",
+ *             length=255,
+ *             nullable=true
+ *         )
+ *     ),
+ *     @AttributeOverride(name="usernameCanonical",
+ *         column=@ORM\Column(
+ *             name="usernameCanonical",
+ *             type="string",
+ *             length=255,
+ *             nullable=true
+ *         )
+ *     ),
+ * })
  */
-class User
+class User extends BaseUser
 {
     /**
      * @var int
@@ -19,34 +42,40 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var string
+     * @ORM\Column(type="string", length=100)
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez entre votre nom", groups={"Registration", "Profile"})
+     * @Assert\Length(
+     *     min=2,
+     *     max=100,
+     *     minMessage="Ce nom est trop court.",
+     *     maxMessage="Ce nom est trop long.",
+     *     groups={"Registration", "Profile"}
+     * )
      */
-    private $name;
+    protected $name;
 
     /**
-     * @var string
+     * @ORM\Column(type="string", length=100)
      *
-     * @ORM\Column(name="password", type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez entre votre prénom", groups={"Registration", "Profile"})
+     * @Assert\Length(
+     *     min=2,
+     *     max=100,
+     *     minMessage="Ce prénom est trop court.",
+     *     maxMessage="Ce prénom est trop long.",
+     *     groups={"Registration", "Profile"}
+     * )
      */
-    private $password;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="role", type="integer")
-     */
-    private $role;
-
+    protected $firstName;
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -54,23 +83,9 @@ class User
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return User
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
      * Get name
      *
-     * @return string
+     * @return integer
      */
     public function getName()
     {
@@ -78,51 +93,43 @@ class User
     }
 
     /**
-     * Set password
+     * Get firstname
      *
-     * @param string $password
-     *
-     * @return User
+     * @return integer
      */
-    public function setPassword($password)
+    public function getFirstName()
     {
-        $this->password = $password;
-
-        return $this;
+        return $this->firstName;
     }
-
+ 
     /**
-     * Get password
+     * Set name
      *
+     * @param \String $name
      * @return string
      */
-    public function getPassword()
+    public function setName($name)
     {
-        return $this->password;
-    }
-
-    /**
-     * Set role
-     *
-     * @param integer $role
-     *
-     * @return User
-     */
-    public function setRole($role)
-    {
-        $this->role = $role;
-
+        $this->name = $name;
+ 
         return $this;
     }
-
+ 
     /**
-     * Get role
+     * Set firstname
      *
-     * @return int
+     * @param \String $firstName
+     * @return string
      */
-    public function getRole()
+    public function setFirstName($firstName)
     {
-        return $this->role;
+        $this->firstName = $firstName;
+ 
+        return $this;
+    }
+    public function setEmail($email)
+    {
+        parent::setEmail($email);
+        $this->setUsername($email);
     }
 }
-

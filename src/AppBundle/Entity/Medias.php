@@ -94,4 +94,3 @@ class Medias
         return $this->name;
     }
 }
-

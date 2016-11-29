@@ -94,4 +94,3 @@ class MediasClub
         return $this->idMedia;
     }
 }
-

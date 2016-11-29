@@ -94,4 +94,3 @@ class MediasEvent
         return $this->idMedia;
     }
 }
-
