@@ -73,6 +73,27 @@ class User extends BaseUser
     protected $firstName;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", cascade={"persist"})
+     */
+    private $medias;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Sport", cascade={"persist"})
+     */
+    private $sports;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Club", cascade={"persist"})
+     */
+    private $clubs;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Adresse")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $adresse;
+
+    /**
      * Get id
      *
      * @return integer
