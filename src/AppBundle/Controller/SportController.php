@@ -41,7 +41,11 @@ class SportController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         // On recupere l'user numero 1 ici
-        $user = $em->getRepository("AppBundle:User")->find(1);
+        $user = $em->getRepository("AppBundle:User")->find(2);
+
+        // if (null === $user) {
+        //     throw new NotFoundHttpException("Cette utilisateur n'existe pas ");
+        // }
 
         // Creation des nouveaux sport
         // $sport1 = new Sport();
@@ -50,34 +54,34 @@ class SportController extends Controller
         // $sport4 = new Sport();
 
         // On donne un nom
-        // $sport1->setName("Aikido Cocatre");
-        // $sport2->setName("Viet Vo Dao");
-        // $sport3->setName("Jeet Kune Do");
-        // $sport4->setName("Pencak-Silat");
+        // $sport1->setName("Yoseikan Budo");
+        // $sport2->setName("Bokator");
+        // $sport3->setName("Jödö");
+        // $sport4->setName("Qwan Ki Do");
 
         // On met une description
-        // $sport1->setDescription("L'aïkido se compose de techniques avec armes et à mains nues utilisant la force de l'adversaire, ou plutôt son agressivité et sa volonté de nuire. Ces techniques visent non pas à vaincre l'adversaire, mais à réduire sa tentative d'agression à néant");
-        // $sport2->setDescription("Sa pratique vise au développement externe (corps), interne (énergie, respiration, méditation...), exercices de santé (gymnastique...), culture et tradition. Il inclut aussi le maniement de nombreuses armes telles : le sabre , le bâton, la hallebarde, le couteau....");
-        // $sport3->setDescription("Coups de pied, coups de poing, immobilisation des bras, clés, étranglements et combat au sol. Pas de techniques 'formelles' il s'agit d'un art martial qui se base sur l'instinct et l'instant qui change d'aspect pour s'adapter aux capacités de son adversaire.");
-        // $sport4->setDescription("Il s'agit avant tout d'un art de défense qui ne s’appuie pas sur la force physique. Le Pencak-Silat se divise en trois partie : l'art (costume, gestuelle, musique), l'auto-défense (techniques de frappe et de réception des coups) et la spiritualité (maîtrise des connaissances tel que la religion, la physique, l'anatomie, la conception des armes...).");
+        // $sport1->setDescription("percussions (mains, pieds, genoux, coudes, tête), clefs (torsions et extensions articulaires), projections, étranglements, immobilisations, armes (recouvertes de mousse ou traditionnelles). Matériel de protection corporel complet pour les combats.");
+        // $sport2->setDescription("à mains nues ou avec une arme. En complément des techniques de bras qui ont pour but de provoquer une diversion ou/et neutraliser un adversaire.");
+        // $sport3->setDescription("combat avec un bâton droit de 1 mètre 28 de long et de 2,5 cm de diamètre. Les mouvements sont réglés sous la forme de katas.");
+        // $sport4->setDescription("percutions (poing, tranchant de la main, coude, avant bras, pied, genou...), armes (bâton, serpe, machette, couteau, tri-bâton, chaîne), armes militaires (lance, sabre long/court, sabre papillon, éventail en acier, épée, sabre chinois).");
 
         // On informe le pays d'origine du sport
         // $sport1->setNativeCountry("Japon");
-        // $sport2->setNativeCountry("Vietnam");
-        // $sport3->setNativeCountry("Chine");
-        // $sport4->setNativeCountry("Indonésie");
+        // $sport2->setNativeCountry("Cambodge");
+        // $sport3->setNativeCountry("Japon");
+        // $sport4->setNativeCountry("Vietnam");
 
         // Competition ou pas ?
         // $sport1->setCompetition(false);
-        // $sport2->setCompetition(true);
+        // $sport2->setCompetition(false);
         // $sport3->setCompetition(false);
         // $sport4->setCompetition(false);
 
         // Tenu de sport
         // $sport1->setSportSwear("Kimono Classique");
-        // $sport2->setSportSwear("Kimono Vietnamien");
-        // $sport3->setSportSwear("Tenu Kung Fu");
-        // $sport4->setSportSwear("Short et TShirt");
+        // $sport2->setSportSwear("Short et TShirt");
+        // $sport3->setSportSwear("Kimono et Hakama");
+        // $sport4->setSportSwear("Kimono Vietnamien");
 
         // On persiste le sport
         // $em->persist($sport1);
@@ -112,7 +116,22 @@ class SportController extends Controller
      */
     public function listSportAction()
     {
+
+        // Chargement du manager 
+        $em = $this->getDoctrine()->getManager();
+
+        // Tout les utilisateurs, car c'est eux qui ont permis de generer les sports
+        $users = $em->getRepository('AppBundle:User')->findAll();
+        $listSport = array(); 
+
+        // On recupere tout les sports existants dans la base grace à la methode. La methode se trouve dans le controller User 
+        foreach ($users as $user) {
+            $listSport []= $user->getSports();
+        }
+        
+
         return $this->render('sport/list_sport.html.twig', array(
+            "listSport" => $listSport
         ));
     }
 
