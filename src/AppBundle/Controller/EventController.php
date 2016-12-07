@@ -5,6 +5,13 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+use AppBundle\Entity\User;
+use AppBundle\Entity\Benevole;
+use AppBundle\Entity\Evenement;
+use AppBundle\Entity\EvenementBenevole;
+use AppBundle\Entity\Media;
+use AppBundle\Entity\Adresse;
+
 class EventController extends Controller
 {
     /**
@@ -33,6 +40,8 @@ class EventController extends Controller
      */
     public function addEventAction()
     {
+        
+        
         return $this->render('event/add_event.html.twig', array(
         ));
     }

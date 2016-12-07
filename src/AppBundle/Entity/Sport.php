@@ -31,9 +31,9 @@ class Sport
     /**
      * @var string
      *
-     * @ORM\Column(name="descrition", type="string", length=500)
+     * @ORM\Column(name="description", type="string", length=500)
      */
-    private $descrition;
+    private $description;
 
     /**
      * @var string
@@ -97,27 +97,27 @@ class Sport
     }
 
     /**
-     * Set descrition
+     * Set description
      *
-     * @param string $descrition
+     * @param string $description
      *
      * @return Sport
      */
-    public function setDescrition($descrition)
+    public function setDescription($description)
     {
-        $this->descrition = $descrition;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get descrition
+     * Get description
      *
      * @return string
      */
-    public function getDescrition()
+    public function getDescription()
     {
-        return $this->descrition;
+        return $this->description;
     }
 
     /**

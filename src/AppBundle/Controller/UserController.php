@@ -6,6 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+use AppBundle\Entity\User;
+use AppBundle\Entity\Benevole;
+use AppBundle\Entity\Evenement;
+use AppBundle\Entity\Club;
+use AppBundle\Entity\Sport;
+use AppBundle\Entity\Media;
+use AppBundle\Entity\Adresse;
+
 class UserController extends Controller
 {
     /**

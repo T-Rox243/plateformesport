@@ -5,6 +5,11 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+use AppBundle\Entity\Club;
+use AppBundle\Entity\User;
+use AppBundle\Entity\Media;
+use AppBundle\Entity\Adresse;
+
 class ClubController extends Controller
 {
     /**
@@ -33,6 +38,7 @@ class ClubController extends Controller
      */
     public function addClubAction()
     {
+
         return $this->render('club/add_club.html.twig', array(
         ));
     }
