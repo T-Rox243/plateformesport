@@ -17,8 +17,20 @@ class SportController extends Controller
      */
     public function sportAction($idSport)
     {
+        // Load du repository Sport en chargeant les informations du sports
+        $em = $this->getDoctrine()->getManager();
+
+        $infoSport = $em->getRepository('AppBundle:Sport')->find($idSport);
+
+        $nameSport = $infoSport->getName();
+        // ...
+        // Ainsi de suite pour le reste des informations
+
+        // Faut que je regarde comme obtenir les noms des clubs pratiquants le sport en question et le nom de l'utilisateur
+
         return $this->render('sport/sport.html.twig', array(
-            "idSport" => $idSport
+            "idSport" => $idSport,
+            "nameSport" => $nameSport
         ));
     }
 
