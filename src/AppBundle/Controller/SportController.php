@@ -28,8 +28,26 @@ class SportController extends Controller
      */
     public function editSportAction($idSport)
     {
+
+        $em =  $this->getDoctrine()->getManager();
+
+        // Attention, on ne peut le faire que si la personne est connecté et que c'est l'utilisateur qui a creer ce sport
+        $editSport = $em->getRepository("AppBundle:Sport")->find($idSport);
+
+        $editSport->setName("Aikido Cocatre");
+        // ...
+        // On peut setDescription et autre, mais vérifier ce qui a été remplie pour l'edition
+
+        // Persit de la modification
+        $em->persist($editSport);
+
+        $em->flush();
+
+        $newName = $editSport->getName();
+
         return $this->render('sport/edit_sport.html.twig', array(
-            "idSport" => $idSport
+            "idSport" => $idSport,
+            "newName" => $newName
         ));
     }
 
