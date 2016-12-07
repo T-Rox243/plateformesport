@@ -56,6 +56,20 @@ class Evenement
      */
     private $typeEvent;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nb_min_volunteer", type="integer")
+     */
+    private $nbMinVolunteer;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nb_max_volunteer", type="integer")
+     */
+    private $nbMaxVolunteer;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
@@ -68,11 +82,6 @@ class Evenement
      * @ORM\JoinColumn(nullable=false)
      */
     private $adresse;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Benevole", cascade={"persist"})
-     */
-    private $benevoles;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", cascade={"persist"})
@@ -261,42 +270,7 @@ class Evenement
      */
     public function __construct()
     {
-        $this->benevoles = new \Doctrine\Common\Collections\ArrayCollection();
         $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add benevole
-     *
-     * @param \AppBundle\Entity\Benevole $benevole
-     *
-     * @return Evenement
-     */
-    public function addBenevole(\AppBundle\Entity\Benevole $benevole)
-    {
-        $this->benevoles[] = $benevole;
-
-        return $this;
-    }
-
-    /**
-     * Remove benevole
-     *
-     * @param \AppBundle\Entity\Benevole $benevole
-     */
-    public function removeBenevole(\AppBundle\Entity\Benevole $benevole)
-    {
-        $this->benevoles->removeElement($benevole);
-    }
-
-    /**
-     * Get benevoles
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getBenevoles()
-    {
-        return $this->benevoles;
     }
 
     /**
