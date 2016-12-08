@@ -4,4 +4,15 @@
 
 {% block body %}
 <h1>Welcome to the Event:listEvent page</h1>
+
+{% for event in allEvent %}
+
+	{{ event.name }}<br>
+	{{ event.description }}<br>
+	{{ event.user.firstname }}<br>
+	{{ event.typeEvent }}<br><br>
+
+{% endfor %}
+
+
 {% endblock %}
