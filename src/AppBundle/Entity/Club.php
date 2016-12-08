@@ -94,7 +94,6 @@ class Club
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Sport")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $sport;
 

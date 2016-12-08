@@ -7,10 +7,10 @@
 
 {% for event in allEvent %}
 
-	{{ event.name }}<br>
-	{{ event.description }}<br>
-	{{ event.user.firstname }}<br>
-	{{ event.typeEvent }}<br><br>
+	Nom de l'évènement : {{ event.name }}<br>
+	Description de l'évènement : {{ event.description }}<br>
+	Créateur de l'évènement : {{ event.user.firstname }}<br>
+	Type d'évènement : {{ event.typeEvent }}<br><br>
 
 {% endfor %}
 
