@@ -20,8 +20,26 @@ class EventController extends Controller
      */
     public function eventAction($idEvent)
     {
+
+        // On veut le nom du créateur, le nom de l'event et autre informations
+        // Bon je dois encore peaufiner les details pour recuperer le nom des benevoles et le nombre
+
+        $em = $this->getDoctrine()->getManager();
+
+        $event = $em->getRepository('AppBundle:Evenement')->find($idEvent);
+        // $eventBenevole = $em->getRepository('AppBundle:Evenement')->findBy(array('evenement' => $event));
+
+        $nameEvent = $event->getName();
+        $descriptionEvent = $event->getDescription();
+        $typeEvent = $event->getTypeEvent();
+        $userEvent = $event->getUser();
+
         return $this->render('event/event.html.twig', array(
-            "idEvent" => $idEvent
+            "idEvent" => $idEvent,
+            "nameEvent" => $nameEvent,
+            "descriptionEvent" => $descriptionEvent,
+            "typeEvent" => $typeEvent,
+            "userEvent" => $userEvent,
         ));
     }
 
