@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -42,12 +43,13 @@ class EventController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        var_dump($_SESSION);
+        // On recupere l'id de l'user connecté. Seul un utilisateur connecté peut créer un evenement
+        $idConnectedUser = $this->getUser()->getId();
 
         // On recupere l'id de l'user qui creer l'evenement
         // A voir comment on recuperer l'id sans le mettre dans la route
         // session ?
-        $user = $em->getRepository("AppBundle:User")->find(1);
+        $user = $em->getRepository("AppBundle:User")->find($idConnectedUser);
 
         // // Mise en place des adresses pour les evenements
         // $adresse1 = new Adresse();
