@@ -49,6 +49,19 @@ class EventController extends Controller
      */
     public function editEventAction($idEvent)
     {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $editEvent = $em->getRepository('AppBundle:Evenement')->find($idEvent);
+        
+        // Set le nom, vérifier que la personne connectée correspond à celui qui à créer l'evenement
+        $editEvent->setName("Stage Aikido - Cocatre");
+        // ... Set ce qu'on le veut
+
+        $em->persist($editEvent);
+
+        $em->flush();
+
         return $this->render('event/edit_event.html.twig', array(
             "idEvent" => $idEvent
         ));
