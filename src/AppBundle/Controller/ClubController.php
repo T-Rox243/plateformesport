@@ -120,8 +120,8 @@ class ClubController extends Controller
         // $club4->setSportComplexCity("Vitry-Sur-Seine");
 
         // // Possibilité de l'associer à un sport
-        // $sport1 = $em->getRepository('AppBundle:Sport')->find(1);
-        // $sport2 = $em->getRepository('AppBundle:Sport')->find(2);
+        // // $sport1 = $em->getRepository('AppBundle:Sport')->find(1);
+        // // $sport2 = $em->getRepository('AppBundle:Sport')->find(2);
 
         // // Association à un sport
         // $club1->setSport($sport1);

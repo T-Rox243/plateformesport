@@ -70,62 +70,65 @@ class SportController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        // On recupere l'id de l'user connecté. Seul un utilisateur connecté peut créer un evenement
+        $idConnectedUser = $this->getUser()->getId();
+
         // On recupere l'user numero 1 ici
-        $user = $em->getRepository("AppBundle:User")->find(2);
+        $user = $em->getRepository("AppBundle:User")->find($idConnectedUser);
 
         // if (null === $user) {
         //     throw new NotFoundHttpException("Cette utilisateur n'existe pas ");
         // }
 
-        // Creation des nouveaux sport
+        // // Creation des nouveaux sport
         // $sport1 = new Sport();
         // $sport2 = new Sport();
         // $sport3 = new Sport();
         // $sport4 = new Sport();
 
-        // On donne un nom
+        // // On donne un nom
         // $sport1->setName("Yoseikan Budo");
         // $sport2->setName("Bokator");
         // $sport3->setName("Jödö");
         // $sport4->setName("Qwan Ki Do");
 
-        // On met une description
+        // // On met une description
         // $sport1->setDescription("percussions (mains, pieds, genoux, coudes, tête), clefs (torsions et extensions articulaires), projections, étranglements, immobilisations, armes (recouvertes de mousse ou traditionnelles). Matériel de protection corporel complet pour les combats.");
         // $sport2->setDescription("à mains nues ou avec une arme. En complément des techniques de bras qui ont pour but de provoquer une diversion ou/et neutraliser un adversaire.");
         // $sport3->setDescription("combat avec un bâton droit de 1 mètre 28 de long et de 2,5 cm de diamètre. Les mouvements sont réglés sous la forme de katas.");
         // $sport4->setDescription("percutions (poing, tranchant de la main, coude, avant bras, pied, genou...), armes (bâton, serpe, machette, couteau, tri-bâton, chaîne), armes militaires (lance, sabre long/court, sabre papillon, éventail en acier, épée, sabre chinois).");
 
-        // On informe le pays d'origine du sport
+        // // On informe le pays d'origine du sport
         // $sport1->setNativeCountry("Japon");
         // $sport2->setNativeCountry("Cambodge");
         // $sport3->setNativeCountry("Japon");
         // $sport4->setNativeCountry("Vietnam");
 
-        // Competition ou pas ?
+        // // Competition ou pas ?
         // $sport1->setCompetition(false);
         // $sport2->setCompetition(false);
         // $sport3->setCompetition(false);
         // $sport4->setCompetition(false);
 
-        // Tenu de sport
+        // // Tenu de sport
         // $sport1->setSportSwear("Kimono Classique");
         // $sport2->setSportSwear("Short et TShirt");
         // $sport3->setSportSwear("Kimono et Hakama");
         // $sport4->setSportSwear("Kimono Vietnamien");
 
-        // On persiste le sport
+        // // On persiste le sport
         // $em->persist($sport1);
         // $em->persist($sport2);
         // $em->persist($sport3);
         // $em->persist($sport4);
 
-        // On dit que le sport est ajouté par l'utilisateur selectionné
+        // // On dit que le sport est ajouté par l'utilisateur selectionné
         // $user->addSport($sport1);
         // $user->addSport($sport2);
         // $user->addSport($sport3);
         // $user->addSport($sport4);
 
-        // On insere en bdd
+        // // On insere en bdd
         // $em->flush();
 
         return $this->render('sport/add_sport.html.twig', array(
