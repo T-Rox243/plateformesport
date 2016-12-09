@@ -18,8 +18,15 @@ class ClubController extends Controller
      */
     public function clubAction($idClub)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $club = $em->getRepository('AppBundle:Club')->find($idClub);
+
+
+
         return $this->render('club/club.html.twig', array(
-            "idClub" => $idClub
+            "idClub" => $idClub,
+            "infoClub" => $club
         ));
     }
 
