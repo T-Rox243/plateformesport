@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -28,6 +29,22 @@ class ClubController extends Controller
      */
     public function editClubAction($idClub)
     {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $editClub = $em->getRepository('AppBundle:Club')->find($idClub);
+
+        if (null === $editClub) {
+            throw new NotFoundHttpException("Le club d'id ".$idClub." n'existe pas.");
+        }
+
+        $editClub->setName("NewName");
+        // ... On peut editer ce qu'on veut
+
+        $em->persist($editClub);
+        $em->clear(); // Juste pour eviter d'editer, a supprimer
+        $em->flush();
+
         return $this->render('club/edit_club.html.twig', array(
             "idClub" => $idClub
         ));
@@ -53,7 +70,6 @@ class ClubController extends Controller
         // $club3 = new club();
         // $club4 = new club();
 
-
         // $club1->setName("ESV Aikido");
         // $club2->setName("ESV Viet Vo Dao");
         // $club3->setName("Les Apaches de Paname");
@@ -64,7 +80,6 @@ class ClubController extends Controller
         // $club3->setDescription("Description du club à mettre. Comme pour les evenements je n'ai pas d'idée donc on va rester à un texte pas trop long mais qui peut donner une idée de ce que pourrait donner une description au niveau de la longueur.");
         // $club4->setDescription("Description du club à mettre. Comme pour les evenements je n'ai pas d'idée donc on va rester à un texte pas trop long mais qui peut donner une idée de ce que pourrait donner une description au niveau de la longueur.");
         
-
         // $club1->setOpeningTime("16h");
         // $club2->setOpeningTime("17h");
         // $club3->setOpeningTime("15h30");
@@ -142,6 +157,11 @@ class ClubController extends Controller
         // $club3->setAdresse($adresse3);
         // $club4->setAdresse($adresse4);
 
+        // $user->addClub($club1);
+        // $user->addClub($club2);
+        // $user->addClub($club3);
+        // $user->addClub($club4);
+
         // $em->persist($adresse1);
         // $em->persist($adresse2);
         // $em->persist($adresse3);
@@ -172,7 +192,13 @@ class ClubController extends Controller
      */
     public function listClubAction()
     {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $listClub = $em->getRepository('AppBundle:Club')->findAll();
+
         return $this->render('club/list_club.html.twig', array(
+            "listClub" => $listClub
         ));
     }
 
