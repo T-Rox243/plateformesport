@@ -4,11 +4,19 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use AppBundle\Entity\Sport;
 use AppBundle\Entity\Club;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Media;
+
 
 class SportController extends Controller
 {
@@ -68,13 +76,46 @@ class SportController extends Controller
      */
     public function addSportAction()
     {
+
+        // Création d'un objet sport
+        $sport = new Sport();
+
+        // Creation d'un formulaire se basant sur l'objet sport
+        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $sport);
+
+        $formBuilder
+            ->add('name', TextType::class)
+            ->add('description', TextareaType::class)
+            ->add('nativeCountry', TextType::class)
+            ->add('competition', CheckboxType::class)
+            ->add('sportswear', ChoiceType::class, array(
+                'choices'  => array(
+                    'Maybe' => null,
+                    'Yes' => true,
+                    'No' => false,
+                ))
+            )
+            ->add('send', SubmitType::class);
+
+        $form = $formBuilder->getForm();
+
+        // Connexion a doctrine pour insertion de l'objet
         $em = $this->getDoctrine()->getManager();
 
-        // On recupere l'id de l'user connecté. Seul un utilisateur connecté peut créer un evenement
-        $idConnectedUser = $this->getUser()->getId();
+        // On check le authorization de sécurité
+        $securityContext = $this->container->get('security.authorization_checker');
+        
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            // On recupere l'id de l'user connecté. Seul un utilisateur connecté peut créer un evenement
+            $idConnectedUser = $this->getUser()->getId();
 
-        // On recupere l'user numero 1 ici
-        $user = $em->getRepository("AppBundle:User")->find($idConnectedUser);
+            // On recupere les informations de l'user
+            $user = $em->getRepository("AppBundle:User")->find($idConnectedUser);
+            
+        }
+
+
+
 
         // if (null === $user) {
         //     throw new NotFoundHttpException("Cette utilisateur n'existe pas ");
@@ -132,6 +173,7 @@ class SportController extends Controller
         // $em->flush();
 
         return $this->render('sport/add_sport.html.twig', array(
+            'form' => $form->createView()
         ));
     }
 
