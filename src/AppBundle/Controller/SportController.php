@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -11,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 use AppBundle\Entity\Sport;
 use AppBundle\Entity\Club;
@@ -74,7 +76,7 @@ class SportController extends Controller
     /**
      * @Route("/addSport", name="addSport")
      */
-    public function addSportAction()
+    public function addSportAction(Request $request)
     {
 
         // Création d'un objet sport
@@ -83,21 +85,28 @@ class SportController extends Controller
         // Creation d'un formulaire se basant sur l'objet sport
         $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $sport);
 
+        // Creation des différents champs du formulaire
         $formBuilder
             ->add('name', TextType::class)
             ->add('description', TextareaType::class)
             ->add('nativeCountry', TextType::class)
-            ->add('competition', CheckboxType::class)
+            ->add('competition', CheckboxType::class, array(
+                    "required" => false
+                )
+            )
             ->add('sportswear', ChoiceType::class, array(
                 'choices'  => array(
-                    'Maybe' => null,
-                    'Yes' => true,
-                    'No' => false,
+                    'Kimono' => "Kimono",
+                    'Tshirt - Short' => "TS",
+                    'Tshirt - Jogging' => "TJ",
+                    'Autre' => "Other",
                 ))
             )
             ->add('send', SubmitType::class);
 
+        // Mise en place du formulaire
         $form = $formBuilder->getForm();
+
 
         // Connexion a doctrine pour insertion de l'objet
         $em = $this->getDoctrine()->getManager();
@@ -105,17 +114,37 @@ class SportController extends Controller
         // On check le authorization de sécurité
         $securityContext = $this->container->get('security.authorization_checker');
         
+        // On verifie que l'utilisateur soit connecté pour in
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             // On recupere l'id de l'user connecté. Seul un utilisateur connecté peut créer un evenement
             $idConnectedUser = $this->getUser()->getId();
 
             // On recupere les informations de l'user
             $user = $em->getRepository("AppBundle:User")->find($idConnectedUser);
-            
+
+            // On verifie que le boutton submit 
+            if($request->isMethod('POST')){
+
+                // Hydrate l'objet avec les données saisies dans le formulaire
+                $form->handleRequest($request);
+
+                // On verifie que les données coordonnes bien avec le'objet
+                if($form->isValid()){
+                    // Ajout d'un sport
+                    $em->persist($sport);
+
+                    // Lien avec l'user
+                    $user->addSport($sport);
+
+                    // Insertion dans la bdd
+                    $em->flush();
+                }
+            }
         }
 
-
-
+        return $this->render('sport/add_sport.html.twig', array(
+            'form' => $form->createView()
+        ));
 
         // if (null === $user) {
         //     throw new NotFoundHttpException("Cette utilisateur n'existe pas ");
@@ -171,10 +200,6 @@ class SportController extends Controller
 
         // // On insere en bdd
         // $em->flush();
-
-        return $this->render('sport/add_sport.html.twig', array(
-            'form' => $form->createView()
-        ));
     }
 
     /**
