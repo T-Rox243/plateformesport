@@ -114,7 +114,6 @@ class SportController extends Controller
 
         // Création d'un objet sport
         $sport = new Sport();
-        // $sport = $em->getRepository('AppBundle:Sport')->find(1);
 
         // Creation d'un formulaire se basant sur l'objet sport
         $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $sport);

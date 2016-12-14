@@ -63,67 +63,81 @@ class ClubController extends Controller
     /**
      * @Route("/addClub", name="addClub")
      */
-    public function addClubAction()
+    public function addClubAction(Request $request)
     {
 
         $em = $this->getDoctrine()->getManager();
-
-        // On recupere l'id de l'user connecté. Seul un utilisateur connecté peut créer un evenement
-        // $idConnectedUser = $this->getUser()->getId();
-
-        // Seul un utilisateur connecté peut creer un club
-        // $user = $em->getRepository('AppBundle:User')->find($idConnectedUser);
 
         // On check le authorization de sécurité
         $securityContext = $this->container->get('security.authorization_checker');
         
         // Mise en place des clubs, jeux de données pour les tests
-        // $club1 = new club();
-        // $club2 = new club();
-        // $club3 = new club();
-        // $club4 = new club();
+        $club = new Club();
+        $adresse = new Adresse();
 
-        // $club1->setName("ESV Aikido");
-        // $club2->setName("ESV Viet Vo Dao");
-        // $club3->setName("Les Apaches de Paname");
-        // $club4->setName("Cercle Yoshitaka Sensei");
+        // Creation d'un formulaire se basant sur l'objet sport
+        $formBuilderClub = $this->get('form.factory')->createBuilder(FormType::class, $club);
+        $formBuilderAdresse = $this->get('form.factory')->createBuilder(FormType::class, $adresse);
 
-        // $club1->setDescription("Description du club à mettre. Comme pour les evenements je n'ai pas d'idée donc on va rester à un texte pas trop long mais qui peut donner une idée de ce que pourrait donner une description au niveau de la longueur.");
-        // $club2->setDescription("Description du club à mettre. Comme pour les evenements je n'ai pas d'idée donc on va rester à un texte pas trop long mais qui peut donner une idée de ce que pourrait donner une description au niveau de la longueur.");
-        // $club3->setDescription("Description du club à mettre. Comme pour les evenements je n'ai pas d'idée donc on va rester à un texte pas trop long mais qui peut donner une idée de ce que pourrait donner une description au niveau de la longueur.");
-        // $club4->setDescription("Description du club à mettre. Comme pour les evenements je n'ai pas d'idée donc on va rester à un texte pas trop long mais qui peut donner une idée de ce que pourrait donner une description au niveau de la longueur.");
-        
-        // $club1->setOpeningTime("16h");
-        // $club2->setOpeningTime("17h");
-        // $club3->setOpeningTime("15h30");
-        // $club4->setOpeningTime("17h");
+        $formBuilderClub
+            ->add('name', TextType::class)
+            ->add('description', TextareaType::class)
+            ->add('openingTime', TextType::class)
+            ->add('closingTime', TextType::class)
+            ->add('emailContact', TextType::class)
+            ->add('phoneContact', TextType::class)
+            ->add('sportComplex', TextType::class)
+            ->add('sportComplexCity', TextType::class);
 
-        // $club1->setClosingTime("22h");
-        // $club2->setClosingTime("21h30");
-        // $club3->setClosingTime("20h");
-        // $club4->setClosingTime("22h");
-
-        // $club1->setEmailContact("club1-contact@gmail.com");
-        // $club2->setEmailContact("club2-contact@gmail.com");
-        // $club3->setEmailContact("club3-contact@gmail.com");
-        // $club4->setEmailContact("club4-contact@gmail.com");
-
-        // $club1->setPhoneContact("0698967027");
-        // $club2->setPhoneContact("0698967027");
-        // $club3->setPhoneContact("0698967027");
-        // $club4->setPhoneContact("0698967027");
+        $formBuilderAdresse
+            ->add('adresse', TextType::class)
+            ->add('city', TextType::class)
+            ->add('postalCode', TextType::class)
+            ->add('region', TextType::class)
+            ->add('send', SubmitType::class);
 
 
-        // // Complexe sportif
-        // $club1->setSportComplex("Stade Gosnat");
-        // $club2->setSportComplex("Stade Gosnat");
-        // $club3->setSportComplex("Stade Julio Curry");
-        // $club4->setSportComplex("Stade Gabriel Peri");
+        // Mise en place du formulaire
+        $formClub = $formBuilderClub->getForm();
+        $formAdresse = $formBuilderAdresse->getForm();
 
-        // $club1->setSportComplexCity("Vitry-Sur-Seine");
-        // $club2->setSportComplexCity("Vitry-Sur-Seine");
-        // $club3->setSportComplexCity("Vitry-Sur-Seine");
-        // $club4->setSportComplexCity("Vitry-Sur-Seine");
+        // On verifie que l'utilisateur soit connecté pour in
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            // On recupere l'id de l'user connecté. Seul un utilisateur connecté peut créer un evenement
+            $idConnectedUser = $this->getUser()->getId();
+
+            // Seul un utilisateur connecté peut creer un club
+            $user = $em->getRepository('AppBundle:User')->find($idConnectedUser);
+
+             // On verifie que le boutton submit 
+            if($request->isMethod('POST')){
+                // Hydrate l'objet avec les données saisies dans le formulaire
+                $formClub->handleRequest($request);
+                $formAdresse->handleRequest($request);
+
+                // On verifie que les données coordonnes bien avec le'objet
+                if($formAdresse->isValid()){
+                    $club->setAdresse($adresse);
+                    $em->persist($adresse);
+                }
+
+                if($formClub->isValid()){
+                   var_dump($club);
+                   $em->persist($club);
+
+                    // Lien avec l'user
+                    $user->addClub($club);
+
+                    // Insertion dans la bdd
+                    $em->flush();
+                }
+            }
+        }
+
+        return $this->render('club/add_club.html.twig', array(
+            "formClub" => $formClub->createView(),
+            "formAdresse" => $formAdresse->createView()
+        ));
 
         // // Possibilité de l'associer à un sport
         // // $sport1 = $em->getRepository('AppBundle:Sport')->find(1);
@@ -186,9 +200,6 @@ class ClubController extends Controller
         // $em->persist($club4);
 
         // $em->flush();
-
-        return $this->render('club/add_club.html.twig', array(
-        ));
     }
 
     /**
