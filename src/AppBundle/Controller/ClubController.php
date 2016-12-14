@@ -5,6 +5,14 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use AppBundle\Entity\Club;
 use AppBundle\Entity\User;
@@ -21,8 +29,6 @@ class ClubController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $club = $em->getRepository('AppBundle:Club')->find($idClub);
-
-
 
         return $this->render('club/club.html.twig', array(
             "idClub" => $idClub,
@@ -45,9 +51,6 @@ class ClubController extends Controller
             throw new NotFoundHttpException("Le club d'id ".$idClub." n'existe pas.");
         }
 
-        $editClub->setName("NewName");
-        // ... On peut editer ce qu'on veut
-
         $em->persist($editClub);
         $em->clear(); // Juste pour eviter d'editer, a supprimer
         $em->flush();
@@ -66,11 +69,14 @@ class ClubController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         // On recupere l'id de l'user connecté. Seul un utilisateur connecté peut créer un evenement
-        $idConnectedUser = $this->getUser()->getId();
+        // $idConnectedUser = $this->getUser()->getId();
 
         // Seul un utilisateur connecté peut creer un club
-        $user = $em->getRepository('AppBundle:User')->find($idConnectedUser);
+        // $user = $em->getRepository('AppBundle:User')->find($idConnectedUser);
 
+        // On check le authorization de sécurité
+        $securityContext = $this->container->get('security.authorization_checker');
+        
         // Mise en place des clubs, jeux de données pour les tests
         // $club1 = new club();
         // $club2 = new club();

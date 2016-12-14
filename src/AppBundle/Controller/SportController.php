@@ -37,7 +37,6 @@ class SportController extends Controller
         // Ainsi de suite pour le reste des informations
 
         // Faut que je regarde comme obtenir les noms des clubs pratiquants le sport en question et le nom de l'utilisateur
-
         return $this->render('sport/sport.html.twig', array(
             "idSport" => $idSport,
             "nameSport" => $nameSport
@@ -48,42 +47,16 @@ class SportController extends Controller
     /**
      * @Route("/editSport/{idSport}", requirements={"idSport" = "\d+"}, name="editSport")
      */
-    public function editSportAction($idSport)
+    public function editSportAction($idSport, Request $request)
     {
 
         $em =  $this->getDoctrine()->getManager();
 
         // Attention, on ne peut le faire que si la personne est connecté et que c'est l'utilisateur qui a creer ce sport
-        $editSport = $em->getRepository("AppBundle:Sport")->find($idSport);
-
-        $editSport->setName("Aikido Cocatre");
-        // ...
-        // On peut setDescription et autre, mais vérifier ce qui a été remplie pour l'edition
-
-        // Persit de la modification
-        $em->persist($editSport);
-
-        $em->flush();
-
-        $newName = $editSport->getName();
-
-        return $this->render('sport/edit_sport.html.twig', array(
-            "idSport" => $idSport,
-            "newName" => $newName
-        ));
-    }
-
-    /**
-     * @Route("/addSport", name="addSport")
-     */
-    public function addSportAction(Request $request)
-    {
-
-        // Création d'un objet sport
-        $sport = new Sport();
+        $editSport = $em->getRepository('AppBundle:Sport')->find($idSport);
 
         // Creation d'un formulaire se basant sur l'objet sport
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $sport);
+        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $editSport);
 
         // Creation des différents champs du formulaire
         $formBuilder
@@ -91,7 +64,7 @@ class SportController extends Controller
             ->add('description', TextareaType::class)
             ->add('nativeCountry', TextType::class)
             ->add('competition', CheckboxType::class, array(
-                    "required" => false
+                    "required" => false,
                 )
             )
             ->add('sportswear', ChoiceType::class, array(
@@ -107,12 +80,66 @@ class SportController extends Controller
         // Mise en place du formulaire
         $form = $formBuilder->getForm();
 
+        // On va aussi verifié que l'utilisateur est connecté et que l'id user est le même que celui qui a créé le sport
+        if($request->isMethod('POST')){
+            // Hydrate l'objet avec les données saisies dans le formulaire
+            $form->handleRequest($request);
 
+            // On verifie que les données coordonnes bien avec le'objet
+            if($form->isValid()){
+                // Ajout d'un sport
+                $em->persist($editSport);
+
+                // Insertion dans la bdd
+                $em->flush();
+            }
+        }
+
+        return $this->render('sport/edit_sport.html.twig', array(
+            "idSport" => $idSport,
+            "form" => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/addSport", name="addSport")
+     */
+    public function addSportAction(Request $request)
+    {
         // Connexion a doctrine pour insertion de l'objet
         $em = $this->getDoctrine()->getManager();
 
         // On check le authorization de sécurité
         $securityContext = $this->container->get('security.authorization_checker');
+
+        // Création d'un objet sport
+        $sport = new Sport();
+        // $sport = $em->getRepository('AppBundle:Sport')->find(1);
+
+        // Creation d'un formulaire se basant sur l'objet sport
+        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $sport);
+
+        // Creation des différents champs du formulaire
+        $formBuilder
+            ->add('name', TextType::class)
+            ->add('description', TextareaType::class)
+            ->add('nativeCountry', TextType::class)
+            ->add('competition', CheckboxType::class, array(
+                    "required" => false,
+                )
+            )
+            ->add('sportswear', ChoiceType::class, array(
+                'choices'  => array(
+                    'Kimono' => "Kimono",
+                    'Tshirt - Short' => "TS",
+                    'Tshirt - Jogging' => "TJ",
+                    'Autre' => "Other",
+                ))
+            )
+            ->add('send', SubmitType::class);
+
+        // Mise en place du formulaire
+        $form = $formBuilder->getForm();
         
         // On verifie que l'utilisateur soit connecté pour in
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
