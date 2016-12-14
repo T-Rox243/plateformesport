@@ -102,37 +102,37 @@ class ClubController extends Controller
         $formAdresse = $formBuilderAdresse->getForm();
 
         // On verifie que l'utilisateur soit connecté pour in
-        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            // On recupere l'id de l'user connecté. Seul un utilisateur connecté peut créer un evenement
-            $idConnectedUser = $this->getUser()->getId();
+        // if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        //     // On recupere l'id de l'user connecté. Seul un utilisateur connecté peut créer un evenement
+        //     $idConnectedUser = $this->getUser()->getId();
 
-            // Seul un utilisateur connecté peut creer un club
-            $user = $em->getRepository('AppBundle:User')->find($idConnectedUser);
+        //     // Seul un utilisateur connecté peut creer un club
+        //     $user = $em->getRepository('AppBundle:User')->find($idConnectedUser);
 
-             // On verifie que le boutton submit 
-            if($request->isMethod('POST')){
-                // Hydrate l'objet avec les données saisies dans le formulaire
-                $formClub->handleRequest($request);
-                $formAdresse->handleRequest($request);
+        //      // On verifie que le boutton submit 
+        //     if($request->isMethod('POST')){
+        //         // Hydrate l'objet avec les données saisies dans le formulaire
+        //         $formClub->handleRequest($request);
+        //         $formAdresse->handleRequest($request);
 
-                // On verifie que les données coordonnes bien avec le'objet
-                if($formAdresse->isValid()){
-                    $club->setAdresse($adresse);
-                    $em->persist($adresse);
-                }
+        //         // On verifie que les données coordonnes bien avec le'objet
+        //         if($formAdresse->isValid()){
+        //             $club->setAdresse($adresse);
+        //             $em->persist($adresse);
+        //         }
 
-                if($formClub->isValid()){
-                   var_dump($club);
-                   $em->persist($club);
+        //         if($formClub->isValid()){
+        //            var_dump($club);
+        //            $em->persist($club);
 
-                    // Lien avec l'user
-                    $user->addClub($club);
+        //             // Lien avec l'user
+        //             $user->addClub($club);
 
-                    // Insertion dans la bdd
-                    $em->flush();
-                }
-            }
-        }
+        //             // Insertion dans la bdd
+        //             $em->flush();
+        //         }
+        //     }
+        // }
 
         return $this->render('club/add_club.html.twig', array(
             "formClub" => $formClub->createView(),
