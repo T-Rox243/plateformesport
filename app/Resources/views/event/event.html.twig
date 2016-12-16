@@ -4,4 +4,10 @@
 
 {% block body %}
 <h1>Welcome to the Event:Event number {{ idEvent }} page</h1>
+
+Nom de l'event : {{ nameEvent }} <br>
+Description de l'event : {{ descriptionEvent }} <br>
+Type d'evenement : {{ typeEvent }} <br>
+Nom du créateur : {{ userEvent.name }} {{ userEvent.firstname }} <br>
+
 {% endblock %}

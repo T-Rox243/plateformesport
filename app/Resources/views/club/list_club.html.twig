@@ -4,4 +4,16 @@
 
 {% block body %}
 <h1>Welcome to the Club:listClub page</h1>
+
+
+{% for club in listClub %}
+	
+	{{ club.name }}<br>
+	{{ club.description }}<br>
+	{{ club.sportComplex }}<br>
+	{{ club.emailContact }}<br>
+	{{ club.phoneContact }}<br><br>
+
+{% endfor %}
+
 {% endblock %}

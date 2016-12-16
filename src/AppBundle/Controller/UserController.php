@@ -6,6 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+use AppBundle\Entity\User;
+use AppBundle\Entity\Benevole;
+use AppBundle\Entity\Evenement;
+use AppBundle\Entity\Club;
+use AppBundle\Entity\Sport;
+use AppBundle\Entity\Media;
+use AppBundle\Entity\Adresse;
+
 class UserController extends Controller
 {
     /**
@@ -29,19 +37,21 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/signIn", name="signInUSer")
+     * @Route("/oldsignIn", name="signInUSer")
      */
     public function signInAction()
     {
+        //TODO FORM + VERIFICATION
         return $this->render('user/sign_in.html.twig', array(
         ));
     }
 
     /**
-     * @Route("/signUp", name="signUpUser")
+     * @Route("/oldsignUp", name="signUpUser")
      */
     public function signUpAction()
     {
+        //TODO FORM + ENREGISTREMENT BDD
         return $this->render('user/sign_up.html.twig', array(
         ));
     }
