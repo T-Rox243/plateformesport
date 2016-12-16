@@ -83,11 +83,6 @@ class User extends BaseUser
     private $sports;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Club", cascade={"persist"})
-     */
-    private $clubs;
-
-    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Adresse")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -220,40 +215,6 @@ class User extends BaseUser
     public function getSports()
     {
         return $this->sports;
-    }
-
-    /**
-     * Add club
-     *
-     * @param \AppBundle\Entity\Club $club
-     *
-     * @return User
-     */
-    public function addClub(\AppBundle\Entity\Club $club)
-    {
-        $this->clubs[] = $club;
-
-        return $this;
-    }
-
-    /**
-     * Remove club
-     *
-     * @param \AppBundle\Entity\Club $club
-     */
-    public function removeClub(\AppBundle\Entity\Club $club)
-    {
-        $this->clubs->removeElement($club);
-    }
-
-    /**
-     * Get clubs
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getClubs()
-    {
-        return $this->clubs;
     }
 
     /**
