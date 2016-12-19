@@ -2,17 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use AppBundle\Form\ClubType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use AppBundle\Entity\Club;
 use AppBundle\Entity\User;
@@ -76,30 +70,10 @@ class ClubController extends Controller
         $adresse = new Adresse();
 
         // Creation d'un formulaire se basant sur l'objet sport
-        $formBuilderClub = $this->get('form.factory')->createBuilder(FormType::class, $club);
-        $formBuilderAdresse = $this->get('form.factory')->createBuilder(FormType::class, $adresse);
-
-        $formBuilderClub
-            ->add('name', TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('openingTime', TextType::class)
-            ->add('closingTime', TextType::class)
-            ->add('emailContact', TextType::class)
-            ->add('phoneContact', TextType::class)
-            ->add('sportComplex', TextType::class)
-            ->add('sportComplexCity', TextType::class);
-
-        $formBuilderAdresse
-            ->add('adresse', TextType::class)
-            ->add('city', TextType::class)
-            ->add('postalCode', TextType::class)
-            ->add('region', TextType::class)
-            ->add('send', SubmitType::class);
-
+        $formBuilderClub = $this->get('form.factory')->createBuilder(ClubType::class, $club);
 
         // Mise en place du formulaire
         $formClub = $formBuilderClub->getForm();
-        $formAdresse = $formBuilderAdresse->getForm();
 
         // On verifie que l'utilisateur soit connecté pour in
         // if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -136,7 +110,6 @@ class ClubController extends Controller
 
         return $this->render('club/add_club.html.twig', array(
             "formClub" => $formClub->createView(),
-            "formAdresse" => $formAdresse->createView()
         ));
 
         // // Possibilité de l'associer à un sport
