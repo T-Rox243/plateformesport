@@ -42,7 +42,7 @@ class SportController extends Controller
      */
     public function editSportAction($idSport, Request $request)
     {
-
+        // On va charger le manager doctrine
         $em =  $this->getDoctrine()->getManager();
 
         // Attention, on ne peut le faire que si la personne est connecté et que c'est l'utilisateur qui a creer ce sport

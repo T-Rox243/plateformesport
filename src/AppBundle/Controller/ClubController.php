@@ -5,8 +5,11 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use AppBundle\Form\ClubType;
 use Symfony\Component\HttpFoundation\Request;
+
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use AppBundle\Form\ClubType;
+use AppBundle\Form\MediaType;
 
 use AppBundle\Entity\Club;
 use AppBundle\Entity\User;
@@ -37,11 +40,24 @@ class ClubController extends Controller
     public function editClubAction($idClub, Request $request)
     {
 
+        // On recupere le manager de doctrine
         $em = $this->getDoctrine()->getManager();
 
-        $editClub = $em->getRepository('AppBundle:Club')->find($idClub);
+        // On check le authorization de sécurité
+        $securityContext = $this->container->get('security.authorization_checker');
 
+        // On recupere les informations du club à editer
+        $editClub = $em->getRepository('AppBundle:Club')->find($idClub);
+        // $media = new Media();
+
+        // On va mettre en place le formulaire avec l'objet editClub que nous venons de récupérer
         $formBuilderClub = $this->get('form.factory')->createBuilder(ClubType::class, $editClub);
+        // $formBuilderTest= $this->get('form.factory')->createBuilder(MediaType::class, $media);
+        $formBuilderClub->add('medias', CollectionType::class, array(
+            'entry_type'    => MediaType::class,
+            'allow_add'     => true,
+            'allow_delete'  => true
+        ));
 
         // Mise en place du formulaire
         $formClub = $formBuilderClub->getForm();
@@ -69,8 +85,7 @@ class ClubController extends Controller
                 $formClub->handleRequest($request);
 
                 if($formClub->isValid()){
-                    $em->persist($club);
-                    // $em->persist($club->getAdresse());
+                    $em->persist($editClub);
 
                     // Insertion dans la bdd
                     $em->flush();
@@ -90,6 +105,7 @@ class ClubController extends Controller
     public function addClubAction(Request $request)
     {
 
+        // On recupere le manager de doctrine 
         $em = $this->getDoctrine()->getManager();
 
         // On check le authorization de sécurité
