@@ -1,0 +1,32 @@
+TODO LIST
+	
+	User part
+		- Gestion des utilisateurs
+			-> Afficher le menu profil si connecté
+			-> Bouton de deconnexion si connecté
+			-> Retour à l'accueil après validation de l'inscription
+			-> Retour à la page d'accueil après validation de la connexion
+		
+		- Ajout des vrais médias pour club, sport, evenement (images pour le moment)
+			-> ajout d'un fichier type png/jpg
+			-> definition d'un lien specifique pour chaque type (par exemple : img/club/clubName/AllFile )
+		
+		- Ajout d'un média pour utilisateur (Un seul média pour l'avatar)
+			-> Definition d'un lien specifique pour chaque utilisateur
+		
+		- Ajout d'un evenement via un formulaire
+		
+		- Devenir Benevole pour un evenement
+		
+		- Avoir le 'statut' Benevole pour un utilisateur
+		
+		- Lister les dernieres informations dans la page d'accueil
+			-> Derniers sports
+			-> Derniers événements
+			-> Derniers clubs
+		
+		- Listing des sports (definir les informations à afficher)
+		
+		- Listing des clubs (definir les informations à afficher)
+		
+		- Listing des événements (definir les informations à afficher)
