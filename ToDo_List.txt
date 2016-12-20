@@ -15,7 +15,7 @@ TODO LIST
 			-> Definition d'un lien specifique pour chaque utilisateur
 		
 		- Ajout d'un evenement via un formulaire
-		
+
 		- Devenir Benevole pour un evenement
 		
 		- Avoir le 'statut' Benevole pour un utilisateur
@@ -25,8 +25,28 @@ TODO LIST
 			-> Derniers événements
 			-> Derniers clubs
 		
-		- Listing des sports (definir les informations à afficher)
+		- Listing des sports
 		
-		- Listing des clubs (definir les informations à afficher)
+		- Listing des clubs
 		
-		- Listing des événements (definir les informations à afficher)
+		- Listing des événements
+
+		- Affichage des informations des sports (définir les informations à afficher)
+			-> possibilité d'éditer les informations si créateur du sport (affichage d'un bouton edit ? )
+
+		- Affichage des informations des clubs (définir les informations à afficher)
+			-> possibilité d'éditer les informations si créateur du club (affichage d'un bouton edit ? )
+
+		- Affichage des informations des événements (définir les informations à afficher)
+			-> possibilité d'éditer les informations si créateur de l'evenement (affichage d'un bouton edit ? )
+
+		- Recherche dynamique d'un sport, club et evenement
+
+	Admin part
+		- Valider la creation d'un Evenement
+		
+		- Valider la creation d'un Utilisateur
+		
+		- Valider la creation d'un Sport
+		
+		- Valider la creation d'un Club
