@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\AdresseType;
 
 class ClubType extends AbstractType
 {
@@ -22,13 +23,15 @@ class ClubType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('openingTime', TextareaType::class)
+            ->add('description', TextareaType::class)
+            ->add('openingTime', TextType::class)
             ->add('closingTime', TextType::class)
-            ->add('description', TextType::class)
             ->add('emailContact', TextType::class)
             ->add('phoneContact', TextType::class)
             ->add('sportComplex', TextType::class)
-            ->add('sportComplexCity', TextType::class);
+            ->add('sportComplexCity', TextType::class)
+            ->add('adresse', AdresseType::class)
+            ->add('send', SubmitType::class);
             // ->add('linkWebsite')
             // ->add('linkFede')
             // ->add('user')
