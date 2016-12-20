@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -13,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\AdresseType;
+use AppBundle\Form\SportType;
 
 class ClubType extends AbstractType
 {
@@ -31,6 +34,11 @@ class ClubType extends AbstractType
             ->add('sportComplex', TextType::class)
             ->add('sportComplexCity', TextType::class)
             ->add('adresse', AdresseType::class)
+            ->add('sport', EntityType::class, array(
+                'class' => 'AppBundle:Sport',
+                'choice_label' => 'name',
+                'multiple' => false
+            ))
             ->add('send', SubmitType::class);
             // ->add('linkWebsite')
             // ->add('linkFede')

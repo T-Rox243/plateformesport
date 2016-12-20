@@ -133,10 +133,9 @@ class ClubController extends Controller
 
                 // Hydrate l'objet avec les données saisies dans le formulaire
                 $formClub->handleRequest($request);
-
+                
                 if($formClub->isValid()){
                     $em->persist($club);
-                    // $em->persist($club->getAdresse());
 
                     // Reference à l'utilisateur
                     $club->setUser($user);
