@@ -121,7 +121,8 @@ class ClubController extends Controller
         $formClub = $formBuilderClub->getForm();
 
         // On verifie que l'utilisateur soit connecté pour in
-        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if ( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') )
+        {
             // On recupere l'id de l'user connecté. Seul un utilisateur connecté peut créer un evenement
             $idConnectedUser = $this->getUser()->getId();
 
@@ -129,11 +130,12 @@ class ClubController extends Controller
             $user = $em->getRepository('AppBundle:User')->find($idConnectedUser);
 
             // On verifie que le boutton submit 
-            if($request->isMethod('POST')){
+            if( $request->isMethod('POST') )
+            {
 
                 // Hydrate l'objet avec les données saisies dans le formulaire
                 $formClub->handleRequest($request);
-                
+
                 if($formClub->isValid()){
                     $em->persist($club);
 
