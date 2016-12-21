@@ -31,19 +31,6 @@ class EventController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $event = $em->getRepository('AppBundle:Evenement')->find($idEvent);
-        
-        // // Petite mécanique pour devenir benevole. Faut que je vois comment
-        // $benevole = new Benevole();
-        // // On recupere le user et on le set (besoin de voir ) 
-        // $benevole->setUser($user);
-        // $eventBenevole = new EvenementBenevole();
-
-        // $eventBenevole->setVolunteerRole("Simple Benevole");
-        // $eventBenevole->setEvenement($event);
-        // $eventBenevole->setBenevole($benevole);
-        // $em->persist($eventBenevole);
-        // $em->flush();
-
 
         // $eventBenevole = $em->getRepository('AppBundle:Evenement')->findBy(array('evenement' => $event));
         if (null === $event) {
