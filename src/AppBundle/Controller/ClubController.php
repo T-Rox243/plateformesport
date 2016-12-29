@@ -27,9 +27,12 @@ class ClubController extends Controller
 
         $club = $em->getRepository('AppBundle:Club')->find($idClub);
 
+        $test = $em->getRepository('AppBundle:Club')->monTestAMoi();
+
         return $this->render('club/club.html.twig', array(
             "idClub" => $idClub,
-            "infoClub" => $club
+            "infoClub" => $club,
+            "test" => $test
         ));
     }
 
