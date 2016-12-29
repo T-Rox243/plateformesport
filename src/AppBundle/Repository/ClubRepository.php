@@ -15,10 +15,13 @@ class ClubRepository extends EntityRepository
 
 	public function monTestAMoi(){
 		
-		// Version plus longuie et plus lourde
-		$queryBuilder = $this->_em->createQueryBuilder()
-		->select('name')
-		->from($this->_entityName, 'name');
+		// Version plus longue et plus lourde
+		// $queryBuilder = $this->_em->createQueryBuilder()
+		// ->select('name')
+		// ->from($this->_entityName, 'name');
+
+		// Version plus rapide et plus legere
+		$queryBuilder = $this->createQueryBuilder('name'); 
 
 		// On recupere la query grace au query builder
 		$query = $queryBuilder->getQuery();
@@ -26,7 +29,7 @@ class ClubRepository extends EntityRepository
 		// on recupere le(s) resultat(s) à partir de la query
  		$results = $query->getResult();
 
-		return "test a la con";
+		return $results;
 	}
 
 }
