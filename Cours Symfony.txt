@@ -1,0 +1,773 @@
+Cours Symfony
+
+Introduction
+	-> Qu'est qu'un service ?
+		Un service est une classe remplissant une fonction bien précise dans notre application. Ce service est accessible partout dans notre code.
+		(Voir plus ici --> https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2/les-services-theorie-et-creation)
+
+I- Creation de Bundles
+ 	-> Represente chaque partie de notre site
+ 		- cote administrateur
+ 		- cote utilisateur
+ 		- ...
+
+ 	-> Comment le générer
+ 		- Utiliser via la ligne de commande "php bin/console generate:bundle"
+
+ 	-> Les différentes etapes de la générations
+ 		1 - Reutilisation du bundle
+ 			Symfony demande si on souhaite utiliser un bundle avec une base existante
+ 			Si oui, le bundle sera plus complet de base
+ 			Si non, ca sera à nous de le completer le plus possible
+ 		
+ 		2 - Choix du namespace
+ 			On peut le nommer comme bon nous semble, juste il doit finir par le suffixe Bundle
+ 			En général, on le compose en 3 partie 
+ 				- nom de la racine du bundle (correspondant souvent au initial d'une entreprise)
+ 				- nom du bundle
+ 				- suffixe bundle 
+
+ 		3 - Choix du Nom
+ 			Symfony propose par default le nom saisi dans le namespace sans les slash
+
+ 		4 - Choix de l'emplacement
+ 			Par default, il se trouveras dans src et symfony le proposera ainsi
+
+ 		5 - Choix de la configuration
+ 			Il vaut mieux prendre en yaml ou annotation (dans notre projets, annotations)
+
+ 		6 - Fin
+ 			Le Bundle est créé
+
+ 	-> Quelques informations
+ 		- Afin d'avoir la toolbar de debug, il faut rajouter les balise html et body dans la views correspondant. Symfony gere tout seul la toolbar grace au balise html/body
+
+ 		- Le Bundle que nous venons de creer a été chargé dans le fichier 'app/appKernel.php'
+
+ 		- Pour changer le chargement du bundle aller dans "app/config/routing.yml", on peut modifier les routes afin de determiner quelle bundle charger en tant qu'administrateur, utilisateurs ...
+ 		Il permet de definir aussi la route de la bundle
+
+II- Premier Hello Word
+	Permet de generer des urls afin de charger la view correspondante
+
+	-> Créer une route
+		- Dans notre cas, c'est en annotation que l'on travail le tuto ne sert pas à grand chose
+		- Cependant voici quelques regles
+			* Les routes les plus precise (qui necissite un chiffre, avec des expressions reguliere en premier car plus difficile d'etre correct)
+			* Dans notre cas, il se fait directement dans le controller
+
+		- Il est possible de creer une route via la console, grace à la commande suivante 'php bin/console generate:controller'. De la, il y a certaine etape de création
+			
+			* 1 - Nom du controller
+				On doit donner un nom sous cette forme "nomDuBundle:nomduController"
+
+			* 2 - Choix du format du routing
+				Choix entre le xml, annotation, yml
+				Le choix par default correspond au type de routing du Bundle
+
+			* 3 - Choix du type de template
+				Par default, c'est twig et c'est très certainement
+
+			* 4 - Mise en place des actions
+				Permet de generer les differents functions et leurs routes dans le fichier de controller
+				L'action doit se nommer de la manière suivante "nameAction", le suffixe Action doit toujours y être pour eviter les erreurs.
+
+	-> Creér un template Twig
+		- Ressemble plus au moins à une page html affichant dynamiquement du contenu en PHP, mais c'est bien plus simple à lire. Voila la comparaison entre les deux
+			* PHP : <?php echo $test ?>
+			* TWIG : {{ test }}
+		Dans ces deux cas, nous allons afficher la variable nommé test, cela failite le travail du designer, integrateur
+		
+		- Donc apparament, les views, il vaut mieux les mettre dans le dossier du Bundle, ca sera donc à corriger. Dans "BundleName/Resources/view/controlleurName"
+			BundleName -> Nom de notre Bundle
+			ControlleurName -> a la meme nom que le controlleur permettant d'alimenter la view en donnée, comme ca, plus facile de savoir quel controlleur est associé à quelle view
+		
+		- Afin d'appeler le template twig, il faut utiliser la ligne de code suivante
+			* "return $this->render("view.html.twig",array("variable" => "valeur"))"
+			On a un tableau qui permet d'attribuer des variables et qui pourront être lu dans le fichier twig. Dans l'exemple ci dessus, la variable se lirai {{ variable }}
+
+III - Mise en place du projet
+	-> Penser à nettoyer les fichiers proposer par default par symfony, afin de n'avoir que les fichiers de notre projet
+	
+	-> Penser aussi a vider les caches car symfony utilise enormement les caches pour pouvoir s'executer plus rapidement
+	
+	-> Il y a deux manieres de vider le cache
+		* Pour la prod, le cache n'est jamais vider, symfony ne s'encombre pas avec ca en prod afin de faire fonctionner le plus rapidement possible l'application. Pour vider le cacher, il faut le faire à la main via la commande suivante en ligne de commande "php bin/console cache:clear --env=prod"
+		* Pour la dev, lors de modification de code, Symfony reconstruit une bonne partie du cache. Il n'est donc pas forcement necessaire de vider les caches. Seulement si il y a un bug pouvant être lié à ça, on peut utiliser la fonction en ligne de commande suivante "php bin/console cache:clear"
+
+IV - Les Entités Symfony
+	-> Les notions de l'ORM
+		* L'ORM permet au developpeur d'oublier qu'il dispose d'une base de données, en evitant au maximum d'ecrire des requetes SQL. Ainsi, si par exemple, on souhaite inserer un nouvel utilisateur dans la base de donnée, on a plus a faire "INSERT INTO", mais seulement "$orm->save(utilisateur)".
+		
+		* Mais le plus gros effort est d'oublié ce coté administrateur de bdd. Oublier les requetes SQL et penser en objet.
+		
+		* En parlant d'objet, cela implique aussi sur le code. Par exemple, avant on pour recuperer l'email d'un utilisateur, on utiliser la requete SQL et on afficher la requete via le code suivante : $utilisateur["email"];
+		Maintenant il suffirait de faire le code suivant : $utilisateur->getEmail();
+		La ou cette dernier revolution, c'est que la fonction getEmail() ira d'elle meme exectuter la bonne requetes, optimisée, pour recuperer la bonne information
+
+		* Ce sont les entitys qui vont être manipulés et enregistré en bdd 
+
+		* Ce sont les annotations qui vont permettre de determiner les différents parametres d'une entité. Lorsqu'on ajoute des metadata dans les entités, cela s'appelle mapper l'objet. Cela veut donc dire faire un lien entre notre objet et la representation physique de Doctrine (les tables SQL)
+
+	-> On va générer une entité
+
+		* On utilise la commande suivante "php bin/console generate:doctrine:entity"
+		Et à partir de la, il y a plusieurs étapes
+
+			1 - Donner le nom à un notre entité, tout en specificiant le Bundle qui convient. Par exemple, dans notre cas du projet test, ca sera "LHmytestBundle : nomEntite"
+
+			2 - On choisit le type de configuration, annotation par defauts et ce que nous allons utiliser nous aussi pour ce projets de tests
+
+			3 - On definis le champs, via le code suivant, on nomme le champs qu'on souhaite
+				/ On definis le type
+				/ On definis la taille
+				/ On definis si le champs est falcutatif
+				/ On definis si il doit être unique ou pas
+
+				_/\_ Attention, l'id autoIncrement se fait tout seul
+
+			4 - Une fois le differents champs entrés, juste appuyer sur Entrée
+
+		* On a maintenant un Entity créé dans sur le chemin suivant : "mytestBundle\Entity\MonTestSymfony.php". L'exemple de notre entité est un peu simple, mais rappelez-vous que la couche modèle dans une application est la couche métier. Ce la veut donc dire qu'en plus de gérer nos informations, chaque modele correspond à une couhce metier. Il ne faut donc pas hésiter a creer des méthodes contenant une logique métier. (getPrixTotal(), getSpecifique()).
+		Bien Evidement, c'est methodes créées n'ont pas d'équivalent en set
+
+	-> Manipulation des entités
+
+		* Matérialisation de la base de données
+			/ Avant toute chose, il faut verifier que phpmyadmin soit installé et que la configuration de symfony pour la connexion à la base de donnée soit correcte. Aller voir le fichier suivant : "app/config/parameters.yml"
+
+			/ Une fois que les parametres sont verifiés et à jours, on peut creer et mettre à jour la base de données
+				- Si il faut creer la base de données, utiliser la ligne de commande suivante "php bin/console doctrine:database:create"
+				- Si elle existe deja dans phpmyadmin, utiliser la ligne de commande suivante "php bin/console doctrine:schema:update --force"
+
+			/ Une fois les commandes lancées et reussies, verifier si la bdd est créée ou mise a jour
+
+		* Enregistrer dans la bdd
+			C'est le service Doctrine qui va nous permettre d'interagir avec notre base de données. Accessible depuis notre controleur comme n'importe quel service.
+			Pour appeler ce service, il y a 2 possibilités
+				-$doctrine = $this->get('doctrine'); C'est la version 'normal' pour appeler le service
+				-$doctrine = $this->getDoctrine(); Version possible grace au controller de Symfony integrant les raccourcis. Les deux font exactement la même chose, seulement le dernier fait plus propre à la lecture
+
+			/ Connexion à la base de données
+				Pour se connecter, à la base de données il faut utiliser
+					- $doctrine->getManager();
+					Attention il est possible de fournir des arguments "$doctrine->getManager($name);" afin de faire la connexion à partir du nom fourni
+
+					- Pour un connexion totale, il faut donc saisir la ligne suivante :
+						$em = $this->getDoctrine()->getManager();
+						Cette façon permet l'autocomplétion
+
+				C'est l'entity Mananger, donc getManager() definis precedement, qui nous permettra de dire à Doctrine d'executer les requetes. La seule chose qu'il ne sait pas faire facilement, c'est récupérer les entités depuis la base de données. Pour faciliter l'accès aux objets, on va utiliser des Repository.
+
+			/ Repository
+				
+				Un repository est un objet utilisant un EntityManagers mais très simple d'utilisation. Il existe un repository par entité. On parle d'un repository en particuliers, il est donc important de préciser le repository de l'entité pour éviter les erreurs.
+				Pour y acceder, on le fait de la maniere suivante : 
+					- $em = $this->getDoctrine()->getManager();
+					- $advertRepository = $em->getRepository('NameBundle:NameEntity');
+
+				Comme nous l'avons dis plus haut, ce sont les repositories qui permettent de récuperer les entités, il faut donc spécifier chaque repository pour chaque entité
+		
+			/ Insertion dans la base de données
+
+				Precédement nous avons créé une entité. Maintenant il faut la donner à Doctrine pour qu'il l'enregistre en base de données. Utiliser le code suivant :
+					- use PrefixeBundle\NameBundle\Entity\Name Entity;
+				L'enregistrement effectif en base de données se fait en deux étapes très simples depuis un contrôleur : 
+					- persiste, cela veut dire qu'à partir de maintenant cette entité (qui n'est qu'un simple objet !) est gérée par Doctrine. Cela n'exécute pas encore de requête SQL, ni rien d'autre.
+					- flush, cela dit à Doctrine d'exécuter effectivement les requêtes nécessaires pour sauvegarder les entités qu'on lui a dit de persister précédemment
+
+				Utiliser deux étapes permet de profiter de transaction. Si par exemple il y a plusieurs entités à "persiter" en même temps, les deux entités seront enregistrées en même temps evitant ainsi les erreurs de liaison dans la base de données
+
+				La méthode persit() traite indifferement les nouvelles entité crées de celle déja existante en base. Il est donc possible de lui passer une nouvelle entité ainsi qu'en récupérer une. Lors de la méthode flush(), on n'a pas à se soucier de l'INSERT INTO et de l'UPDATE
+				Il est inutile de faire un persit() de l'entité quand celle ci a été récupéré dans par doctrine. En effet, le persit permet de passer la main à doctrine, hors comme l'entité a été recupéré par elle, il n'est pas nécessaire de la persit, contrairement à une nouvelle entité que doctrine ne peut pas connaitre à sa création.
+
+			/ Autres méthodes de doctrine
+
+				detach(), qui n'associe plus l'entité à doctrine. Cette entité ne sera donc pas enregistré en base lors du flush()
+
+				clear(), qui annule tout les persits enregistré precedement. Si on precise le nom d'une entité,son namespace complet ou son raccourci, alors tout les persits lié à cette entité sont annulé 
+
+				contains(), permet de retourner true afin de savoir si une entité à été persité, donc gérér par doctrine
+
+				refresh(), permet de mettre à jour l'entité entrée en parametres dans le code. Recupere ce qu'il y a dans la base de données.
+
+				remove(), permet de supprimer l'entité, effectué au prochain flush
+
+
+			/ Récupération dans la base de données
+				Ceci n'est qu'un mini exemple de comment recuperer une entité particuliers, nous verrons le details plus tard
+				Pour récuperer une Entité, il y a 2 étapes importante à faire
+					1 - Definir le repository
+						
+						$em = $this->getDoctrine()->getManager();
+						$repository = $em->getRepository("entityName")
+					
+					2 - Trouver l'id de l'entité enregistré en bdd
+
+						$entity = $repository->find($id)
+
+	-> Relations entre les entités
+
+		* Il y a plusieurs type de relation OneToOne, OneToMany et ManyToMany. Dans une relation entre les entités, il y a toujours une dite propriétaire et la seconde dite inverse
+			
+			/ Entité Propriétaire, celle qui contient la référence à l'autre entité (Par exemple: Si on a des commentaires et des utilisateurs, on va mettre id_user dans commentaires alors cette table sera la 'propriétaire' )
+
+			ATTENTION, lors de la génération des entités, il ne faut pas créer une colonne "id_user", c'est doctrine qui va gérer ça
+			
+			/ Entité Inverse, elle est celle qui ne contiendra seulement les informations lié à sa table
+
+		* Les relations unidirectionnalité (celle qu'on va voir dans le cours)
+			Elle ne permet de faire la relation que dans un seul sens EntitéPropriétaire->EntiteInverse();
+			(Patr exemple : $user->getCommentaires(), on recupere les commentaires de l'utilisateur choisi)
+
+		* Relation OneToOne
+			/ C'est une relation unique entre les deux entités (Par exemple : Une image pour un evenement)
+			Pour établir une relation OneToOne, aller dans l'entité propriétaire et noter en annotation la ligne suivante :
+				
+				/**
+				* @ORM\OneToOne(targetEntity="BundleWay\Entity\EntityInverseName", cascade={"persist"})
+				*/
+				private $image;
+
+			C'est à ce moment que l'on definis qui sera l'entité propriétaire car l'entité possedant cette ligne aura "id_otherEntity" dans la bdd (si on reprends le concept de bdd)
+			On peut y ajouter la ligne ci dessous, si on veut que la relation soit obligatoire
+					
+					* @ORM\JoinColumn(nullable=false)
+
+
+			Si on decortique la ligne de l'annotation
+				- @ORM\OneToOne, définit une relation vers une autre entité. Lorsque vous utilisez l'un, vous ne pouvez pas utiliser l'autre sur le même attribut.
+
+				- targetEntity, vaut simplement le namespace complet vers l'entité liée.
+
+				- cascade, permet de lors de la supression de l'entité principale de supprimer les données de l'entité inverse (et eviter des données orpheline)
+
+			Il est aussi important de définir le setter et getter de la relation, soit en editant directement le fichier, soit en utilisant la ligne de commande suivante
+				
+				- php bin/console doctrine:generate:entities nameBundle:entityName
+
+			Enfin lorsque la relation est créée, il est important de toujours penser en objet. Ce qui veut dire qu'on ne rentre pas un Id de la relation inverse lorsqu'on instancie les objets, mais bien l'objet
+				
+				- Par exemple : Relation entre en Utilisateur (entité propriétaire) et une Image (entité inverse)
+						$newUser = new User();
+						$newUser->setNom("test");
+						$newUser->setPrenom("test");
+
+						$newImage = new Image();
+						$newImage = setAlt("blabla");
+						$newImage = setUrl("blabla.png");
+
+						$newUser->setImage($newImage);
+
+						...
+
+		* Relation OneToMany
+			/ Une entité peut avoir plusieurs relations avec une seconde, mais cette derniere n'en a qu'une (Dans notre exemple, Commentaires et Sujet)
+			Pour etablir une relation en OneToMany, il faut, dans l'entité propriétaire (ici commentaires) ecrire la ligne suivante : 
+
+				/**
+				* @ORM\ManyToOne(targetEntity="OC\PlatformBundle\Entity\Sujet")
+				* @ORM\JoinColumn(nullable=false)
+				*/
+
+				private $sujet;
+
+			/ On a mis ici le "joinColumn(nullable=false)", afin d'éviter un commentaires si celui n'est pas lié à un sujet
+
+			/ Update de l'objet via la ligne suivante
+				- php bin/console doctrine:schema:update --force
+
+			/ Generer les getter et setter de commentaires prenant en compte l'objet sujet, soit en copiant à la main, soit en utilisant la ligne suivante :
+				- php bin/console doctrine:generate:entities nameBundle:nameEntity
+
+		* Relation ManyToMany
+			/ Une entité peut avoir plusieurs relations avec une mais c'est dernière peut aussi en avoir plein avec la première (Par exemple : Une annonces peut avoir plusieurs participants, mais les participants peuvent avoir affecter plusieurs annonces)
+
+			/ Cette relation implique que doctrine va devoir créer une table intermédiaire, contenant l'id de l'enitité 1 et de l'entité 2. Doctrine la créée et la gère tout seul
+
+			/ Une fois les entités créées, il faut definir l'entité propirétaire et inverse (dans le cas d'une relation manyToMany, cela importe peu. Cependant mettre dans celle qui a le plus de chance d'être appeler. Dans notre cas, il y a plus de chance qu'on regarde les particpant d'une annonce que les annonces au quel les participants au participer) et mettre la ligne suivante dans la propriétaire
+				/**
+				* @ORM\ManyToMany(targetEntity="BundleWay\Entity\EntityName", cascade={"persist"})
+				*/
+				private $nameDeLaLiasons;
+
+			/ Lors qu'on va instancier la variable, celle qui est faite juste après la liaison, il ne faut pas oublier le "s" en fin. Car d'une relation ManyToMany, c'est pas un objet qu'on recupere mais un array d'objet
+
+			/ Update de l'objet bdd via
+
+				- php bin/console doctrine:schema:update --force 
+
+			/ Génération des entités
+				- php bin/console doctrine:generate:entities nameBundle:nameEntity
+
+			/ On va ajouter une annonce histoire de tester un peu
+
+				Si on ajoute une personne à une annonce, il faut addAnnonce(objetAnnonce). Si on recupere plusieurs annonces, il est important de faire un foreach pour ajouter un à un.
+				Il est tout à fait possible de créer separement les deux, l'un ne depend pas de l'autre.
+
+				Si l'on souhaite discossier/supprimer une annonce d'un participant, on doit utiliser méthode removeAnnonce(objetAnnonce)
+
+		* Relation ManyToMany - avec Attributs
+			/ Permet, si besoin, de gérer une relation ManyToMany plus complexe. Par exemple, si il y a une commande et un produit, il est possible qu'une commande concerne plusieurs produits, et un produit plusieur commandes. Mais pour une commande faite, il peut y avoir plusieurs même produits.
+
+			/ Pour résoudre ce problème, il faut créer une entité intermédiaire. Dans le cas des commandes et produits, ca serai CommandeProduit.
+
+			/ Il faut mettre ensuite une relation entre cette entité intermédiaire. Pour cela, il faudrait faire
+				- une relation OneToMany de commande vers CommandeProduit
+				- une relation ManyToOne de produit vers CommandeProduit
+			En effet, une commande (one) peut avoir plusieurs relations avec des produits (many), plusieurs CommandeProduit donc.
+
+			/ Mise a jour de la base de données via la commande suivante :
+				- php bin/console doctrine:schema:update --force
+
+			/ Mise en place des getters et setters
+				- php bin/console doctrine:generate:entities WayBundle:NameEntity
+
+	-> Relations Bidirectionnelles
+
+		* Jusqu'à maintenant, nous n'avons touché qu'à l'entité propriétaire. Le faire ainsi est plus simple mais il n'est pas possible de récuperer l'entité propriétaire depuis l'inverse. Dans certains cas, c'est bien pratique quand même.
+
+		* On va voir le cas d'une relation ManyToOne, mais la méthode reste la même pour une relation OneToOne ou ManyToMany
+
+		* On y va, le but est de faire comprendre à l'entité inverse qu'elle fait partie d'une relation, dans l'entité inverse, y mettre l'annotation et la variable correspondant. (dans notre cas, on oublie pas que c'est une ManyToOne)
+			- /**
+				* @ORM\OneToMany(targetEntity="NameBundle\Entity\NameEntity", mappedBy="CurrentNameEntity")
+				*/
+				privates $nameEntitys;
+
+				/**
+				* @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\Application", mappedBy="advert")
+				*/
+				private $applications; // Notez le « s », une annonce est liée à plusieurs candidatures
+
+			- Dans une relation ManyToOne, l'entité propriétaire est ManyToOne, l'entité inverse est donc OneToMany. Dans une relation ManyToOne , si on voit la relation ManyToOne, c'est que nous sommes dans l'entité propriétaire.
+
+			- Le "target" reste dans la même logique des autre relations
+
+			- Le mappedBy, il correspond à l'attribut propriétaire pointant vers l'entité inverse. Il faut l'informer pour que l'entité inverse soit au courant des caractéristiques de la relation. 
+
+		* Il faut aussi adapté un peu l'entité propriétaire pour la rendre bidirectionnelle. Il faut notamment rajouter le parametre "InversedBy" dans l'annotation ManyToOne
+			- /**
+			* @ORM\ManyToOne(targetEntity="BundleName\Entity\EntityName", inversedBy="CurrentEntityName")
+			..
+
+			- exemple dans l'entité application de l'exemple 
+			/**
+			* @ORM\ManyToOne(targetEntity="OC\PlatformBundle\Entity\Advert", inversedBy="applications")
+
+
+			- Le parametre "InversedBy" correspond à la symétrie de mappedBy de la relation inverse
+
+		* Maintenant, il faut générer les getters et setters
+
+			- php bin/console doctrine:generate:entities bundleName:entityName
+
+		* On a maintenant un soucis, il faut set l'entité propriétaire lors ce qu'on crée une nouvelle entité pour eviter des erreurs
+
+V - Récuperer les Entités
+	-> Le rôle des repositories
+		Un repository centralise tout ce qui touche à la récupération de nos entités. Cela veut donc dire qu'il n'y a aucune requete SQL à faire. On va donc creer des méthodes pour recuperer une entité par son "id" par son exemple. On utilisera un repository a chaque fois que l'on souhaite recuperer une entité en bdd.
+
+		Il existe un repository par entité, afin de bien organiser le code.Mais cela n'empeche pas qu'un repository peut utiliser plusieurs entités
+
+		Les repositories utilisent l'EntityManager pour travailler. 
+
+	-> Les deux façons de procéder
+		- En utilisant DQL.
+			Le DQL correspond à du SQL adapté à l'objet de Doctrine. Il faut donc faire comme d'habitude avec les requetes SQL en adapatant un peu
+				* SELECT name FROM AppBundle:Club name
+
+		- En utilsant QueryBuilder
+			C'est un moyen plus puissant, car il sert à construire une requete par étape.
+				* $queryBuilder
+					->select('name')
+					->from('AppBundle:Club' , 'name')
+
+
+			Le plus grand avantage est de pouvoir construire la requete en plusieurs fois. Si lors d'une requete on souhaite afficher les evenements ou sport valider, il nous faut la conditions 'where' ou 'and'. Seulement la gestion de cet evenement n'est pas forcement evident. 
+			Avec le queryBuilder,  on regle se soucie en une ligne
+				* $queryBuilder->anbWhere('...')
+	
+	-> Récupération de base
+		Nos repositories héritent de la class EntityRepository de base, et propose quatre méthodes de base
+
+			- find($id)
+				recupere l'entité lié à l'id que nous avons saisi en parametre
+
+			- findAll()
+				Recupere l'ensemble des entité qui se trouvent dans la base de données. Le format de retour est sous forme de tableau PHP qu'il faut parcourir avec un 'foreach'
+
+			- findBy()
+				Plus interessant, elle permet de retourner une liste d'entité, mais il est possible d'effectuer un petit filtre sur ce que l'on souhaite retourner. On peut mettre un ou plusieurs criteres. 
+
+				* $repository->findBy(
+					array $critere, // Critere
+					array $orderBy, // Tri
+					$limit 			// Limite 
+					$offset 		// Offset
+				)
+
+				$repository->findBy(
+					array ('name' => 'test')
+					array ('date' => 'desc'),
+					5 			
+					0
+				);
+
+			- findOneBy()
+				Elle fonctionne sur le même principe que la méthode precedente, mais elle ne retournera qu'une seule entité. Les arguments tel que limit et offset n'existe pas.
+
+				* $repository->findOneBy(array('name' => 'test'));
+
+				Elle retournera null si il n'y a rien qui correspond à la recherche. Si il y a plusieurs entités qui correspondent à la recherche, ce sera la 1ere dans l'odre que nous avons demandé qui sera pris en compte
+
+		-> Les méthodes 'magiques'
+
+			- findByX($valeur)
+				Il faut remplacer le 'X' par une valuer de notre entité (name, date ...). Cette méthode fonctionne comme le findById(), et retournera donc une ou plusieurs entités ou null
+
+				* $repository->findByName('test'); // ceci est un exemple, car Louis tu es con
+
+			- findOneByX($valeur)
+				Comme la précedente methode, il faut remplacer le 'X' par un champ de notre entité. Elle retournera un seul resultat pour la valuer que nous lui avons saisi
+
+				* $repositroy -> findOneByName('test')
+
+		-> Méthodes de recupération personnelles
+			Afin de developper nos propres méthodes, il faut comprendre le fonctionnement de Doctrine2 pour construire les requetes. Il y a trois types d'objet qui vont servir et a ne pas confondre
+				- le QueryBuilder
+					Comme nous l'avons vu, il permet de construire une Query, mais n'est pas une Query.
+					Pour recuperer le QueryBuilder, il nous faut tout simplement "l'EntityManager" qui dispose de la méthode 'createQueryBuilder()' retournant une instance QueryBuilder
+
+					L'EntityManager est accessible depuis le repository en utilisant le code suivant : 
+
+						* use Doctrine\ORM\EntityRepository;
+							...
+							// Forme normal et plus longue
+							$queryBuilder = $this->_em->createQueryBuilder()
+								->select('a')
+								->from($this->_entityName, 'a');
+
+							// Raccourci pour recuperer directement le nom que l'on souhaite
+							$queryBuilder = $this->createQueryBuilder('a');
+
+					Le code suivant permet de recuper tout de les informations de l'entité en question
+
+					Pour recuperer les resultats de cette methode personnelle depuis le controller, il faut appeler la methode que nous venons de creer
+						
+						* $nameValeur = $em->getRepository('AppBundle:Entity')->nameMethodeCreate();
+
+					Le queryBuilder dispose de plusieurs méthodes : WHERE, ORDER BY ...
+					Voila comment on les appliques dans le repository
+
+						* 	$queryBuilder = $this->createQueryBuilder('nameAsYouWant');
+							$queryBuilder->where('condition')
+										->andwhere('nameAsYouWant.champ = :nameValue ') // pas besoin de gerer si where or and
+										->setParameter('nameValue', valeur) // pemert de charger la valeur du parametre par l'id
+
+					Comme en PDO, on va définir un parametre dans la requete avec "= :nameValue" que l'on va 'bind' avec la méthode "setParameter('nameValue', $value);" 
+					Il faut toujours setParameter afin que les conditions de la requete soit validé.
+
+					Voici un exmple avec plusieurs conditions et un "orderBY"
+						* 	$queryBuilder = $this->createQueryBuilder('nameAsYouWant');
+
+							$queryBuilder->where('nameAsYouWant.test = :nameValue1')
+											->setParameter('nameValue1', $value1)
+										->andwhere('nameAsYouWant.test2 = : nameValue2')
+											->setParameter('nameValue2', $value2)
+										->orderBy('nameAsYouWant.date', 'DESC');
+
+					Maintenant, nous allons aller plus loin avec le QueryBuilder, avec des conditons un peu plus hardues
+
+						* BETWEEN
+							public function betweenDate(QueryBuilder $queryBuilder)
+							{
+								
+
+								$queryBuilder->andwhere('nameAsYouWant.date : start AND :end')
+												->setParameter('start', $valueS)
+												->setParameter('end', $valueE);
+
+							}
+
+							public function laMienne()
+							{
+								$queryBuilder = $this->createQueryBuilder('nameAsYouWant');
+
+								$queryBuilder->where('nameAsYouWant.test = : nameValue')
+												->setParameter('nameValue', $plop);
+
+								$this->betweenDate($queryBuilder);
+							}
+
+					La fonction que nous venons de créer 'betweenDate()' peut maintenant s'appliquer à toutes les requetes que nous allons mettre en place.
+					Pour voir plus de fonction du QueryBuilder, aller à l'adresse suivante.
+						http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/query-builder.html
+
+				- La Query
+					
+
+				- Les résultats
+
+
+
+
+VI - Evenement et extension Doctrine
+
+VII - Les formulaires Symfony
+
+	-> Formulaire Symfony ?
+		/ Un formulaire symfony se construit sur un objet existant, et son objectif est "d'hydrater" cet objet
+
+
+	-> Un objet existant 
+		Il nous faut donc des objets avant de créer un formulaire. Lors de la création, on va se baser sur les objets des entités. Par exemple, pour le formulaire d'ajout de "Sport", on se base sur l'objet "Sport"
+		
+		/Attention\ : On parle bien d'objet et non d'entité. Il est possible de créer de formulaire sans avoir besoin d'une entité. Cependant, les entités sont des simples objets, elles conviennent donc parfaitement pour un formulaire
+
+	-> Pour l'exemple, nous allons créer un formulaire pour ajouter un sport
+
+	-> Hydrater objet "Sport", c'est quoi ?
+		Hydrater ? Un terme précis pour dire que le formulaire va remplir les attributs de l'objet avec les valeurs saisies par l'utilisateur 
+		
+		ex : sport->setName("Nom Sport");
+
+		C'est ce qu'on appelle hydrater l'objet Sport.
+		Le formulaire ne sert donc, en grande partie, à hydrater/completer l'objet que l'on souhaite. Ce n'est qu'une fois cet objet instancié que l'on peut faire ce qu'on le souhaite (enregistrer en bdd, envoie d'un mail ...). Le formulaire n'a donc qu'un rôle, hydrater l'objet, et ne s'occupe pas du reste.
+
+	-> Gestion basique d'un formulaire
+		Pour créer un formulaire, il nous faut 2 choses : 
+			- un objet
+			- un moyen pour construire un formulaire à partir de cet objet, un FormBulider
+
+		Pour faire nos tests d'ajout d'un objet dans le bdd, on va aller dans notre controller dédié
+
+		exemple de code dans le controller :
+			-
+			use BundleName\Entity\EntityName;
+			use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+			use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+			use Symfony\Component\Form\Extension\Core\Type\DateType;
+			use Symfony\Component\Form\Extension\Core\Type\FormType;
+			use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+			use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+			use Symfony\Component\Form\Extension\Core\Type\TextType;
+
+			class AdvertController extends Controller
+			{
+				public function addAction(Request $request)
+				{
+					// On crée un objet Advert
+					$advert = new Advert();
+
+					// On crée le FormBuilder grâce au service form factory
+					$formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $advert);
+
+					// On ajoute les champs de l'entité que l'on veut à notre formulaire
+					$formBuilder
+						->add('date',      DateType::class)
+						->add('title',     TextType::class)
+						->add('content',   TextareaType::class)
+						->add('author',    TextType::class)
+						->add('published', CheckboxType::class)
+						->add('save',      SubmitType::class)
+						;
+
+					// À partir du formBuilder, on génère le formulaire
+					$form = $formBuilder->getForm();
+
+					// On passe la méthode createView() du formulaire à la vue
+					// afin qu'elle puisse afficher le formulaire toute seule
+					return $this->render('OCPlatformBundle:Advert:add.html.twig', array(
+						'form' => $form->createView(),
+					));
+				}
+			}
+	
+	-> Faisons la différence entre attributs d'un objet et champ d'un formulaire
+		Il est possible que les champs d'un formulaire ne correspondent pas strictement aux variables d'un objet. Par exemple, pour le formulaire d'un sport, nous ne sommes pas obligé de demander la pays d'origine, mais cette variable sera toujours présent dans l'objet. 
+
+
+	-> Lors du "add" du formBuilder permet de creer les différents types de champs. on va loader des class contenus dans les différentes constantes que nous avons chargé. "Symfony\Component\Form\Extension\Core\Type\TextType" par exemple
+	On a aussi la présence d'un champ pas du tout lié avec l'objet, qui est de type SubmitType. Il va permettre la soumission du formulaire. Ce champ est dit "mappé" avec l'objet. Il est possible de le mettre à la main plutot que le lier à un formulaire symfony.
+
+	-> Afin d'obtenir le formulaire symfony, on a la ligne suivante
+			- $form = $formBuilder->getForm();
+		Nous avons aussi la ligne suivante qui permet de creer une vue du formualire
+			- $form->createView();
+		Et pour l'afficher dans le fichier twig
+			{{ form(form) }}
+
+	-> Lien entre le formulaire et l'objet
+		Comme nous l'avons dis précedement, le formulaire symfony est créé à partir d'un objet existant. Si dans l'objet, cette valeur sont déjà définis par default (true pour un boolean, une date), ces informations seront présentes et correctes dans le formulaire créé
+
+	-> Ajout d'un champ
+		Comme nous l'avons vu, c'est le code suivant qui permet d'ajouter un champ dans le formulaire Symfony
+			- $formBuilder->add("nom du champ", type de champ(class symfony), options du champ(array))
+
+		Pour les champs de type checkbox, Symfony oblige le checkbox à être coché. On doit donc utiliser le 3eme arguments de la méthode "add", ce qui gère les options du champ. Il faut mettre la ligne suivante :
+			- array ("required" => false)
+
+		Quand on parle de type de champ, il faut se détacher des types HTML (select, text, password ...)
+		Il faut bien entendu important de faire correspondre le type de formulaire avec les types d'attributs de l'objet. Par exemple, si l'attribut de l'objet attends un boolean mais dans le formulaire, on met un text, il y aura une erreur.
+
+	-> Soumission du formulaire
+		- Pour vérifier si un formulaire est envoyé, il faut vérifier que la requete est de type POST. Cela veut donc dire, que l'utilisateur a cliquer sur le boutton "submit". Il y a aussi le lien entre les variables de type POST et le formulaire. C'est la méthode "handleRequest()" qui va permettre cela. Cette méthode dit au formulaire :"voici la requete d'entrée (variable de type POST). Lis cette requete et recupere les valeurs, et hydrate l'objet "
+
+		- Une fois les informations récupérées et l'objet hydraté, il faut les tester pour vérifier qu'elles sont valides avec l'objet. C'est la méthode "isValid()", qui permet de valider les objets
+
+		C'est une fois ces étapes validé que l'on peut traiter l'objet hydraté
+
+	-> Gérer les valeurs par defauts du formulaire
+		Si on souhaite avoir des valeurs par défauts dans le formulaire, que ce soit pour edit un objet deja existant, ou fournir des valeurs de bases, il faut instancier l'objet de base. Par exemple
+
+			// Ici on aura les champs du formulaire instancier avec les valeurs retenu pour l'id choisi
+			- $test =  $this->getDoctrine()->getMananger()->getRepository('BundleName:Entity')->find($id);
+			  $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $test)
+			  // add ...
+
+			// Ici le champ de name sera rempli car deja instancier
+			- $test2 = new Test();
+			  $test2->setName("Plop")
+			  $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $test2)
+			  // add ...
+
+	-> Personnaliser l'affichage des formulaires 
+		... On verra plus tard
+
+	-> Créer types de champs personnalisés
+		Il est possible de créer de champs personnalise du style date picker de js, mais pour ca, google est ton ami.
+
+	-> Externaliser la definition d'un formulaire
+		Actuellement, nous savons créés un formualire mais celui ci n'est pas réutilisable. Nous devons definir un formulaire dans chaque controller. Il faut donc le détacher la definition du formulaire dans une class à part.
+		
+		La class xxxType n'est pas un formulaire mais bien le constructeur du formulaire. Par convention, le xxx correspond au nom du formualire (pour nous, ca sera sport, club ...) et Type.php, dans le répertoire Form du Bundle.
+		
+		Pour générer ce constructeur de formulaire, nous allons utilisé la commande suivante :
+			- php bin/console doctrine:generate:form BundleFullName:NameEntity
+		Lorsqu'on regarde le fichier créé dans le dossier "Form", nous devons l'améliorer. En effet, lors de la génération, les types de champs ne sont pas précisé. Le composant Form utilise les annotations de doctrine qu'on a mis dans l'objet, mais cela peut être une source d'erreur. Nous allons donc mettre les types de champs appropriés commme dans le controller
+			- en haut de page pour charger les class de formulaire
+				* 	use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+					use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+					use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+					use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+					use Symfony\Component\Form\Extension\Core\Type\TextType;
+					use Symfony\Component\Form\FormBuilderInterface;
+			
+			- builder
+				*	$builder
+						->add('name', xxxType::class)
+						->add('name', xxxType::class)
+						->add('name', xxxType::class);
+
+		Nous venons donc de déplacer la construction du formulaire du controller à une class externe. Cette class correspond donc à la définition des champs de notre formulaire. Donc si on utilise plusieurs fois ce formulaire, nous n'avons qu'à appeler la class correspondant
+
+	-> Appel de la class créée dans le controlleur
+
+		On va pouvoir epuré le controlleur avec l'appel de cette class. On a deux chose à faire
+			- Definir la class SportType pour notre exemple
+				* use AppBundle/Form/SportType
+
+			- Definir pour la construction du formulaire
+				* $form = $this->get('form.factory')->create(SportType::class, $sport);
+	
+	-> Formulaires imbriqués
+		Souvent le cas lorsqu'il y a une relation entre nos objets, par exemple adresse et club pour notre cas. Ajout d'un objet A mais en même temps un autre objet B lié au premier.
+
+		Pour imbriquer des formulaires entre eux, il faut considérer un des formulaire comme un champs, et l'appeler tout simplement.
+
+		Nous allons dans un premier temps créer les différents formulaires via la ligne de commandes suivante
+			- php bin/console doctrine:generate:form BundleName:NameForm 
+			
+			On commence par le 1er, celui qui sera considéré comme un champs du formulaire principale. Ici, ca sera le champs adresse.
+			Tout comme avant, il faut specifier les types de champs.
+
+		Il existe ensuite 2 possibilité d'imbriquation
+			- une relation simple ou l'on imbrique une seul fois un sous-formulaire dans le formulaire. C'est le cas le plus courant quand il y a une seule possibilité pour un objet. Par exemple, un club = une adresse (pas 2 possible)
+
+			- la seconde possibilité, la relation multiple, ou l'on imbrique plusieurs fois le sous-formulaire dans le formulaire principal. Par exemple, une club peut avoir plusieurs media
+
+	-> Relation simple: imbriquer un seul formulaire
+
+		Pour faire une imbrication simple, la plus courante, il faut que l'entité principal (club ici) ai une relation oneToMany ou ManyToOne avec la seconde entité (adresse pour nous).
+		Une fois cette relation vérifée, nous allons créer un champs adresse (correspondant au nom de l'entity liée), et de type AdresseType (celle que nous venons de créer juste avant)
+
+			- add->('adresse', AdresseType::class);
+
+		Nous avons ici un objet 'Club' contenant un attribut adresse qui est un objet 'Adresse'. Le formulaire va donc injecter dans cet attribut adresse un objet 'Adresse'.
+
+		Il est tout a fait possible d'imbriquer les formulaires à l'infine de cette façon. La seule limitation est de faire quelque chose de compréhensible pour les visiteurs.
+
+		Attention, il est possible d'avoir une erreur lors de l'envoie du formulaire
+			- A new entity was found through the relationship 'BundleName\Entity\EntityName#attributName' that was not configured to cascade persist operations for entity: ...
+
+		Il y a deux moyens de pallier ce problème
+			- le moins propre, est de persister l'attribut Adresse. Nous avons persist l'objet club hydrater avec le formulaire. Il faut maintenant persist l'adresse que nous venons d'ajouter. Mais c'est pas propre comme ca
+
+				-> $em->persist($club->getAdresse());
+
+			- la seconde option, et la plus propre, est de rajouter l'option persist à l'annotation
+				-> @ORM\RelationType(targetEntity="BundleName\Entity\EntityName", cascade={"persist"})
+
+	-> Relation Multiple : imbriquer un même formulaire plusieurs fois (club - media)
+		On peut imbriquer un même formulaire plusieurs fois seulement dans des entities ayant des relations ManyToOne ou ManyToMany
+		On va voir comment ajouter un media ou plusieurs medias pour un club.
+
+		On commence par créer le formulaire des média 
+			- php bin/console doctrine:generate:form AppBundle:Media
+
+		On edit un peu le MediaType, faire en sorte que les noms et les types de champs soient correcte et securisé
+
+			- ->add('name', TextType::class);
+
+		Maintenant que le MediaType est créé, il faut l'ajouter dans les champs du formulaire Club. Comme il peut y avoir plusieur media d'ajouter, il faut utiliser le type collection appeler via le use suivant 
+			
+			- use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
+			- ->add('medias', CollectionType::class, array(
+				'entry_type' 	=> MediaType::class,
+				'allow_add' 	=> true,
+				'allow_delete' 	=> true
+			));
+
+		Le "s" est important car dans l'Entity il y en a un, et surtout, il peut y avoir plusieurs medias pour un club. Le type CollectionType car il permet de construire une collection (une liste) de n'importe quoi, et cela grace à l'option 'entry_type'. Grace à ça, le formulaire sait qu'il doit créer un liste de type Media (dans notre cas). Mais nous aurions très bien pu mettre un type Text, Textarea ...
+		
+		Dans un champ de type 'CollectionType'comprte plusieurs options.
+			- 'allow_add' et 'allow_delete' sont des options qui autorisent au formuhttp://9gag.com/girl?ref=9navlaire d'ajouter des entrées en plus dans la collection, ainsi qu'en supprimer. Si on n'autorise pas ces actions, on ne pourrait que modifier les medias qui sont déjà lié à un Club.
+
+		Ne mettre que ces différentes lignes ne suffit pas. En effet, lorsqu'on refresh la page, nous avons bien le media qui apparait mais rien en dessous. C'est tout à fait normal, il n'y a encore aucun media lié à l'entité Club, et impossible de savoir à l'avance combien de média on va ajouter 1,2,3 ?
+
+		On va devoir ajouter du Javascript, mais avant si on regarde le code source, on voit qu'il y a l'attribut data-prototype genéré par Symfony contenant ce à quoi la collection devrait ressembler en HTML. On va donc utiliser le JS pour
+			- Ajouter un bouton d'ajout (pour avoir une multitude de medias si besoin)
+
+			- Bouton Supprimer pour supprimer si nécessaire
+
+	-> Type de champ : entity
+		Comme nous en avons parlé précedement, avec les médias, nous pouvons actuellement ajouter différents médias, mais en aucun cas selectionner des medias existants.
+		Il y a donc une grande différence entre un 'EntityType' et 'CollectionType'.
+		'EntityType' permet de selectionner des entités et les mettres dans un select. Il est donc possible de selectionné un sport ou autre deja present dans la base plutot que ajouter
+
+			- use Symfony\Component\Form\Extension\Core\Type\EntityType; 
+
+			- add('sport', EntityType::class, array(
+				'class' => BundleName:Entity,
+				'choice_label' => 'name',
+				'multiple' => true,
+			));
+
+	-> Les options du type de champ
+
+	-> L'option query_builder
+
+	-> L'héritage de formulaire
+
+	-> Type de champFile
+
+	-> Adapter le formulaire
+
+	-> Manipulation du fichier envoyé
+
+	-> Automatiser traitement grace au event
+
+	-> Implémenter les méthodes des évènements
+
