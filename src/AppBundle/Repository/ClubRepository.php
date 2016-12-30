@@ -20,8 +20,12 @@ class ClubRepository extends EntityRepository
 		// ->select('name')
 		// ->from($this->_entityName, 'name');
 
+		$plop = "plop";
+
 		// Version plus rapide et plus legere
-		$queryBuilder = $this->createQueryBuilder('name'); 
+		$queryBuilder = $this->createQueryBuilder('allInfo');
+		$queryBuilder->where('allInfo.name = :name')
+					->setParameter('name', $plop);
 
 		// On recupere la query grace au query builder
 		$query = $queryBuilder->getQuery();
