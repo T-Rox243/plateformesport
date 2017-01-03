@@ -505,9 +505,88 @@ V - Récuperer les Entités
 						http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/query-builder.html
 
 				- La Query
-					
+					Comme nous l'avons dis plutôt, la Query est l'objet d'ou on extrait les résultats.
+					Il n'y a pas grand chose à dire dessus, à part des méthodes qui correspondent à différentes requetes
 
-				- Les résultats
+					-> getResult()
+						Exécute et retourne la requête dans un tableau contenant les résultats en forme d'objet. Même si il n'y a qu'un résultat, cette fonction retourne un tableau.
+
+						* 	$result = $queryBuilder->getQuery()->getResult();
+
+							foreach($result as $theResult){
+								$theResult->getContent(); // Correspond au champs Content
+							}
+
+					-> getArrayResult()
+						Exécute et retourne la requete dans un tableau. Comme la méthode precedente, il y a toujours un tableau de retourner quelque soit le nombre de résultat. La différence avec la méthode 'getResult()', c'est que c'est un tableau, et qu'il est important de l'utiliser si l'on souhaite ne pas pouvoir modifier. Il est donc aussi plus rapide que le 'getResult()'. 
+
+						*	$result = $queryBuilder->getQuery()->getArrayResult();
+
+							foreach($result as $theResult){
+								$theResult['content']; // Correspond au champ Content
+							}
+
+						Pour Twig, cela reste indifférent. Que ce soit ['content'] ou getContent(), dans Twig cela restera de la façon suivante '.content'
+
+						Cependant Attention, si on fait 
+							* $theResult['content'] = 'nouveau contenus';
+						La valeur ne sera pas enregistrée malgré le 'flush' qu'on effectuera après. On n'utilise le 'getArrayResult()' que quand on est sur de ne pas modifier les valeurs de l'objet
+
+					-> getScalarResult()
+						Execute la requete et retourne un tableau contenant les résultats sous forme de valeur. On a toujours un tableau même si il n'y a qu'une seule valeur trouvé.
+
+						Cependant, ce tableau va presenter une valeur par ligne, et non une tableau associatif ou un objet
+
+							* 	$result = $queryBuilder->getQuery()->getScalarResult();
+
+								foreach ($result as $theResult){
+									echo $theResult;
+								}
+
+						Cette méthode est bien souvent utilisé quand il n'y a qu'une seule valeur dans la requetes
+
+							* SELECT count(*) FROM Value;
+
+					-> getOneOrNullResult()
+						Execute la requete et retourne un seul résultat, ou null si aucun resultat. Cette méthode retourne donc une entité d'un objet et non a tableau d'entité.
+
+							* $result = $queryBuilder->getQuery()->getOneOrNullResult();
+
+						Attention, cette requete retourne une execption si il y a plus qu'un seul resultat. Il vaut donc mieux l'utiliser si notre requete n'est pas censé faire plus d'un résultat, cela afin de prevenir des bugs potentiels. 
+
+					-> getSingleResult()
+						Execute et retourne un seul résultat. Cette méthoide est la même que 'getOneOrNullResult()', mais elle declenche une exeption quand la requete ne retourne aucun resultat.
+
+							* $result = $queryBuilder->getQuery()->getSingleResult();
+
+					-> getSingleScalarResult()
+						Execute et retourne une seule valeur, et declenche un exception si il y a plus d'un résultat ou si null. 
+
+							* $result = $queryBuilder->getQuery()->getSingleScalarResult();
+
+					-> execute()
+						Exécute tout simplement la requete. Souvent utiliser pour executer des requetes ne retournant pas de résultat (Insert Into, Update ...)
+
+				Cependant, il est important de comprendre que les méthodes vu precedement, hors execute(), sont des raccourcis pour cette derniere.
+				Par exemple	
+					
+					* 	$result = $queryBuilder->getQuery()->getArrayResult();
+						// Cette methode revient à faire
+						$result = $queryBuilder->getQuery()->execute(array(), Query::HYDRATE_ARRAY);
+
+		-> Utilisation du Doctrine Query Language (DQL)
+			Franchement, je vais pas l'utiliser, trop lourd à faire et moins propre selon moi. Le but est d'oublier l'utilisation du QueryBuilder et de refaire un peu du SQL à l'ancienne, mais j'ai pas trop envie.
+			A Detailler ...
+
+	-> Les jointures dans les requêtes
+
+		-> Pourquoi les utiliser ?
+			Actuellement, via les entity nous avons des fonctions qui permettent, à partir d'une entité de recuperer les informations d'une autre.
+
+				* EntityA->getEntityB();
+
+			L'idée est donc maintenant d'avoir une maitrise de quand charger l'entité A seule, et quand chargé l'entité A avec des informations de l'entité B
+			
 
 
 
