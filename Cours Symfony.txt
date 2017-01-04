@@ -386,7 +386,7 @@ V - Récuperer les Entités
 
 			Le plus grand avantage est de pouvoir construire la requete en plusieurs fois. Si lors d'une requete on souhaite afficher les evenements ou sport valider, il nous faut la conditions 'where' ou 'and'. Seulement la gestion de cet evenement n'est pas forcement evident. 
 			Avec le queryBuilder,  on regle se soucie en une ligne
-				* $queryBuilder->anbWhere('...')
+				* $queryBuilder->andWhere('...')
 	
 	-> Récupération de base
 		Nos repositories héritent de la class EntityRepository de base, et propose quatre méthodes de base
@@ -585,10 +585,45 @@ V - Récuperer les Entités
 
 				* EntityA->getEntityB();
 
-			L'idée est donc maintenant d'avoir une maitrise de quand charger l'entité A seule, et quand chargé l'entité A avec des informations de l'entité B
-			
+			L'idée est donc maintenant d'avoir une maitrise de quand charger l'entité A seule, et quand chargé l'entité A avec des informations de l'entité B. Actuellement, nous avons la possibilité de charger l'entité A sans les informations de l'entité B. Nous allons donc voir le second cas.
 
+		-> Comment faire une jointure avec le queryBuilder ?
 
+				* 	$queryBuilder = $this->createQueryBuilder('nameEntity')
+										->leftJoin('nameEntity.champs', 'aliasEntity')
+										->addSelect('aliasEntity');
+
+					$result = $queryBuilder->getQuery()->getResult();
+
+			On a dans un premier temps la jointure créée vie la méthode 'leftJoin()' ou 'innerJoin()'. Le premier argument de la méthode est l'attribut de l'entité principal (celle qui est dans le 'FROM' d'une requete classique). Le second argument est un alias de l'entité jointe.
+
+			-> Pourquoi il n'y a pas la condition 'ON' qu'on a habituellement dans les fonction 'JOIN'
+				Vu qu'on s'adresse avant tout à Doctrine et non pas MYSQL, celle ci connait deja tout les associations de notre base grace aux annotations. Il n'y a donc pas besoin de preciser le 'ON'.
+
+				Il est bien entendu possible de personnaliser les conditions de la jointure, cela en rajoutant les conditions à la suite du 'ON' généré par Doctrine, grâce à la syntaxe du 'WITH'
+
+					* $queryBuilder->innerJoin('firstEntity.secondEnty', 'se', 'WITH', 'YEAR(se.date) > 2013')
+
+				Le troisieme argument est le type de condition 'WITH', et le quatrieme argument est la condition.
+
+				Afin de mieux comprendre à quoi correspond le 'WITH' dans une requete classique
+
+					* 	SELECT *
+						FROM firstEntity n
+						INNER JOIN SecondEntity se ON (se.n_id = n.id AND YEAR(se.date) > 2013)
+
+		-> Comment utiliser les jointures ?
+			On appelle toujours la méthode créée dans le dossier Repository dans le controller de la façon suivante :
+
+				* 	$em = $this->getDoctrine()->getManager()->getRepository('AppBubdle:NameEntity');
+
+					$youWant = $em->personnalFunctionInRepository();
+
+					// On a un tableau de resultat, il reste plus qu'à le parcourir si on a bien des résultats
+					foreach( $youWant as $plop ){
+						$plop->getName(); // Si retourne un objet
+						$plop['name']; // Si retourne un tableau
+					}
 
 
 VI - Evenement et extension Doctrine
