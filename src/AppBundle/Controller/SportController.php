@@ -4,15 +4,8 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Form\SportType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
 
 use AppBundle\Entity\Sport;
 use AppBundle\Entity\Club;
@@ -49,33 +42,14 @@ class SportController extends Controller
      */
     public function editSportAction($idSport, Request $request)
     {
-
+        // On va charger le manager doctrine
         $em =  $this->getDoctrine()->getManager();
 
         // Attention, on ne peut le faire que si la personne est connecté et que c'est l'utilisateur qui a creer ce sport
         $editSport = $em->getRepository('AppBundle:Sport')->find($idSport);
 
         // Creation d'un formulaire se basant sur l'objet sport
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $editSport);
-
-        // Creation des différents champs du formulaire
-        $formBuilder
-            ->add('name', TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('nativeCountry', TextType::class)
-            ->add('competition', CheckboxType::class, array(
-                    "required" => false,
-                )
-            )
-            ->add('sportswear', ChoiceType::class, array(
-                'choices'  => array(
-                    'Kimono' => "Kimono",
-                    'Tshirt - Short' => "TS",
-                    'Tshirt - Jogging' => "TJ",
-                    'Autre' => "Other",
-                ))
-            )
-            ->add('send', SubmitType::class);
+        $formBuilder = $this->get('form.factory')->createBuilder(SportType::class, $editSport);
 
         // Mise en place du formulaire
         $form = $formBuilder->getForm();
@@ -116,26 +90,7 @@ class SportController extends Controller
         $sport = new Sport();
 
         // Creation d'un formulaire se basant sur l'objet sport
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $sport);
-
-        // Creation des différents champs du formulaire
-        $formBuilder
-            ->add('name', TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('nativeCountry', TextType::class)
-            ->add('competition', CheckboxType::class, array(
-                    "required" => false,
-                )
-            )
-            ->add('sportswear', ChoiceType::class, array(
-                'choices'  => array(
-                    'Kimono' => "Kimono",
-                    'Tshirt - Short' => "TS",
-                    'Tshirt - Jogging' => "TJ",
-                    'Autre' => "Other",
-                ))
-            )
-            ->add('send', SubmitType::class);
+        $formBuilder = $this->get('form.factory')->createBuilder(SportType::class, $sport);
 
         // Mise en place du formulaire
         $form = $formBuilder->getForm();

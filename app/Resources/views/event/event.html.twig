@@ -10,4 +10,6 @@ Description de l'event : {{ descriptionEvent }} <br>
 Type d'evenement : {{ typeEvent }} <br>
 Nom du créateur : {{ userEvent.name }} {{ userEvent.firstname }} <br>
 
+<a href="{{ path('addBenevole', {'idEvent' : idEvent }) }}">Devenir Benevole</a>
+
 {% endblock %}

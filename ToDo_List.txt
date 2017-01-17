@@ -1,0 +1,52 @@
+TODO LIST
+	
+	User part
+		- Gestion des utilisateurs
+			-> Afficher le menu profil si connecté
+			-> Bouton de deconnexion si connecté
+			-> Retour à l'accueil après validation de l'inscription
+			-> Retour à la page d'accueil après validation de la connexion
+		
+		- Ajout des vrais médias pour club, sport, evenement (images pour le moment)
+			-> ajout d'un fichier type png/jpg
+			-> definition d'un lien specifique pour chaque type (par exemple : img/club/clubName/AllFile )
+		
+		- Ajout d'un média pour utilisateur (Un seul média pour l'avatar)
+			-> Definition d'un lien specifique pour chaque utilisateur
+		
+		- Ajout d'un evenement via un formulaire
+
+		- Devenir Benevole pour un evenement
+		
+		- Avoir le 'statut' Benevole pour un utilisateur
+		
+		- Lister les dernieres informations dans la page d'accueil
+			-> Derniers sports
+			-> Derniers événements
+			-> Derniers clubs
+		
+		- Listing des sports
+		
+		- Listing des clubs
+		
+		- Listing des événements
+
+		- Affichage des informations des sports (définir les informations à afficher)
+			-> possibilité d'éditer les informations si créateur du sport (affichage d'un bouton edit ? )
+
+		- Affichage des informations des clubs (définir les informations à afficher)
+			-> possibilité d'éditer les informations si créateur du club (affichage d'un bouton edit ? )
+
+		- Affichage des informations des événements (définir les informations à afficher)
+			-> possibilité d'éditer les informations si créateur de l'evenement (affichage d'un bouton edit ? )
+
+		- Recherche dynamique d'un sport, club et evenement
+
+	Admin part
+		- Valider la creation d'un Evenement
+		
+		- Valider la creation d'un Utilisateur
+		
+		- Valider la creation d'un Sport
+		
+		- Valider la creation d'un Club

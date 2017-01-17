@@ -3,5 +3,9 @@
 {% block title %}AppBundle:Club:editClub{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Club:editClub number {{ idClub }} page</h1>
+	
+	<h1>Welcome to the Club:editClub number {{ idClub }} page</h1>
+	{{ form(formClub) }}
+	<a href="#" id="add_media" class="btn btn-default">Ajout d'un media</a>
+
 {% endblock %}

@@ -103,7 +103,7 @@ class Club
     private $sport;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Adresse")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Adresse", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $adresse;
