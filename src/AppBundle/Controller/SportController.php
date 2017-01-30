@@ -26,13 +26,27 @@ class SportController extends Controller
         $infoSport = $em->getRepository('AppBundle:Sport')->find($idSport);
 
         $nameSport = $infoSport->getName();
-        // ...
-        // Ainsi de suite pour le reste des informations
+
+        $description = $infoSport->getDescription();
+
+        $country = $infoSport->getNativeCountry();
+
+        $competTMP = $infoSport->getCompetition();
+        if(!$competTMP)
+            $competition = 'non';
+        else
+            $competition = 'oui';
+
+        $sportSwear = $infoSport->getSportswear();
 
         // Faut que je regarde comme obtenir les noms des clubs pratiquants le sport en question et le nom de l'utilisateur
         return $this->render('sport/sport.html.twig', array(
             "idSport" => $idSport,
-            "nameSport" => $nameSport
+            "nameSport" => $nameSport,
+            "description" => $description,
+            "country" => $country,
+            "competition" => $competition,
+            "sportSwear" => $sportSwear
         ));
     }
 

@@ -1,8 +1,76 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Event:addEvent{% endblock %}
+{% block title %}Ajouter un événement{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Event:addEvent page</h1>
-{{ form(formEvent) }}
+<div id="wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 signUp">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h1 class="panel-title">Ajouter un événement</h1>
+                        </div>
+                        <div class="panel-body">
+                        	{{ form_start(form, {'method': 'post'}) }}
+                        		{{ form_errors(form) }}
+                        		<fieldset>
+                        			<div class="form-group">
+                                    	{{ form_errors(form.name) }}
+	                                    {{ form_widget(form.name, { 'attr': {'class': 'form-control','placeholder' : "Nom de l'événement" }}) }}
+	                                </div>
+                        			<div class="form-group">
+                                    	{{ form_errors(form.description) }}
+	                                    {{ form_widget(form.description, { 'attr': {'class': 'form-control','placeholder' : "Description" }}) }}
+	                                </div>
+                        			<div class="form-group">
+                                    	{{ form_errors(form.startDate) }}
+	                                    {{ form_widget(form.startDate, {'attr': {'style': 'margin-left:0'}}) }}
+                                    	{{ form_label(form.startDate, 'Début') }}
+	                                </div>
+                        			<div class="checkbox">
+                                    	{{ form_errors(form.endDate) }}
+	                                    {{ form_widget(form.endDate, {'attr': {'style': 'margin-left:0'}}) }}
+                                    	{{ form_label(form.endDate, 'Fin') }}
+	                                </div>
+                        			<div class="checkbox">
+                                    	{{ form_errors(form.typeEvent) }}
+	                                    {{ form_widget(form.typeEvent, {'attr': {'style': 'margin-left:0'}}) }}
+                                    	{{ form_label(form.typeEvent, 'Type d\'événement') }}
+	                                </div>
+                        			<div class="form-group">
+                                    	{{ form_errors(form.nbMinVolunteer) }}
+	                                    {{ form_widget(form.nbMinVolunteer, { 'attr': {'class': 'form-control','placeholder' : "Nombre minimum de bénévoles" }}) }}
+	                                </div>
+                        			<div class="form-group">
+                                    	{{ form_errors(form.nbMaxVolunteer) }}
+	                                    {{ form_widget(form.nbMaxVolunteer, { 'attr': {'class': 'form-control','placeholder' : "Nombre maximum de bénévoles" }}) }}
+	                                </div>
+                        			<div class="form-group">
+                                    	{{ form_errors(form.adresse.adresse) }}
+	                                    {{ form_widget(form.adresse.adresse, { 'attr': {'class': 'form-control','placeholder' : "Adresse" }}) }}
+	                                </div>
+                                    <div class="form-group">
+                                        {{ form_errors(form.adresse.city) }}
+                                        {{ form_widget(form.adresse.city, { 'attr': {'class': 'form-control','placeholder' : "Ville" }}) }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form_errors(form.adresse.postalCode) }}
+                                        {{ form_widget(form.adresse.postalCode, { 'attr': {'class': 'form-control','placeholder' : "Code postal" }}) }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form_errors(form.adresse.region) }}
+                                        {{ form_widget(form.adresse.region, { 'attr': {'class': 'form-control','placeholder' : "Région" }}) }}
+                                    </div>
+	                                <div>
+	                                	{{ form_row(form.send, { 'label': 'Ajouter' }) }}
+	                                </div>
+                        		</fieldset>
+                        	{{ form_end(form) }}
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+	</div>
 {% endblock %}

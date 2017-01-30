@@ -1,18 +1,42 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Event:listEvent{% endblock %}
+{% block title %}PlateformeSport - Liste des événements{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Event:listEvent page</h1>
+<div id="wrapper">
+    <div class="container">
+		<h1>Trouver un événement</h1>
 
-{% for event in allEvent %}
+		<br>
+		<div id="custom-search-input">
+		    <div class="input-group col-md-8 searchBar">
+		        <input type="text" class="search-query form-control" placeholder="Rechercher un événement" />
+		        <span class="input-group-btn">
+		            <button class="btn btn-search" type="button">
+		                <i class="glyphicon glyphicon-search"></i>
+		            </button>
+		      	</span>
+		    </div>
+		</div>
 
-	Nom de l'évènement : {{ event.name }}<br>
-	Description de l'évènement : {{ event.description }}<br>
-	Créateur de l'évènement : {{ event.user.firstname }}<br>
-	Type d'évènement : {{ event.typeEvent }}<br><br>
 
-{% endfor %}
-
-
+		{% for event in allEvent %}
+		<div class="row">
+	        <div class="col-md-4 well">
+	            <div class="row">
+	                <div class="col-md-12">
+	                    <div class="results">
+	                        <img src="{{ asset('images/derby.jpg') }}" alt="{{ event.name }}" class="img-circle img-thumbnail img-sport">
+	                        <h2>{{ event.name }}</h2>
+	                        <p>{{ event.description }}</p>
+	                        <p>{{ event.typeEvent }}</p>
+	                        <div ><a href="{{ path('infoEvent', {'idEvent': event.id}) }}" class="btn btn-default btn-block">En savoir plus</a></div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+		{% endfor %}
+	</div>
+</div>
 {% endblock %}

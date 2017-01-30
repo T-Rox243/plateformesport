@@ -1,18 +1,23 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Club:Club{% endblock %}
+{% block title %}PlateformeSport - {{ infoClub.name }}{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Club:Club number {{ idClub }} page</h1>
-
-Nom du club : {{ infoClub.name }}<br>
-Description : {{ infoClub.description }}<br>
-Ouverture : {{ infoClub.openingTime }}<br>
-Fermeture : {{ infoClub.closingTime }}<br>
-
-test a la con :
-{% for infoTest in test %}
-	{{ infoTest.name }}<br>
-{% endfor %}
- 
+	<div id="wrapper">
+        <div class="container" style="text-align:center;">
+			<h1>{{ infoClub.name }}</h1>
+			<img src="{{ asset('images/derby.jpg') }}" alt="{{ infoClub.name }}" class="img-thumbnail img-sport-fiche">
+			<div class="row">
+		        <div class="col-md-12">
+                    <p>{{ infoClub.description }}</p>
+		        </div>
+		        <div class="col-md-12">
+                    <p>Horaire ouverture : {{ infoClub.openingTime }}</p>
+		        </div>
+		        <div class="col-md-12">
+                    <p>Horaire fermeture : {{ infoClub.closingTime }}</p>
+		        </div>
+		    </div>
+		</div>
+	</div> 
 {% endblock %}

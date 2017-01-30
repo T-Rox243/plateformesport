@@ -1,10 +1,28 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Sport:sport{% endblock %}
+{% block title %}PlateformeSport - {{ nameSport }}{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Sport:sport {{ idSport }} page</h1>
+	<div id="wrapper">
+        <div class="container" style="text-align:center;">
+			<h1>{{ nameSport }}</h1>
+			<img src="{{ asset('images/derby.jpg') }}" alt="{{ nameSport }}" class="img-thumbnail img-sport-fiche">
+			<div class="row">
+		        <div class="col-md-12">
+                    <p>{{ description }}</p>
+		        </div>
+		        <div class="col-md-12">
+                    <p>Origine : {{ country }}</p>
+		        </div>
+		        <div class="col-md-12">
+                    <p>Compétition : {{ competition }}</p>
+		        </div>
+		        <div class="col-md-12">
+                    <p>Equipement : {{ sportSwear }}</p>
+		        </div>
+		    </div>
+		</div>
+	</div>
 
-Nom du sport : {{ nameSport }}
 
 {% endblock %}

@@ -1,19 +1,46 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Sport:listSport{% endblock %}
+{% block title %}PlateformeSport - Liste des sports{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Sport:listSport page</h1>
+	<div id="wrapper">
+        <div class="container">
+			<h1>Trouver un sport</h1>
 
-<br>
+			<br>
+			<div id="custom-search-input">
+	            <div class="input-group col-md-8 searchBar">
+	                <input type="text" class="search-query form-control" placeholder="Rechercher un sport" />
+	                <span class="input-group-btn">
+		                <button class="btn btn-search" type="button">
+		                    <i class="glyphicon glyphicon-search"></i>
+		                </button>
+	              	</span>
+	            </div>
+	        </div>
 
-{% for sportInfo in listSport %}
-	
-	{% for sport in sportInfo %}
-		{{ sport.name }}
-		<br>
-	{% endfor %}
+			{% for sportInfo in listSport %}
+				
+				{% for sport in sportInfo %}
+					<div class="row">
+				        <div class="col-md-4 well">
+				            <div class="row">
+				                <div class="col-md-12">
+				                    <div class="results">
+				                        <img src="{{ asset('images/derby.jpg') }}" alt="{{ sport.name }}" class="img-circle img-thumbnail img-sport">
+				                        <h2>{{ sport.name }}</h2>
+				                        <p>{{ sport.description }}</p>
+				                        <div ><a href="{{ path('infoSport', {'idSport': sport.id}) }}" class="btn btn-default btn-block">En savoir plus</a></div>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+					
+					<br>
+				{% endfor %}
 
-{% endfor %}
-
+			{% endfor %}
+		</div>
+	</div>
 {% endblock %}

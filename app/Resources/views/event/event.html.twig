@@ -1,15 +1,27 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Event:Event{% endblock %}
+{% block title %}PlateformeSport - {{ nameEvent }}{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Event:Event number {{ idEvent }} page</h1>
-
-Nom de l'event : {{ nameEvent }} <br>
-Description de l'event : {{ descriptionEvent }} <br>
-Type d'evenement : {{ typeEvent }} <br>
-Nom du créateur : {{ userEvent.name }} {{ userEvent.firstname }} <br>
-
-<a href="{{ path('addBenevole', {'idEvent' : idEvent }) }}">Devenir Benevole</a>
+<div id="wrapper">
+        <div class="container" style="text-align:center;">
+			<h1>{{ nameEvent }}</h1>
+			<img src="{{ asset('images/derby.jpg') }}" alt="{{ nameEvent }}" class="img-thumbnail img-sport-fiche">
+			<div class="row">
+		        <div class="col-md-12">
+                    <p>{{ descriptionEvent }}</p>
+		        </div>
+		        <div class="col-md-12">
+                    <p>Type d'evenement : {{ typeEvent }}</p>
+		        </div>
+		        <div class="col-md-12">
+                    <p>Nom du créateur : {{ userEvent.name }} {{ userEvent.firstname }}</p>
+		        </div>
+		        <div class="col-md-offset-3 col-md-6">
+                    <a href="{{ path('addBenevole', {'idEvent' : idEvent }) }}" class="btn btn-default btn-block">Devenir Benevole</a>
+		        </div>
+		    </div>
+		</div>
+	</div> 
 
 {% endblock %}

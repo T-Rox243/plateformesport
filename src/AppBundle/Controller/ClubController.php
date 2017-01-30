@@ -152,7 +152,7 @@ class ClubController extends Controller
         }
 
         return $this->render('club/add_club.html.twig', array(
-            "formClub" => $formClub->createView(),
+            "form" => $formClub->createView(),
         ));
     }
 

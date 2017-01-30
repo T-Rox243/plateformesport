@@ -83,4 +83,29 @@ h1{
 .signUp{
     margin-top:5% !important;
 }
+.confirmSignUp{
+    margin-top:10% !important;
+    text-align:center;
+}
 
+.results{
+    text-align:center;
+}
+.results img{
+    width:65%;
+}
+.img-sport{
+    position:relative;
+}
+.flag{
+    width: 20% !important;
+    position: absolute;
+    top: 85px;
+    right: 50px;
+}
+#custom-search-input{
+    margin-bottom:2%;
+}
+.img-sport-fiche{
+    width:50%;
+}

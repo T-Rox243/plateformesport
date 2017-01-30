@@ -28,6 +28,7 @@ class SportType extends AbstractType
             ->add('competition',    CheckboxType::class, array('required' => false))
             ->add('sportswear',     ChoiceType::class,   array(
                                                             'choices'  => array(
+                                                                'Equipement' => '0',
                                                                 'Kimono' => "Kimono",
                                                                 'Tshirt - Short' => "TS",
                                                                 'Tshirt - Jogging' => "TJ",

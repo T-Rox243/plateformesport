@@ -1,8 +1,81 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Club:addClub{% endblock %}
+{% block title %}Ajouter un club{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Club:addClub page</h1>
-{{ form(formClub) }}
+<div id="wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 signUp">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h1 class="panel-title">Ajouter un club</h1>
+                        </div>
+                        <div class="panel-body">
+                        	{{ form_start(form, {'method': 'post'}) }}
+                        		{{ form_errors(form) }}
+                        		<fieldset>
+                        			<div class="form-group">
+                                    	{{ form_errors(form.name) }}
+	                                    {{ form_widget(form.name, { 'attr': {'class': 'form-control','placeholder' : "Nom du club" }}) }}
+	                                </div>
+                        			<div class="form-group">
+                                    	{{ form_errors(form.description) }}
+	                                    {{ form_widget(form.description, { 'attr': {'class': 'form-control','placeholder' : "Description" }}) }}
+	                                </div>
+                        			<div class="form-group">
+                                        {{ form_errors(form.openingTime) }}
+                                        {{ form_widget(form.openingTime, { 'attr': {'class': 'form-control','placeholder' : "Horaire d\'ouverture" }}) }}
+	                                </div>
+                        			<div class="form-group">
+                                        {{ form_errors(form.closingTime) }}
+                                        {{ form_widget(form.closingTime, { 'attr': {'class': 'form-control','placeholder' : "Horaire de fermeture" }}) }}
+	                                </div>
+                        			<div class="form-group">
+                                    	{{ form_errors(form.emailContact) }}
+	                                    {{ form_widget(form.emailContact, { 'attr': {'class': 'form-control','placeholder' : "Email de contact" }}) }}
+	                                </div>
+                        			<div class="form-group">
+                                    	{{ form_errors(form.phoneContact) }}
+	                                    {{ form_widget(form.phoneContact, { 'attr': {'class': 'form-control','placeholder' : "Téléphone de contact" }}) }}
+	                                </div>
+                        			<div class="form-group">
+                                    	{{ form_errors(form.sportComplex) }}
+	                                    {{ form_widget(form.sportComplex, { 'attr': {'class': 'form-control','placeholder' : "Type de complexe sportif" }}) }}
+	                                </div>
+                        			<div class="form-group">
+                                    	{{ form_errors(form.sportComplexCity) }}
+	                                    {{ form_widget(form.sportComplexCity, { 'attr': {'class': 'form-control','placeholder' : "Ville du complexe sportif" }}) }}
+	                                </div>
+                        			<div class="form-group">
+                                    	{{ form_errors(form.adresse.adresse) }}
+	                                    {{ form_widget(form.adresse.adresse, { 'attr': {'class': 'form-control','placeholder' : "Adresse" }}) }}
+	                                </div>
+                                    <div class="form-group">
+                                        {{ form_errors(form.adresse.city) }}
+                                        {{ form_widget(form.adresse.city, { 'attr': {'class': 'form-control','placeholder' : "Ville" }}) }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form_errors(form.adresse.postalCode) }}
+                                        {{ form_widget(form.adresse.postalCode, { 'attr': {'class': 'form-control','placeholder' : "Code postal" }}) }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form_errors(form.adresse.region) }}
+                                        {{ form_widget(form.adresse.region, { 'attr': {'class': 'form-control','placeholder' : "Région" }}) }}
+                                    </div>
+                        			<div class="form-group">
+                                    	{{ form_errors(form.sport) }}
+	                                    {{ form_widget(form.sport, { 'attr': {'class': 'form-control' }}) }}
+	                                </div>
+	                                <div>
+	                                	{{ form_row(form.send, { 'label': 'Ajouter' }) }}
+	                                </div>
+                        		</fieldset>
+                        	{{ form_end(form) }}
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+	</div>
 {% endblock %}
