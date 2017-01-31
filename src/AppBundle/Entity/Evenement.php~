@@ -360,28 +360,4 @@ class Evenement
     {
         return $this->nbMaxVolunteer;
     }
-
-    /**
-     * Set confirmAdmin
-     *
-     * @param boolean $confirmAdmin
-     *
-     * @return Evenement
-     */
-    public function setConfirmAdmin($confirmAdmin)
-    {
-        $this->confirmAdmin = $confirmAdmin;
-
-        return $this;
-    }
-
-    /**
-     * Get confirmAdmin
-     *
-     * @return boolean
-     */
-    public function getConfirmAdmin()
-    {
-        return $this->confirmAdmin;
-    }
 }

@@ -482,28 +482,4 @@ class Club
     {
         return $this->user;
     }
-
-    /**
-     * Set confirmAdmin
-     *
-     * @param boolean $confirmAdmin
-     *
-     * @return Club
-     */
-    public function setConfirmAdmin($confirmAdmin)
-    {
-        $this->confirmAdmin = $confirmAdmin;
-
-        return $this;
-    }
-
-    /**
-     * Get confirmAdmin
-     *
-     * @return boolean
-     */
-    public function getConfirmAdmin()
-    {
-        return $this->confirmAdmin;
-    }
 }
