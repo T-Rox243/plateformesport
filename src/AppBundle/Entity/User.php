@@ -73,6 +73,13 @@ class User extends BaseUser
     protected $firstName;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="admin_role", type="boolean")
+     */
+    private $adminRole;
+
+    /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", cascade={"persist"})
      */
     private $medias;
