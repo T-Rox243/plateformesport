@@ -1,3 +1,8 @@
+asp_admin_sport:
+    resource: "@ASPAdminSportBundle/Controller/"
+    type:     annotation
+    prefix:   /adminSport
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
