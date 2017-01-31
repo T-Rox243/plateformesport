@@ -92,6 +92,13 @@ class Club
     private $sportComplexCity;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="confirm_admin", type="boolean")
+     */
+    private $confirmAdmin;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */

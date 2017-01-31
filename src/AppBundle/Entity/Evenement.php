@@ -70,6 +70,12 @@ class Evenement
      */
     private $nbMaxVolunteer;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="confirm_admin", type="boolean")
+     */
+    private $confirmAdmin;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")

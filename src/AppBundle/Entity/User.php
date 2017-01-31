@@ -77,7 +77,7 @@ class User extends BaseUser
      *
      * @ORM\Column(name="admin_role", type="boolean")
      */
-    private $adminRole;
+    private $adminRole = 0;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", cascade={"persist"})

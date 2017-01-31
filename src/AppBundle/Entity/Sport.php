@@ -56,6 +56,13 @@ class Sport
      */
     private $sportswear;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="confirm_admin", type="boolean")
+     */
+    private $confirmAdmin;
+
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", cascade={"persist"})
