@@ -61,7 +61,7 @@ class Sport
      *
      * @ORM\Column(name="confirm_admin", type="boolean")
      */
-    private $confirmAdmin;
+    private $confirmAdmin = 0;
 
 
     /**

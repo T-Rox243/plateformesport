@@ -96,7 +96,7 @@ class Club
      *
      * @ORM\Column(name="confirm_admin", type="boolean")
      */
-    private $confirmAdmin;
+    private $confirmAdmin = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
