@@ -16,18 +16,10 @@
         <header>
             <div class="navbar navbar-inverse reseaux-sociaux">
 
-                <a class="navbar-brand" href="{{ path('homepage') }}">PlateformeSport</a>
+                <a class="navbar-brand" href="{{ path('homepage') }}">Retour PlateformeSport</a>
 
                 <ul class="nav navbar-nav navbar-right">
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        {% if is_granted("ROLE_ADMIN") %} 
-                           <li><a href="adminSport">Administer</a></li>
-                        {% endif %}
-                    <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
-                    {% else %}
-                    <li><a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
-                    <li><a href="{{ path('fos_user_registration_register') }}">Inscription</a></li>
-                    {% endif %}
+                    <li>Administration</li>
                 </ul>
             </div>
 
@@ -46,17 +38,10 @@
 
                 <div class="collapse navbar-collapse">
                   <ul class="nav navbar-nav">
-                    <li><a href="{{ path('homepage') }}">Accueil</a></li>
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <li><a href="{{ path('infoUser', {'idUser': 12}) }}">Mon compte</a></li>
-                    {% endif %}
-                    <li><a href="{{ path('listSport') }}">Trouver un sport</a></li>
-                    <li><a href="{{ path('listClub') }}">Trouver un club</a></li>
-                    <li><a href="{{ path('listEvent') }}">Evenements</a></li>
-                    <li><a href="{{ path('foireAuxQuestions') }}">FAQ</a></li>
-                    <li><a href="{{ path('contact') }}">Contact</a></li>
+                    <li><a href="">Administer Sport</a></li>
+                    <li><a href="">Administer Club</a></li>
+                    <li><a href="">Administer Evenement</a></li>
                   </ul>
-
                 </div>
               </div>
             </nav>
