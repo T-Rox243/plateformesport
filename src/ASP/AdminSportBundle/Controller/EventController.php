@@ -12,7 +12,16 @@ class EventController extends Controller
      */
     public function adminEventAction()
     {
-        return $this->render('admin/admin_event.html.twig', array());
+        $em = $this->getDoctrine()->getManager();
+        
+        $allEventNoValid = $em->getRepository('AppBundle:Evenement')->eventAdminNoValid();
+        
+        $allEventValid = $em->getRepository('AppBundle:Evenement')->eventAdminValid();
+
+        return $this->render('admin/admin_event.html.twig', array(
+        	"allEventNoValid" => $allEventNoValid ,
+        	"allEventValid" => $allEventValid
+        ));
     }
 
 }

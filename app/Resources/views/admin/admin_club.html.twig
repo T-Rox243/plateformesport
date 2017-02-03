@@ -3,22 +3,50 @@
 {% block title %}ASPAdminSportBundle:Club:adminClub{% endblock %}
 
 {% block body %}
-	{% for club in allClub %}
+	
+	{% if allClubNoValid %}
 		<div class="row">
 			<div class="col-md-2"></div>
-	        <div class="col-md-8 well">
-	            <div class="row">
-	                <div class="col-md-12">
-	                    <div class="list-group">
-	                    	<a href="#" class="list-group-item">
-	                    		<h2 class="list-group-item-heading">{{ club.name }}</h2>
-	                    		<p class="list-group-item-text">{{ club.description }}</p>
-	                    	</a>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
+			<div class="col-md-8" style="margin-top:2%; text-align:center; text-decoration:underline;">
+				<h2>Pas encore validé par l'administrateur</h2>
+			</div>
 			<div class="col-md-2"></div>
-	    </div>
-	{% endfor %}
+		</div>
+		{% for clubNoValid in allClubNoValid %}
+			<div class="row">
+				<div class="col-md-2"></div>
+				<a href="" title="Valider le club ?">
+					<div class="col-md-8 alert alert-danger">
+						<strong style="font-size:30px;">{{ clubNoValid.name }}</strong>
+						<p> {{ clubNoValid.description }} </p>
+					</div>
+				</a>
+				<div class="col-md-2"></div>
+			</div>
+		{% endfor %}
+	{% endif %}
+	
+	{% if allClubValid %}
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8" style="margin-top:3%; text-align:center; text-decoration:underline;">
+				<h2>Déjà Validé par l'administrateur</h2>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+		{% for clubValid in allClubValid %}
+			<div class="row">
+				<div class="col-md-2"></div>
+				<a href="" title="Supprimer le club ?">
+					<div class="col-md-8 alert alert-success">
+						<strong style="font-size:30px;">{{ clubValid.name }}</strong>
+						<p> {{ clubValid.description }} </p>
+					</div>
+				</a>
+				<div class="col-md-2"></div>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+
 {% endblock %}

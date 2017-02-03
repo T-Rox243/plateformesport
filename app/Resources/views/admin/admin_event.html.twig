@@ -3,5 +3,49 @@
 {% block title %}ASPAdminSportBundle:Event:adminEvent{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Event:adminEvent page</h1>
+	
+	{% if allEventNoValid %}
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8" style="margin-top:2%; text-align:center; text-decoration:underline;">
+				<h2>Pas encore validé par l'administrateur</h2>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+		{% for eventNoValid in allEventNoValid %}
+			<div class="row">
+				<div class="col-md-2"></div>
+				<a href="" title="Valider l'evenement ?">
+					<div class="col-md-8 alert alert-danger">
+						<strong style="font-size:30px;">{{ eventNoValid.name }}</strong>
+						<p> {{ eventNoValid.description }} </p>
+					</div>
+				</a>
+				<div class="col-md-2"></div>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	{% if allEventValid %}
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8" style="margin-top:3%; text-align:center; text-decoration:underline;">
+				<h2>Déjà Validé par l'administrateur</h2>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+		{% for eventValid in allEventValid %}
+			<div class="row">
+				<div class="col-md-2"></div>
+				<a href="" title="Supprimer le club ?">
+					<div class="col-md-8 alert alert-success">
+						<strong style="font-size:30px;">{{ eventValid.name }}</strong>
+						<p> {{ eventValid.description }} </p>
+					</div>
+				</a>
+				<div class="col-md-2"></div>
+			</div>
+		{% endfor %}
+	{% endif %}
+
 {% endblock %}

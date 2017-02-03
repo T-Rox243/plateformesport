@@ -12,7 +12,17 @@ class SportController extends Controller
      */
     public function adminSportAction()
     {
-        return $this->render('admin/admin_sport.html.twig', array());
+    	$em = $this->getDoctrine()->getManager();
+        
+        $allSportNoValid = $em->getRepository('AppBundle:Sport')->sportAdminNoValid();
+        
+        $allSportValid = $em->getRepository('AppBundle:Sport')->sportAdminValid();
+
+
+        return $this->render('admin/admin_sport.html.twig', array(
+        	"allSportNoValid" => $allSportNoValid,
+        	"allSportValid" => $allSportValid
+        ));
     }
 
 }

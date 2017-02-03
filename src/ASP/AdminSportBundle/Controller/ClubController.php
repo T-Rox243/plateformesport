@@ -18,11 +18,13 @@ class ClubController extends Controller
     {
     	$em = $this->getDoctrine()->getManager();
         
-        $allClub = $em->getRepository('AppBundle:Club')->findAll();
+        $allClubNoValid = $em->getRepository('AppBundle:Club')->clubAdminNoValid();
+        
+        $allClubValid = $em->getRepository('AppBundle:Club')->clubAdminValid();
 
         return $this->render('admin/admin_club.html.twig', array(
-        	"allClub" => $allClub
+            "allClubNoValid" => $allClubNoValid,
+        	"allClubValid" => $allClubValid
         ));
     }
-
 }
