@@ -27,4 +27,37 @@ class ClubController extends Controller
         	"allClubValid" => $allClubValid
         ));
     }
+
+    /**
+     * @Route("/powerAdminClub/{idClub}", requirements={"idClub" = "\d+"}, name="powerAdminClub")
+     */
+    public function powerAdminClubAction($idClub){
+        $em = $this->getDoctrine()->getManager();
+
+        // Get the club to update
+        $updateClub = $em->getRepository('AppBundle:Club')->find($idClub);
+        // Get the actual confirmAdmin
+        $actualConfirmAdmin = $updateClub->getConfirmAdmin();
+
+        if($actualConfirmAdmin == 0){
+            $updateClub->setConfirmAdmin(1);
+        }
+        else{
+            $updateClub->setConfirmAdmin(0);
+        }
+
+        // Update Bdd
+        $em->persist($updateClub);
+        $em->flush();
+
+        // Get information about club
+        $allClubNoValid = $em->getRepository('AppBundle:Club')->clubAdminNoValid();
+        
+        $allClubValid = $em->getRepository('AppBundle:Club')->clubAdminValid();
+
+        return $this->render('admin/admin_club.html.twig', array(
+            "allClubNoValid" => $allClubNoValid,
+            "allClubValid" => $allClubValid
+        ));
+    }
 }

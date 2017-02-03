@@ -15,7 +15,7 @@
 		{% for eventNoValid in allEventNoValid %}
 			<div class="row">
 				<div class="col-md-2"></div>
-				<a href="" title="Valider l'evenement ?">
+				<a href="{{ path('powerAdminEvent', {'idEvent': eventNoValid.id}) }}" title="Valider l'evenement ?">
 					<div class="col-md-8 alert alert-danger">
 						<strong style="font-size:30px;">{{ eventNoValid.name }}</strong>
 						<p> {{ eventNoValid.description }} </p>
@@ -37,7 +37,7 @@
 		{% for eventValid in allEventValid %}
 			<div class="row">
 				<div class="col-md-2"></div>
-				<a href="" title="Supprimer le club ?">
+				<a href="{{ path('powerAdminEvent', {'idEvent': eventValid.id}) }}" title="Supprimer le club ?">
 					<div class="col-md-8 alert alert-success">
 						<strong style="font-size:30px;">{{ eventValid.name }}</strong>
 						<p> {{ eventValid.description }} </p>

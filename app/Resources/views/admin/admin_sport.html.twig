@@ -15,7 +15,7 @@
 		{% for sportNoValid in allSportNoValid %}
 			<div class="row">
 				<div class="col-md-2"></div>
-				<a href="" title="Valider le sport ?">
+				<a href="{{ path('powerAdminSport', {'idSport': sportNoValid.id}) }}" title="Valider le sport ?">
 					<div class="col-md-8 alert alert-danger">
 						<strong style="font-size:30px;">{{ sportNoValid.name }}</strong>
 						<p> {{ sportNoValid.description }} </p>
@@ -37,7 +37,7 @@
 		{% for sportValid in allSportValid %}
 			<div class="row">
 				<div class="col-md-2"></div>
-				<a href="" title="Supprimer le club ?">
+				<a href="{{ path('powerAdminSport', {'idSport': sportValid.id}) }}" title="Supprimer le club ?">
 					<div class="col-md-8 alert alert-success">
 						<strong style="font-size:30px;">{{ sportValid.name }}</strong>
 						<p> {{ sportValid.description }} </p>
