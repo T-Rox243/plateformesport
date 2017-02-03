@@ -3,5 +3,22 @@
 {% block title %}ASPAdminSportBundle:Club:adminClub{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Club:adminClub page</h1>
+	{% for club in allClub %}
+		<div class="row">
+			<div class="col-md-2"></div>
+	        <div class="col-md-8 well">
+	            <div class="row">
+	                <div class="col-md-12">
+	                    <div class="list-group">
+	                    	<a href="#" class="list-group-item">
+	                    		<h2 class="list-group-item-heading">{{ club.name }}</h2>
+	                    		<p class="list-group-item-text">{{ club.description }}</p>
+	                    	</a>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+			<div class="col-md-2"></div>
+	    </div>
+	{% endfor %}
 {% endblock %}
