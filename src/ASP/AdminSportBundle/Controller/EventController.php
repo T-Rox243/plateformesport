@@ -31,7 +31,8 @@ class EventController extends Controller
     /**
      * @Route("/powerAdminEvent/{idEvent}", requirements={"idEvent" = "\d+"}, name="powerAdminEvent")
      */
-    public function powerAdminEventAction($idEvent, Request $request){
+    public function powerAdminEventAction($idEvent, Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
 
         // Get the event to update

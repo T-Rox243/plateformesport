@@ -66,4 +66,24 @@ class ClubRepository extends EntityRepository
 		return $results;
 	}
 
+	public function clubIndexAdmin()
+	{
+		$adminValue = 0;
+		$limit = 3;
+
+		$queryBuilder = $this->createQueryBuilder('clubIndex');
+		$queryBuilder->where('clubIndex.confirmAdmin = :confirmAdmin')
+						->setParameter('confirmAdmin', $adminValue);
+
+		$queryBuilder->andwhere('clubIndex.confirmAdmin = :confirmAdmin')
+						->setParameter('confirmAdmin', $adminValue)
+						->setMaxResults( $limit );
+		
+		$query = $queryBuilder->getQuery();
+
+		$results = $query->getResult();
+
+		return $results;
+	}
+
 }

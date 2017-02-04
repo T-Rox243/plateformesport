@@ -1,5 +1,84 @@
 {% extends 'base_admin.html.twig' %}
 
 {% block body %}
-	Test Plop
+	<div class="row" style="text-align:center; margin-top:2%; font-size:30px;">
+		<div class="col-md-12"> <strong>Administration du sites</strong> </div>
+	</div>
+
+	<div class="row" style="text-align:center; margin-top:2%; font-size:25px;">
+		<div class="col-md-12">
+			Les derniers ajouts sur le site
+		</div>
+	</div>
+
+	{% if indexSportNoValid %}
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8" style="margin-top:2%; text-decoration:underline;">
+				<h3>Les 3 derniers sports à valider</h3>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+
+		{% for theSportNoValid in indexSportNoValid %}
+			<div class="row">
+				<div class="col-md-2"></div>
+				<a href="{{ path('powerAdminSport', {'idSport': theSportNoValid.id}) }}" title="Valider l'evenement ?">
+					<div class="col-md-8 alert alert-danger">
+						<strong style="font-size:30px;">{{ theSportNoValid.name }}</strong>
+						<p> {{ theSportNoValid.description }} </p>
+					</div>
+				</a>
+				<div class="col-md-2"></div>
+			</div>
+		{% endfor %}
+	{% endif %}
+	
+	{% if indexClubNoValid %}
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8" style="margin-top:2%; text-decoration:underline;">
+				<h3>Les 3 derniers clubs à valider</h3>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+
+		{% for theClubNoValid in indexClubNoValid %}
+			<div class="row">
+				<div class="col-md-2"></div>
+				<a href="{{ path('indexAdminClub', {'idClub': theClubNoValid.id}) }}" title="Valider l'evenement ?">
+					<div class="col-md-8 alert alert-danger">
+						<strong style="font-size:30px;">{{ theClubNoValid.name }}</strong>
+						<p> {{ theClubNoValid.description }} </p>
+					</div>
+				</a>
+				<div class="col-md-2"></div>
+			</div>
+		{% endfor %}
+
+	{% endif %}
+
+	{% if indexEventNoValid %}
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8" style="margin-top:2%; text-decoration:underline;">
+				<h3>Les 3 derniers event à valider</h3>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+
+		{% for theEventNoValid in indexEventNoValid %}
+			<div class="row">
+				<div class="col-md-2"></div>
+				<a href="{{ path('indexAdminEvent', {'idEvent': theEventNoValid.id}) }}" title="Valider l'evenement ?">
+					<div class="col-md-8 alert alert-danger">
+						<strong style="font-size:30px;">{{ theEventNoValid.name }}</strong>
+						<p> {{ theEventNoValid.description }} </p>
+					</div>
+				</a>
+				<div class="col-md-2"></div>
+			</div>
+		{% endfor %}
+
+	{% endif %}
 {% endblock %}

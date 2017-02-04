@@ -41,4 +41,24 @@ class SportRepository extends EntityRepository
 
 		return $results;
 	}
+
+	public function sportIndexAdmin()
+	{
+		$adminValue = 0;
+		$limit = 3;
+
+		$queryBuilder = $this->createQueryBuilder('sportIndex');
+		$queryBuilder->where('sportIndex.confirmAdmin = :confirmAdmin')
+						->setParameter('confirmAdmin', $adminValue);
+
+		$queryBuilder->andwhere('sportIndex.confirmAdmin = :confirmAdmin')
+						->setParameter('confirmAdmin', $adminValue)
+						->setMaxResults( $limit );
+		
+		$query = $queryBuilder->getQuery();
+
+		$results = $query->getResult();
+
+		return $results;
+	}
 }
