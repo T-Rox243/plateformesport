@@ -31,7 +31,7 @@ class ClubController extends Controller
     /**
      * @Route("/powerAdminClub/{idClub}", requirements={"idClub" = "\d+"}, name="powerAdminClub")
      */
-    public function powerAdminClubAction($idClub){
+    public function powerAdminClubAction($idClub, Request $request){
         $em = $this->getDoctrine()->getManager();
 
         // Get the club to update
@@ -50,14 +50,13 @@ class ClubController extends Controller
         $em->persist($updateClub);
         $em->flush();
 
-        // Get information about club
-        $allClubNoValid = $em->getRepository('AppBundle:Club')->clubAdminNoValid();
-        
-        $allClubValid = $em->getRepository('AppBundle:Club')->clubAdminValid();
+        // Get complete url 
+        $requestUri = $request->getRequestUri();
 
-        return $this->render('admin/admin_club.html.twig', array(
-            "allClubNoValid" => $allClubNoValid,
-            "allClubValid" => $allClubValid
-        ));
+        $toReplace = "/powerAdminClub/".$idClub;
+
+        $url = str_replace($toReplace, "/adminClub", $requestUri);
+        
+        return $this->redirect($url, 301);
     }
 }

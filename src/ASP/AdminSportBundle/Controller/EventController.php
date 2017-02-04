@@ -31,7 +31,7 @@ class EventController extends Controller
     /**
      * @Route("/powerAdminEvent/{idEvent}", requirements={"idEvent" = "\d+"}, name="powerAdminEvent")
      */
-    public function powerAdminEventAction($idEvent){
+    public function powerAdminEventAction($idEvent, Request $request){
         $em = $this->getDoctrine()->getManager();
 
         // Get the event to update
@@ -51,14 +51,13 @@ class EventController extends Controller
         $em->persist($updateEvent);
         $em->flush();
 
-        // Get information about event
-        $allEventNoValid = $em->getRepository('AppBundle:Evenement')->eventAdminNoValid();
-        
-        $allEventValid = $em->getRepository('AppBundle:Evenement')->eventAdminValid();
+        // Get complete url 
+        $requestUri = $request->getRequestUri();
 
-        return $this->render('admin/admin_event.html.twig', array(
-            "allEventNoValid" => $allEventNoValid,
-            "allEventValid" => $allEventValid
-        ));
+        $toReplace = "/powerAdminEvent/".$idEvent;
+
+        $url = str_replace($toReplace, "/adminEvent", $requestUri);
+        
+        return $this->redirect($url, 301);
     }
 }

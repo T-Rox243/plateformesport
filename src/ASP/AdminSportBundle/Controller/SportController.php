@@ -32,7 +32,7 @@ class SportController extends Controller
     /**
      * @Route("/powerAdminSport/{idSport}", requirements={"idSport" = "\d+"}, name="powerAdminSport")
      */
-    public function powerAdminSportAction($idSport){
+    public function powerAdminSportAction($idSport, Request $request){
         $em = $this->getDoctrine()->getManager();
 
         // Get the event to update
@@ -52,14 +52,13 @@ class SportController extends Controller
         $em->persist($updateSport);
         $em->flush();
 
-        // Get information about event
-        $allSportNoValid = $em->getRepository('AppBundle:Sport')->sportAdminNoValid();
-        
-        $allSportValid = $em->getRepository('AppBundle:Sport')->sportAdminValid();
+        // Get complete url 
+        $requestUri = $request->getRequestUri();
 
-        return $this->render('admin/admin_sport.html.twig', array(
-            "allSportNoValid" => $allSportNoValid,
-            "allSportValid" => $allSportValid
-        ));
+        $toReplace = "/powerAdminSport/".$idSport;
+
+        $url = str_replace($toReplace, "/adminSport", $requestUri);
+        
+        return $this->redirect($url, 301);
     }
 }
