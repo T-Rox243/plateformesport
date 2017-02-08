@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}PlateformeSport - Page non trouvée{% endblock %}
+
+{% block body %}
+<div id="wrapper">
+    <div class="container" style="text-align:center;">
+	    <h1>Page non trouvée</h1>
+	    <p>
+	        Oops la page demandée n'existe pas !
+	        retourner à <a href="{{ path('homepage') }}">l'accueil</a>.
+	    </p>
+	</div>
+</div>
+{% endblock %}

@@ -20,25 +20,31 @@
 	        </div>
 
 			{% for sportInfo in listSport %}
-				
-				{% for sport in sportInfo %}
-					<div class="row">
-				        <div class="col-md-4 well">
-				            <div class="row">
-				                <div class="col-md-12">
-				                    <div class="results">
-				                        <img src="{{ asset('images/derby.jpg') }}" alt="{{ sport.name }}" class="img-circle img-thumbnail img-sport">
-				                        <h2>{{ sport.name }}</h2>
-				                        <p>{{ sport.description }}</p>
-				                        <div ><a href="{{ path('infoSport', {'idSport': sport.id}) }}" class="btn btn-default btn-block">En savoir plus</a></div>
-				                    </div>
-				                </div>
-				            </div>
-				        </div>
-				    </div>
+				{% if sportInfo|length  %}
+					{% set sportPerColumn = (sportInfo|length / 3)|round(0, 'ceil') %}
 					
-					<br>
-				{% endfor %}
+					{% for sport in sportInfo %}
+						{% if sportPerColumn == 1 or loop.index % sportPerColumn == 1 %}
+		    			<div class="row">
+		    			{% endif %}
+							<div class="col-md-4 well">
+					            <div class="row">
+					                <div class="col-md-12">
+					                    <div class="results">
+					                        <img src="{{ asset('images/derby.jpg') }}" alt="{{ sport.name }}" class="img-circle img-thumbnail img-sport">
+					                        <h2>{{ sport.name }}</h2>
+					                        <p>{{ sport.description }}</p>
+					                        <div ><a href="{{ path('infoSport', {'idSport': sport.id}) }}" class="btn btn-default btn-block">En savoir plus</a></div>
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+						{% if loop.last or loop.index % sportPerColumn == 0 %}
+		    			</div>
+		    			{% endif %}
+						<br>
+					{% endfor %}
+	    		{% endif %}
 
 			{% endfor %}
 		</div>

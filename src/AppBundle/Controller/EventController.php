@@ -158,6 +158,12 @@ class EventController extends Controller
 
                   // Insertion dans la bdd
                   $em->flush(); 
+
+                    //message d'info pour l'ajout de l'événement
+                    $this->addFlash(
+                        'notice',
+                        'Evénement créé !'
+                    );
                 }
             }
         }

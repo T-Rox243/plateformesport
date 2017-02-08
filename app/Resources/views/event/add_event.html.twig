@@ -7,6 +7,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-md-offset-3 signUp">
+                 {% for flash_message in app.session.flashBag.get('notice') %}
+                    <div class="alert alert-success">
+                        <div class="flash-notice">
+                            {{ flash_message }}
+                        </div>
+                    </div>
+                {% endfor %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h1 class="panel-title">Ajouter un événement</h1>

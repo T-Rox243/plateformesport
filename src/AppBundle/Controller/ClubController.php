@@ -146,6 +146,12 @@ class ClubController extends Controller
 
                     // Insertion dans la bdd
                     $em->flush();
+
+                    //message d'info pour l'ajout du club
+                    $this->addFlash(
+                        'notice',
+                        'Club créé !'
+                    );
                 }
             }
         }

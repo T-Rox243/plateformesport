@@ -133,6 +133,12 @@ class SportController extends Controller
 
                     // Insertion dans la bdd
                     $em->flush();
+
+                    //message d'info pour l'ajout du sport
+                    $this->addFlash(
+                        'notice',
+                        'Sport créé !'
+                    );
                 }
             }
         }

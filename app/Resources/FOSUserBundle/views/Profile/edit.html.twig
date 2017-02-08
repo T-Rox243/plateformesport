@@ -1,6 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends "FOSUserBundle::layout.html.twig" %}
 
-{% block body %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+	{% block body %}
     <div id="wrapper">
         <div class="container">
 <br>
@@ -20,7 +23,7 @@
         <div class="col-md-8 well" id="rightPanel">
             <div class="row">
                 <div class="col-md-12">
-                    {{ form_start(form, {'method': 'post'}) }}
+                    {{ form_start(form, {'method': 'post', 'action': path('fos_user_profile_edit'), 'attr': {'class': 'fos_user_profile_edit'}}) }}
                         {{ form_errors(form) }}
                         <h2>Editer votre profil</h2>
                         <hr>
@@ -69,3 +72,5 @@
 </div>
     </div> 
 {% endblock %}
+
+{% endblock fos_user_content %}

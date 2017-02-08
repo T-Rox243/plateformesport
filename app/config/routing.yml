@@ -9,3 +9,9 @@ app:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+fos_user_profile_edit:
+    path: /user
+    defaults: { _controller: FOSUserBundle:Profile:edit }
+    requirements:
+        _method: GET|POST
