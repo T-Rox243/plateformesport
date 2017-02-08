@@ -27,6 +27,11 @@ class ClubController extends Controller
 
         $club = $em->getRepository('AppBundle:Club')->find($idClub);
 
+        if (null === $club) {
+            // throw new NotFoundHttpException("Le club d'id ".$idEvent." n'existe pas.");
+            return $this->render('default/404.html.twig', array());
+        }
+        
         // $test = $em->getRepository('AppBundle:Club')->monTestAMoi();
 
         return $this->render('club/club.html.twig', array(

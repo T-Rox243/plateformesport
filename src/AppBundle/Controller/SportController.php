@@ -25,6 +25,11 @@ class SportController extends Controller
 
         $infoSport = $em->getRepository('AppBundle:Sport')->find($idSport);
 
+        if (null === $infoSport) {
+            // throw new NotFoundHttpException("Le club d'id ".$idEvent." n'existe pas.");
+            return $this->render('default/404.html.twig', array());
+        }
+        
         $nameSport = $infoSport->getName();
 
         $description = $infoSport->getDescription();
