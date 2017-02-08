@@ -49,6 +49,12 @@ class BenevoleController extends Controller
 
             $em->flush();
 
+            //message d'info pour l'ajout de l'événement
+            $this->addFlash(
+                'notice',
+                'Vous etes devenu Benevole pour cet evenement !'
+            );
+
             return $this->redirectToRoute('infoEvent', array('idEvent' => $idEvent));
         }
 

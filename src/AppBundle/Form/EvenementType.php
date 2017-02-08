@@ -25,8 +25,14 @@ class EvenementType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('description', TextareaType::class)
-            ->add('startDate', DateType::class)
-            ->add('endDate', DateType::class)
+            ->add('startDate', DateType::class, array(
+                     'widget' => 'single_text',
+                )
+            )
+            ->add('endDate', DateType::class, array(
+                     'widget' => 'single_text',
+                )
+            )
             ->add('typeEvent', ChoiceType::class, array(
                                                         'choices'  => array(
                                                             'Competition' => 'Competition',
