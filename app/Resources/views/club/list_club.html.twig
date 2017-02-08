@@ -20,11 +20,19 @@
 		</div>
 
 		<div class="row">
+			<div class="col-md-12 text-center">
+				<a href="{{ path('addClub') }}">
+					<button type="button" class="btn btn-success">Ajouter un Club</button>
+				</a>
+			</div>
+		</div>
+
+		<div class="row">
 			{% for club in listClub %}
 				<div class="col-md-4 well" style="background-color:transparent;">
 					<div class="row">
 						<div class="col-md-1"></div>
-						<div class="col-md-10" style="background:#abd4cc; border-radius: 2%;">
+						<div class="col-md-10" style="background:#bdd2ce; border-radius: 2%;">
 							<div style="margin-top:2%;"></div>
 							<div class="results">
 								<img src="{{ asset('images/derby.jpg') }}" alt="{{ club.name }}" class="img-circle img-thumbnail img-sport">

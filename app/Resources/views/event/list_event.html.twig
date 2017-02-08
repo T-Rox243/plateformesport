@@ -19,24 +19,35 @@
 		    </div>
 		</div>
 
-
-		{% for event in allEvent %}
 		<div class="row">
-	        <div class="col-md-4 well">
-	            <div class="row">
-	                <div class="col-md-12">
-	                    <div class="results">
-	                        <img src="{{ asset('images/derby.jpg') }}" alt="{{ event.name }}" class="img-circle img-thumbnail img-sport">
-	                        <h2>{{ event.name }}</h2>
-	                        <p>{{ event.description }}</p>
-	                        <p>{{ event.typeEvent }}</p>
-	                        <div ><a href="{{ path('infoEvent', {'idEvent': event.id}) }}" class="btn btn-default btn-block">En savoir plus</a></div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
+			<div class="col-md-12 text-center">
+				<a href="{{ path('addEvent') }}">
+					<button type="button" class="btn btn-success">Ajouter un Evenement</button>
+				</a>
+			</div>
+		</div>
+
+		<div class="row">
+			{% for event in allEvent %}
+				<div class="col-md-4 well" style="background-color:transparent;">
+					<div class="row">
+						<div class="col-md-1"></div>
+						<div class="col-md-10" style="background:#bdd2ce; border-radius: 2%;">
+							<div class="results">
+								<div style="margin-top:2%;"></div>
+								<img src="{{ asset('images/derby.jpg') }}" alt="{{ event.name }}" class="img-circle img-thumbnail img-sport">
+								<h2>{{ event.name }}</h2>
+								<p>{{ event.description }}</p>
+								<p>{{ event.typeEvent }}</p>
+								<div ><a href="{{ path('infoEvent', {'idEvent': event.id}) }}" class="btn btn-default btn-block">En savoir plus</a></div>
+								<div style="margin-bottom:2%;"></div>
+							</div>
+						</div>
+						<div class="col-md-1"></div>
+					</div>
+				</div>
+			{% endfor %}
 	    </div>
-		{% endfor %}
 	</div>
 </div>
 {% endblock %}
