@@ -19,23 +19,26 @@
 		    </div>
 		</div>
 
-
-		{% for club in listClub %}
 		<div class="row">
-	        <div class="col-md-4 well">
-	            <div class="row">
-	                <div class="col-md-12">
-	                    <div class="results">
-	                        <img src="{{ asset('images/derby.jpg') }}" alt="{{ club.name }}" class="img-circle img-thumbnail img-sport">
-	                        <h2>{{ club.name }}</h2>
-	                        <p>{{ club.description }}</p>
-	                        <div ><a href="{{ path('infoClub', {'idClub': club.id}) }}" class="btn btn-default btn-block">En savoir plus</a></div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-		{% endfor %}
+			{% for club in listClub %}
+				<div class="col-md-4 well" style="background-color:transparent;">
+					<div class="row">
+						<div class="col-md-1"></div>
+						<div class="col-md-10" style="background:#abd4cc; border-radius: 2%;">
+							<div style="margin-top:2%;"></div>
+							<div class="results">
+								<img src="{{ asset('images/derby.jpg') }}" alt="{{ club.name }}" class="img-circle img-thumbnail img-sport">
+								<h2>{{ club.name }}</h2>
+								<p>{{ club.description }}</p>
+								<div ><a href="{{ path('infoClub', {'idClub': club.id}) }}" class="btn btn-default btn-block">En savoir plus</a></div>
+							</div>
+							<div style="margin-bottom:2%;"></div>
+						</div>
+						<div class="col-md-1"></div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
 	</div>
 </div>
 
