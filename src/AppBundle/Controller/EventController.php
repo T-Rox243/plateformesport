@@ -38,6 +38,24 @@ class EventController extends Controller
             return $this->render('default/404.html.twig', array());
         }
 
+        // On regarge si l'utilsateur peut editer le contenu
+        $createUserConnected = false;
+
+        // Get security de connexion
+        $securityContext = $this->container->get('security.authorization_checker');
+
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) 
+        {
+            // On recupere l'id de l'user connecté. Seul un utilisateur qui l'a créer peut editer le sport
+            $idConnectedUser = $this->getUser()->getId();
+            $idUserEvent = $event->getUser()->getId();
+            
+            if($idConnectedUser == $idUserEvent)
+            {
+                $createUserConnected = true;
+            }
+        }
+
         // Mettre aussi en place un bouton pour devenir benevole sur cet evenement
         $nameEvent = $event->getName();
         $descriptionEvent = $event->getDescription();
@@ -50,6 +68,7 @@ class EventController extends Controller
             "descriptionEvent" => $descriptionEvent,
             "typeEvent" => $typeEvent,
             "userEvent" => $userEvent,
+            "createUserConnected" => $createUserConnected
         ));
     }
 
@@ -83,12 +102,20 @@ class EventController extends Controller
             // On recupere l'id de l'user connecté. Seul un utilisateur connecté peut créer un evenement
             $idConnectedUser = $this->getUser()->getId();
 
-            // On recupere l'id de l'user qui creer l'evenement
-            $user = $em->getRepository("AppBundle:User")->find($idConnectedUser);
+            $idUserEvent = $editEvent->getUser()->getId();
 
-            /**************************************************************************************************
-            ***** On doit comparer voir si l'utilisateur connecté et le même que celui qui a créé l'event *****
-            **************************************************************************************************/
+            if($idConnectedUser != $idUserEvent)
+            {
+                // on recupere la route complete
+                $requestUri = $request->getRequestUri();
+
+                // On met en place ce qu'on souhaite remplacer dans l'url            
+                $toReplace = "/editEvent/".$idEvent;
+
+                // Retravaille de l'url
+                $url = str_replace($toReplace, "/", $requestUri);
+                return $this->redirect($url, 301);
+            }
 
             // On verifie que le boutton submit 
             if( $request->isMethod('POST') )

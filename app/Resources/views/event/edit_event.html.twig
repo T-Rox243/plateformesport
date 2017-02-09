@@ -4,8 +4,13 @@
 
 {% block body %}
 <h1>Welcome to the Event:editEvent number {{ idEvent }} page</h1>
-
-{{ form(formEvent) }}
-<a href="#" id="add_media" class="btn btn-default">Ajout d'un media</a>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center">
+			{{ form(formEvent) }}
+		</div>
+	</div>
+</div>
+{# <a href="#" id="add_media" class="btn btn-default">Ajout d'un media</a> #}
 
 {% endblock %}

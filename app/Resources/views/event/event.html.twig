@@ -5,6 +5,14 @@
 {% block body %}
 <div id="wrapper">
         <div class="container" style="text-align:center;">
+        	{% if createUserConnected %}
+		    	<div class="row" style="margin-top:2%;">
+		    		<a href="{{ path('editEvent', {'idEvent': idEvent}) }}">
+	        			<button type="button" class="btn btn-success">Modifier l'évènement</button>
+	        		</a>
+		    	</div>
+		    {% endif %}
+
 			<h1>{{ nameEvent }}</h1>
 			<img src="{{ asset('images/derby.jpg') }}" alt="{{ nameEvent }}" class="img-thumbnail img-sport-fiche">
 			<div class="row">
