@@ -183,7 +183,7 @@ class ClubController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $listClub = $em->getRepository('AppBundle:Club')->findAll();
+        $listClub = $em->getRepository('AppBundle:Club')->clubAdminValid();
 
         return $this->render('club/list_club.html.twig', array(
             "listClub" => $listClub

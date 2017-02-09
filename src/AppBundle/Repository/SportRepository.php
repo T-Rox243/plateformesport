@@ -49,9 +49,23 @@ class SportRepository extends EntityRepository
 
 		$queryBuilder = $this->createQueryBuilder('sportIndex');
 		$queryBuilder->where('sportIndex.confirmAdmin = :confirmAdmin')
-						->setParameter('confirmAdmin', $adminValue);
+						->setParameter('confirmAdmin', $adminValue)
+						->setMaxResults( $limit );
+		
+		$query = $queryBuilder->getQuery();
 
-		$queryBuilder->andwhere('sportIndex.confirmAdmin = :confirmAdmin')
+		$results = $query->getResult();
+
+		return $results;
+	}
+
+	public function sportIndex()
+	{
+		$adminValue = 1;
+		$limit = 3;
+
+		$queryBuilder = $this->createQueryBuilder('sportIndex');
+		$queryBuilder->where('sportIndex.confirmAdmin = :confirmAdmin')
 						->setParameter('confirmAdmin', $adminValue)
 						->setMaxResults( $limit );
 		

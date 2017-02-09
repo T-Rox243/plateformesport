@@ -49,10 +49,26 @@ class EvenementRepository extends EntityRepository
 
 		$queryBuilder = $this->createQueryBuilder('eventIndex');
 		$queryBuilder->where('eventIndex.confirmAdmin = :confirmAdmin')
-						->setParameter('confirmAdmin', $adminValue);
-
-		$queryBuilder->andwhere('eventIndex.confirmAdmin = :confirmAdmin')
 						->setParameter('confirmAdmin', $adminValue)
+						->orderBy('eventIndex.confirmAdmin', 'DESC')
+						->setMaxResults( $limit );
+		
+		$query = $queryBuilder->getQuery();
+
+		$results = $query->getResult();
+
+		return $results;
+	}
+
+	public function eventIndex()
+	{
+		$adminValue = 1;
+		$limit = 3;
+
+		$queryBuilder = $this->createQueryBuilder('eventIndex');
+		$queryBuilder->where('eventIndex.confirmAdmin = :confirmAdmin')
+						->setParameter('confirmAdmin', $adminValue)
+						->orderBy('eventIndex.confirmAdmin', 'DESC')
 						->setMaxResults( $limit );
 		
 		$query = $queryBuilder->getQuery();

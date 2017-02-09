@@ -191,7 +191,7 @@ class EventController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         // On recupere tout les evenements
-        $allEvent = $em->getRepository('AppBundle:Evenement')->findAll();
+        $allEvent = $em->getRepository('AppBundle:Evenement')->eventAdminValid();
 
         return $this->render('event/list_event.html.twig', array(
             "allEvent" => $allEvent

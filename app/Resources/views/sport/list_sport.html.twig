@@ -28,27 +28,27 @@
 	        </div>
 	        
 	        <div class="row">
-	        	{% for sportInfo in listSport %}
-	        		{% for sport in sportInfo %}
-	        			<div class="col-md-4 well" style="background-color:transparent;">
-	        				<div class="row">
-	        					<div class="col-md-1"></div>
-	        					<div class="col-md-10" style="background:#bdd2ce; border-radius: 2%;">
-	        						<div style="margin-top:2%;"></div>
-	        						<div class="results">
-	        							<img src="{{ asset('images/derby.jpg') }}" alt="{{ sport.name }}" class="img-circle img-thumbnail img-sport">
-	        							<h2>{{ sport.name }}</h2>
-	        							<p>{{ sport.description }}</p>
-	        							<div ><a href="{{ path('infoSport', {'idSport': sport.id}) }}" class="btn btn-default btn-block">En savoir plus</a></div>
-	        						</div>
-	        						<div style="margin-bottom:2%;"></div>
+	        	{% for sport in listSport %}
+	        		<div class="col-md-4 well" style="background-color:transparent;">
+	        			<div class="row">
+	        				<div class="col-md-1"></div>
+	        				<div class="col-md-10" style="background:#bdd2ce; border-radius: 2%;">
+	        					<div style="margin-top:2%;"></div>
+	        					<div class="results">
+	        						<img src="{{ asset('images/derby.jpg') }}" alt="{{ sport.name }}" class="img-circle img-thumbnail img-sport">
+	        						<h2>{{ sport.name }}</h2>
+	        						<p>{{ sport.description }}</p>
+	        						<div ><a href="{{ path('infoSport', {'idSport': sport.id}) }}" class="btn btn-default btn-block">En savoir plus</a></div>
 	        					</div>
-	        					<div class="col-md-1"></div>
+	        					<div style="margin-bottom:2%;"></div>
 	        				</div>
+	        				<div class="col-md-1"></div>
 	        			</div>
-	        		{% endfor %}
+	        		</div>
 	        	{% endfor %}
 	        </div>
+
+	        
 			{# {% for sportInfo in listSport %}
 				{% if sportInfo|length  %}
 					{% set sportPerColumn = (sportInfo|length / 3)|round(0, 'ceil') %}
