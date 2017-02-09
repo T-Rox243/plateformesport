@@ -14,8 +14,7 @@
                 <div class="col-md-12">
                     <div>
                         <img src="http://lorempixel.com/200/200/abstract/1/" alt="Texto Alternativo" class="img-circle img-thumbnail">
-                        <h2>John DOE</h2><br>
-                        <div ><a href="#" class="btn btn-default btn-block btn-lg">Changer l'image</a></div>
+                        <h2>{{ user.firstName }} {{ user.name }}</h2><br>
                     </div>
                 </div>
             </div>
@@ -23,47 +22,37 @@
         <div class="col-md-8 well" id="rightPanel">
             <div class="row">
                 <div class="col-md-12">
-                    {{ form_start(form, {'method': 'post', 'action': path('fos_user_profile_edit'), 'attr': {'class': 'fos_user_profile_edit'}}) }}
+                {% for flash_message in app.session.flashBag.get('notice') %}
+                    <div class="alert alert-success">
+                        <div class="flash-notice">
+                            {{ flash_message }}
+                        </div>
+                    </div>
+                {% endfor %}
+                    {{ form_start(form, {'method': 'post', 'action': path('infoUser',{'idUser' : app.user.id}), 'attr': {'class': 'fos_user_profile_edit'}}) }}
                         {{ form_errors(form) }}
-                        <h2>Editer votre profil</h2>
+                        <h2>Editer votre adresse email</h2>
                         <hr>
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-md-6">
                                 <div class="form-group">
-                                    {{ form_errors(form.firstName) }}
-                                    {{ form_widget(form.firstName, { 'attr': {'class': 'form-control input-lg','placeholder' : "Prénom","tabindex" : "1" }}) }}
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    {{ form_errors(form.name) }}
-                                    {{ form_widget(form.name, { 'attr': {'class': 'form-control input-lg','placeholder' : "Nom","tabindex" : "2" }}) }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
                                     {{ form_errors(form.email) }}
-                                    {{ form_widget(form.email, { 'attr': {'class': 'form-control input-lg','placeholder' : "Prénom","tabindex" : "4" }}) }}
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                <div class="form-group">
-                                    {{ form_errors(form.plainPassword.first) }}
-                                    {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control input-lg','placeholder' : 'Mot de passe',"tabindex" : "5" }}) }}
+                                    {{ form_widget(form.email, { 'attr': {'class': 'form-control input-lg','placeholder' : "Email","tabindex" : "1" }}) }}
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6">
                                 <div class="form-group">
-                                    {{ form_errors(form.plainPassword.second) }}
-                                    {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control input-lg','placeholder' : 'Confirmation de mot de passe',"tabindex" : "6" }}) }}
+                                    {{ form_errors(form.current_password) }}
+                                    {{ form_widget(form.current_password, { 'attr': {'class': 'form-control input-lg','placeholder' : 'Mot de passe actuel',"tabindex" : "2" }}) }}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-12 col-md-6"></div>
-                            <div class="col-xs-12 col-md-6"><a href="#" class="btn btn-success btn-block btn-lg">Enregistrer</a></div>
+                            <div class="col-xs-12 col-md-6">
+                                <input class="btn btn-lg btn-success btn-block" type="submit" value="Enregistrer">
+                            </div>
                         </div>
-                    </form>
+                    {{ form_end(form) }}  
                 </div>
             </div>
             </div>

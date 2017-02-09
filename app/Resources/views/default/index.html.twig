@@ -31,9 +31,9 @@
                 <div class="col-sm-4 col-md-4">
                   <div class="thumbnail">
                     <div class="caption">
-                      <h3>Nom du sport</h3>
-                      <p>Petite description rapide de ce qu'est le sport, en quoi il consiste...</p>
-                      <p><a href="#" class="btn btn-primary" role="button">Voir > </a></p>
+                      <h3>{{ sport.name }}</h3>
+                      <p>{{ sport.description }}</p>
+                      <p><a href="{{ path('infoSport', {'idSport': sport.id}) }}" class="btn btn-primary" role="button">Voir > </a></p>
                     </div>
                   </div>
                 </div>
@@ -47,13 +47,13 @@
             {% if lastClubs %}
               <h2>Derniers clubs ajoutés</h2>
 
-              {% for sport in lastClubs %}
+              {% for club in lastClubs %}
                 <div class="col-sm-4 col-md-4">
                   <div class="thumbnail">
                     <div class="caption">
-                      <h3>Nom du club</h3>
-                      <p>Petite description rapide de ce qu'est le club, en quoi il consiste...</p>
-                      <p><a href="#" class="btn btn-primary" role="button">Voir > </a></p>
+                      <h3>{{ club.name }}</h3>
+                      <p>{{ club.description }}</p>
+                      <p><a href="{{ path('infoClub', {'idClub': club.id}) }}" class="btn btn-primary" role="button">Voir > </a></p>
                     </div>
                   </div>
                 </div>
@@ -70,9 +70,9 @@
                   <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
                       <div class="caption">
-                        <h3>Nom de l'évènement</h3>
-                        <p>Petite description rapide de ce qu'est l'évènement, en quoi il consiste...</p>
-                        <p><a href="#" class="btn btn-primary" role="button">Voir > </a></p>
+                        <h3>{{ event.name }}</h3>
+                        <p>{{ event.description }}</p>
+                        <p><a href="{{ path('infoEvent', {'idEvent': event.id}) }}" class="btn btn-primary" role="button">Voir > </a></p>
                       </div>
                     </div>
                   </div>

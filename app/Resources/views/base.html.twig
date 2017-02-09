@@ -48,7 +48,7 @@
                   <ul class="nav navbar-nav">
                     <li><a href="{{ path('homepage') }}">Accueil</a></li>
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <li><a href="{{ path('infoUser', {'idUser': 12}) }}">Mon compte</a></li>
+                    <li><a href="{{ path('infoUser', {'idUser': app.user.id}) }}">Mon compte</a></li>
                     {% endif %}
                     <li><a href="{{ path('listSport') }}">Trouver un sport</a></li>
                     <li><a href="{{ path('listClub') }}">Trouver un club</a></li>
@@ -72,8 +72,6 @@
            <p class="copy">© 2016 - Plateforme de sport tous droits résérvés ( <a class="mentions" href="#">mentions légales</a> )</p>
         </div-->
         </div>
-
-        
 
         <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script> 
         <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
