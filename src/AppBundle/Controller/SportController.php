@@ -64,34 +64,82 @@ class SportController extends Controller
         // On va charger le manager doctrine
         $em =  $this->getDoctrine()->getManager();
 
-        // Attention, on ne peut le faire que si la personne est connecté et que c'est l'utilisateur qui a creer ce sport
-        $editSport = $em->getRepository('AppBundle:Sport')->find($idSport);
+        $securityContext = $this->container->get('security.authorization_checker');
 
-        // Creation d'un formulaire se basant sur l'objet sport
-        $formBuilder = $this->get('form.factory')->createBuilder(SportType::class, $editSport);
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) 
+        {
+            // On recupere l'id de l'user connecté. Seul un utilisateur qui l'a créer peut editer le sport
+            $idConnectedUser = $this->getUser()->getId();
 
-        // Mise en place du formulaire
-        $form = $formBuilder->getForm();
+            $theUser = $em->getRepository('AppBundle:User')->find($idConnectedUser);
+            
+            // On recupere les sports créés par l'utilisateur
+            $idUserSport = $theUser->getSports();
+            
+            $idSportCreateByUser = array();
+            
+            // Tableau contenant les id des sports créer par l'utilisateur 
+            foreach ($idUserSport as $user) {
+                $idSportCreateByUser[] = $user->getId();
+            }
 
-        // On va aussi verifié que l'utilisateur est connecté et que l'id user est le même que celui qui a créé le sport
-        if($request->isMethod('POST')){
-            // Hydrate l'objet avec les données saisies dans le formulaire
-            $form->handleRequest($request);
+            if (in_array($idSport, $idSportCreateByUser)){
+                // Attention, on ne peut le faire que si la personne est connecté et que c'est l'utilisateur qui a creer ce sport
+                $editSport = $em->getRepository('AppBundle:Sport')->find($idSport);
 
-            // On verifie que les données coordonnes bien avec le'objet
-            if($form->isValid()){
-                // Ajout d'un sport
-                $em->persist($editSport);
+                // Creation d'un formulaire se basant sur l'objet sport
+                $formBuilder = $this->get('form.factory')->createBuilder(SportType::class, $editSport);
 
-                // Insertion dans la bdd
-                $em->flush();
+                // Mise en place du formulaire
+                $form = $formBuilder->getForm();
+                
+                // On va aussi verifié que l'utilisateur est connecté et que l'id user est le même que celui qui a créé le sport
+                if($request->isMethod('POST')){
+                    // Hydrate l'objet avec les données saisies dans le formulaire
+                    $form->handleRequest($request);
+
+                    // On verifie que les données coordonnes bien avec le'objet
+                    if($form->isValid()){
+                        // Ajout d'un sport
+                        $em->persist($editSport);
+
+                        // Insertion dans la bdd
+                        $em->flush();
+                    }
+                }
+
+                return $this->render('sport/edit_sport.html.twig', array(
+                    "idSport" => $idSport,
+                    "form" => $form->createView()
+                ));
+            }
+            else
+            {
+                // on recupere la route complete
+                $requestUri = $request->getRequestUri();
+
+                // On met en place ce qu'on souhaite remplacer dans l'url            
+                $toReplace = "/editSport/".$idSport;
+
+                // Retravaille de l'url
+                $url = str_replace($toReplace, "/", $requestUri);
+
+                return $this->redirect($url, 301);
             }
         }
+        else
+        {  
+            // on recupere la route complete
+            $requestUri = $request->getRequestUri();
 
-        return $this->render('sport/edit_sport.html.twig', array(
-            "idSport" => $idSport,
-            "form" => $form->createView()
-        ));
+            // On met en place ce qu'on souhaite remplacer dans l'url            
+            $toReplace = "/editSport/".$idSport;
+            
+            // Retravaille de l'url
+            $url = str_replace($toReplace, "/", $requestUri);
+            
+            return $this->redirect($url, 301);
+        }
     }
 
     /**
