@@ -32,11 +32,27 @@ class ClubController extends Controller
             return $this->render('default/404.html.twig', array());
         }
         
-        // $test = $em->getRepository('AppBundle:Club')->monTestAMoi();
+        // On regarge si l'utilsateur peut editer le contenu
+        $createUserConnected = false;
+
+        $securityContext = $this->container->get('security.authorization_checker');
+
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) 
+        {
+            // On recupere l'id de l'user connecté. Seul un utilisateur qui l'a créer peut editer le sport
+            $idConnectedUser = $this->getUser()->getId();
+            $idUserClub = $club->getUser()->getId();
+            
+            if($idConnectedUser == $idUserClub)
+            {
+                $createUserConnected = true;
+            }
+        }
 
         return $this->render('club/club.html.twig', array(
             "idClub" => $idClub,
-            "infoClub" => $club
+            "infoClub" => $club,
+            "createUserConnected" => $createUserConnected
         ));
     }
 
@@ -78,12 +94,20 @@ class ClubController extends Controller
             // On recupere l'id de l'user connecté. Seul un utilisateur connecté peut créer un evenement
             $idConnectedUser = $this->getUser()->getId();
 
-            /********************************************************************************
-            ***** On doit veriifer que l'utilisateur soit le même que celui qui a créér *****
-            ********************************************************************************/
+            $idUserClub = $editClub->getUser()->getId();
 
-            // Seul un utilisateur connecté peut creer un club
-            $user = $em->getRepository('AppBundle:User')->find($idConnectedUser);
+            if($idConnectedUser != $idUserClub)
+            {
+                // on recupere la route complete
+                $requestUri = $request->getRequestUri();
+
+                // On met en place ce qu'on souhaite remplacer dans l'url            
+                $toReplace = "/editClub/".$idClub;
+
+                // Retravaille de l'url
+                $url = str_replace($toReplace, "/", $requestUri);
+                return $this->redirect($url, 301);
+            }
 
             // On verifie que le boutton submit 
             if($request->isMethod('POST')){

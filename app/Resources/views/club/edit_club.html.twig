@@ -5,7 +5,13 @@
 {% block body %}
 	
 	<h1>Welcome to the Club:editClub number {{ idClub }} page</h1>
-	{{ form(formClub) }}
-	<a href="#" id="add_media" class="btn btn-default">Ajout d'un media</a>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				{{ form(formClub) }}
+			</div>
+		</div>
+	</div>
+	{# <a href="#" id="add_media" class="btn btn-default">Ajout d'un media</a> #}
 
 {% endblock %}

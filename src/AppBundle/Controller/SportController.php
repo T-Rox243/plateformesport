@@ -44,6 +44,34 @@ class SportController extends Controller
 
         $sportSwear = $infoSport->getSportswear();
 
+        // On regarge si l'utilsateur peut editer le contenu
+        $createUserConnected = false;
+
+        $securityContext = $this->container->get('security.authorization_checker');
+
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) 
+        {
+            // On recupere l'id de l'user connecté. Seul un utilisateur qui l'a créer peut editer le sport
+            $idConnectedUser = $this->getUser()->getId();
+
+            $theUser = $em->getRepository('AppBundle:User')->find($idConnectedUser);
+            
+            // On recupere les sports créés par l'utilisateur
+            $idUserSport = $theUser->getSports();
+            
+            $idSportCreateByUser = array();
+
+             // Tableau contenant les id des sports créer par l'utilisateur 
+            foreach ($idUserSport as $user) {
+                $idSportCreateByUser[] = $user->getId();
+            }
+
+            if (in_array($idSport, $idSportCreateByUser)){
+                $createUserConnected = true;
+            }
+        }
+
+
         // Faut que je regarde comme obtenir les noms des clubs pratiquants le sport en question et le nom de l'utilisateur
         return $this->render('sport/sport.html.twig', array(
             "idSport" => $idSport,
@@ -51,7 +79,8 @@ class SportController extends Controller
             "description" => $description,
             "country" => $country,
             "competition" => $competition,
-            "sportSwear" => $sportSwear
+            "sportSwear" => $sportSwear,
+            "createUserConnected" => $createUserConnected
         ));
     }
 
